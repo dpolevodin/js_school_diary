@@ -1,9 +1,17 @@
-import { useState } from 'react'
+import { useStore } from "effector-react";
 import reactLogo from './assets/react.svg'
-import './App.css'
+import {$count, addCountEvent} from "./store/counter";
 
-function App() {
-  const [count, setCount] = useState(0)
+import './App.css'
+import './store/init'
+
+
+export const App = () => {
+  const count = useStore($count)
+
+  const handleClick = () => {
+    addCountEvent()
+  }
 
   return (
     <div className="App">
@@ -17,7 +25,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={handleClick}>
           count is {count}
         </button>
         <p>
