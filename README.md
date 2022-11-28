@@ -1,0 +1,1 @@
+Project for JS school (Vite + React + TS)
