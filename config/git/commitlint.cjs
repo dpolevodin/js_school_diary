@@ -1,30 +1,30 @@
 module.exports = {
   rules: {
-    // Тело коммита должно начинаться с пустой строки
+    // The commit body must start with an empty line
     "body-leading-blank": [2, "always"],
 
-    // Нижний колонтитул коммита должен начинаться с пустой строки
+    // The commit footer must start with an empty line
     "footer-leading-blank": [2, "always"],
 
-    // Максимальная длина заголовка 72 символа
+    // Maximum header length is 72 characters
     "header-max-length": [2, "always", 72],
 
-    // Область всегда только в нижнем регистре
+    // Area is always lowercase only
     "scope-case": [2, "always", "lower-case"],
 
-    // Описание не может быть пустым
+    // Description cannot be empty
     "subject-empty": [2, "never"],
 
-    // Описание не должно заканчиваться '.'
+    // Description must not end with '.'
     "subject-full-stop": [2, "never", "."],
 
-    // Тип всегда только в нижнем регистре
+    // Type is always lowercase only
     "type-case": [2, "always", "lower-case"],
 
-    // Тип не может быть пустым
+    // Type cannot be empty
     "type-empty": [2, "never"],
 
-    // Перечислим все возможные варианты коммитов
+    // List all possible commits
     "type-enum": [
       2,
       "always",

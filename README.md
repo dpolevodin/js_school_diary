@@ -14,3 +14,11 @@ npm install
 
 npm run dev
 ```
+
+Quick commit with commitizen:
+
+```javascript
+
+npx git-cz
+
+```
