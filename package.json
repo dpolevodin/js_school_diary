@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^5.0.2",
     "effector": "^22.4.0",
     "effector-react": "^22.3.4",
     "react": "^18.2.0",
