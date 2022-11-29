@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.8.0",
     "antd": "^5.0.2",
     "effector": "^22.4.0",
     "effector-react": "^22.3.4",
