@@ -1,16 +1,12 @@
 import styles from './Login.module.scss';
 import { Button, Checkbox, Form, Input } from 'antd';
-import { routes } from 'src/shared/routes';
 
-export const Login = () => {
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-    routes.diary.open();
-  };
+type Props = {
+  onSuccess: (values: any) => void;
+  onFail: (errorInfo: any) => void;
+};
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+export const Login = ({ onSuccess, onFail }: Props) => {
   return (
     <Form
       className={styles._}
@@ -18,8 +14,8 @@ export const Login = () => {
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
+      onFinish={onSuccess}
+      onFinishFailed={onFail}
       autoComplete="off"
     >
       <Form.Item
