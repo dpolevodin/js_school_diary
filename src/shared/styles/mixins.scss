@@ -1,0 +1,27 @@
+$minDesktop: 1024px;
+
+/* Screen Helpers */
+@mixin min-screen($size) {
+  @media only screen and (min-width: $size) {
+    @content;
+  }
+}
+
+@mixin max-screen($size) {
+  @media only screen and (max-width: $size) {
+    @content;
+  }
+}
+
+/* Screen mixins */
+@mixin mobile {
+  @include max-screen($minDesktop - 1) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @include min-screen($minDesktop) {
+    @content;
+  }
+}

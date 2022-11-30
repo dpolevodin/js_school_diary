@@ -1,0 +1,30 @@
+@import 'src/shared/styles/mixins';
+.page {
+  height: 100%;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  width: 30%;
+  margin: 0 auto;
+  padding: 32px 48px 0 48px;
+  @include mobile() {
+    padding: 16px;
+    padding-bottom: 0;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 26px;
+  margin: 0;
+  font-weight: 700;
+}
