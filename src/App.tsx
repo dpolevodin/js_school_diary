@@ -1,9 +1,17 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import './App.css';
+import { useStore } from "effector-react";
+import reactLogo from "./assets/react.svg";
+import { $count, addCountEvent } from "./store/counter";
 
-function App() {
-  const [count, setCount] = useState(0);
+import "./App.css";
+import "./store/init";
+import { Button } from "antd";
+
+export const App = () => {
+  const count = useStore($count);
+
+  const handleClick = () => {
+    addCountEvent();
+  };
 
   return (
     <div className="App">
@@ -17,9 +25,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <Button onClick={handleClick}>count is {count}</Button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -29,6 +35,6 @@ function App() {
       </p>
     </div>
   );
-}
+  };
 
 export default App;
