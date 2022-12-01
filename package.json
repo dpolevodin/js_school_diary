@@ -6,19 +6,40 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "husky install"
   },
   "dependencies": {
+    "commitizen": "^4.2.5",
+    "@ant-design/icons": "^4.8.0",
+    "antd": "^5.0.2",
     "effector": "^22.4.0",
     "effector-react": "^22.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "commitizen": "^4.2.5",
+    "@commitlint/cli": "^17.3.0",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@vitejs/plugin-react": "^2.2.0",
+    "cz-customizable": "^7.0.0",
+    "husky": "^8.0.2",
     "typescript": "^4.6.4",
     "vite": "^3.2.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "config/git/commitizen.cjs"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS -g './config/git/commitlint.cjs'"
+    }
   }
 }

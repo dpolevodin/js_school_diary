@@ -1,17 +1,17 @@
 import { useStore } from "effector-react";
-import reactLogo from './assets/react.svg'
-import {$count, addCountEvent} from "./store/counter";
+import reactLogo from "./assets/react.svg";
+import { $count, addCountEvent } from "./store/counter";
 
-import './App.css'
-import './store/init'
-
+import "./App.css";
+import "./store/init";
+import { Button } from "antd";
 
 export const App = () => {
-  const count = useStore($count)
+  const count = useStore($count);
 
   const handleClick = () => {
-    addCountEvent()
-  }
+    addCountEvent();
+  };
 
   return (
     <div className="App">
@@ -25,9 +25,7 @@ export const App = () => {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={handleClick}>
-          count is {count}
-        </button>
+        <Button onClick={handleClick}>count is {count}</Button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -36,7 +34,7 @@ export const App = () => {
         Click on the Vite and React logos to learn more
       </p>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
