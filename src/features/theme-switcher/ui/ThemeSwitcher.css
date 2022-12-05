@@ -1,0 +1,7 @@
+.Space {
+    color: var(--primary-header-text-color);
+}
+
+.Space__switch {
+    background-color: var(--primary-themeswitcher-color);
+}
