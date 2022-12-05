@@ -1,6 +1,7 @@
 import { createEvent, createStore } from "effector";
 
-export const $theme = createStore('');
+const defaultDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+export const $theme = createStore(defaultDark? "DARK" : "LIGHT");
 
 export const themeChanged = createEvent<string>();
 
