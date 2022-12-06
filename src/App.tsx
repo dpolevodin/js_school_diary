@@ -1,11 +1,9 @@
 import { useUnit } from "effector-react";
 
 import "./App.css";
-import { ConfigProvider, Layout, theme } from "antd";
-import { $theme, ThemeSwitcher } from "./features/theme-switcher";
-
-const { Content, Header } = Layout;
-type Theme = "DARK" | "LIGHT";
+import { ConfigProvider, theme } from "antd";
+import { $theme } from "./features/theme-switcher";
+import { Pages } from "./pages";
 
 export const App = () => {
   const [themeValue] = useUnit([$theme]);
@@ -17,12 +15,7 @@ export const App = () => {
           themeValue === "DARK" ? theme.darkAlgorithm : theme.defaultAlgorithm,
       }}
     >
-      <Layout>
-        <Header className="Header">
-          <ThemeSwitcher />
-        </Header>
-        <Content></Content>
-      </Layout>
+      <Pages />
     </ConfigProvider>
   );
 };
