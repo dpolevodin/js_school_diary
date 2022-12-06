@@ -1,11 +1,10 @@
 import { useUnit } from "effector-react";
-
-import "./App.css";
 import { ConfigProvider, Layout, theme } from "antd";
-import { $theme, ThemeSwitcher } from "./features/theme-switcher";
+import { $theme } from "./features/theme-switcher";
+import { PageHeader } from "./shared/ui/PageHeader/PageHeader";
+import "./App.css";
 
-const { Content, Header } = Layout;
-type Theme = "DARK" | "LIGHT";
+const { Content } = Layout;
 
 export const App = () => {
   const [themeValue] = useUnit([$theme]);
@@ -18,9 +17,7 @@ export const App = () => {
       }}
     >
       <Layout>
-        <Header className="Header">
-          <ThemeSwitcher />
-        </Header>
+        <PageHeader title="Школа JS"/>
         <Content></Content>
       </Layout>
     </ConfigProvider>

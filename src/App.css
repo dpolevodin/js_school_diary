@@ -7,8 +7,3 @@
   margin: 0 auto;
   text-align: center;
 }
-
-.Header {
-  display: flex;
-  justify-content: flex-end;
-}
