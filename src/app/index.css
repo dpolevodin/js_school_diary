@@ -9,27 +9,6 @@ body {
   background: var(--white);
   color: var(--black);
 }
-
 #root {
   height: 100%;
-}
-
-:root {
-  --blue: #459df5;
-  --green: #0fb864;
-  --orange: #ff8c56;
-  --red: #f53152;
-  --black: #000;
-  --white: #fff;
-  --light-blue: #bad8f5;
-  --white-blue: #ebf0f5;
-  --shade: rgba(0, 0, 0, 0.15);
-}
-
-[data-theme='dark'] {
-  --black: #bcc4cc;
-  --white: #2b2d33;
-  --light-blue: #454e52;
-  --white-blue: #171b1f;
-  --shade: rgba(0, 0, 0, 0.3);
 }

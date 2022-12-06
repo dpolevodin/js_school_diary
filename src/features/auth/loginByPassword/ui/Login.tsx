@@ -1,4 +1,4 @@
-import styles from './Login.module.scss';
+import styles from './Login.module.css';
 import { Button, Checkbox, Form, Input } from 'antd';
 
 type Props = {
