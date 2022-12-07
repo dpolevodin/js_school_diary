@@ -1,6 +1,6 @@
 import { Link } from "atomic-router-react";
 import { routes } from "../../shared/lib/atomic-router/route";
-import { Col, Layout, Row, Typography } from "antd";
+import { Col, Layout, Row, Space, Typography } from "antd";
 import { PageHeader } from "../../shared/ui/PageHeader/PageHeader";
 import "./page.css";
 
@@ -34,7 +34,8 @@ export const HomePage = () => {
               </Paragraph>
             </Typography>
           </Col>
-          <Col span={6} className="Navigation">
+          <Col span={6}>
+          <Space direction="vertical" className="Navigation">
             <Link to={routes.admin}>
               <u>Настройки курса</u>
             </Link>
@@ -68,6 +69,7 @@ export const HomePage = () => {
             <Link to={"https://sberuniversity.online/"}>
               <u>Сберуниверситет</u>
             </Link>
+            </Space>
           </Col>
         </Row>
       </Content>
