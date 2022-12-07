@@ -1,6 +1,6 @@
 import { useUnit } from "effector-react";
 import { ConfigProvider, Layout, theme } from "antd";
-import { $theme, themes } from "./features/theme-switcher";
+import { $theme, Themes } from "./features/theme-switcher";
 import { PageHeader } from "./shared/ui/PageHeader/PageHeader";
 import "./App.css";
 
@@ -13,7 +13,7 @@ export const App = () => {
     <ConfigProvider
       theme={{
         algorithm:
-          themeValue === themes.DARK
+          themeValue === Themes.DARK
             ? theme.darkAlgorithm
             : theme.defaultAlgorithm,
       }}
