@@ -22,6 +22,7 @@
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "react/tsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }]
+    "react/tsx-filename-extension": [1, { "extensions": [".ts", ".tsx"] }],
+    "import/prefer-default-export": "off"
   }
 }
