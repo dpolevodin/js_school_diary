@@ -5,7 +5,7 @@ import { RouterProvider } from "atomic-router-react";
 import { createBrowserHistory } from "history";
 
 import { routesMap } from "./pages";
-import App from "./App";
+import {App} from "./App";
 import "./index.css";
 
 const router = createHistoryRouter({
