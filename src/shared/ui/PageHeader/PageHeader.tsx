@@ -13,7 +13,7 @@ type Props = {
 export const PageHeader = ({title}: Props) => {
   return (
         <Header className="Header">
-          <h1 className="Header__title">{title}</h1>
+          <span className="Header__title">{title}</span>
           <ThemeSwitcher />
         </Header>
   );

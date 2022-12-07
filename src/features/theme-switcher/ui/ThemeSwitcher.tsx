@@ -3,19 +3,20 @@ import { useUnit } from "effector-react";
 import { $theme, themeChanged } from "../model";
 import "./ThemeSwitcher.css";
 
+export const themes = { DARK: "dark", LIGHT: "light" };
+
 export const ThemeSwitcher = () => {
   const [themeValue, themeChangedFn] = useUnit([$theme, themeChanged]);
-  console.log('theme', themeValue)
 
   const onChange = (checked: boolean) => {
-    checked ? themeChangedFn("DARK") : themeChangedFn("LIGHT");
+    checked ? themeChangedFn(themes.DARK) : themeChangedFn(themes.LIGHT);
   };
 
   return (
     <Space className="Space">
       День
       <Switch
-        checked={themeValue === "DARK"}
+        checked={themeValue === themes.DARK}
         onChange={onChange}
         className="Space__switch"
       />
