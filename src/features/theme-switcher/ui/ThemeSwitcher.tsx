@@ -8,7 +8,7 @@ export const themes = { DARK: "dark", LIGHT: "light" };
 export const ThemeSwitcher = () => {
   const [themeValue, themeChangedFn] = useUnit([$theme, themeChanged]);
 
-  const onChange = (checked: boolean) => {
+  const handleChange = (checked: boolean) => {
     checked ? themeChangedFn(themes.DARK) : themeChangedFn(themes.LIGHT);
   };
 
@@ -17,7 +17,7 @@ export const ThemeSwitcher = () => {
       День
       <Switch
         checked={themeValue === themes.DARK}
-        onChange={onChange}
+        onChange={handleChange}
         className="Space__switch"
       />
       Ночь
