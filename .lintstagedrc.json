@@ -1,0 +1,4 @@
+{
+    "src/**/*.{css,ts,tsx,html}" : "prettier --write",
+    "src/**/*.{ts,tsx}" : "eslint --debug"
+}
