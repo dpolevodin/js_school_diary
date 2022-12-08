@@ -12,6 +12,7 @@
         "airbnb",
         "airbnb-typescript",
         "prettier",
+        "plugin:effector/react",
         "plugin:react/jsx-runtime"
     ],
     "overrides": [
@@ -24,8 +25,10 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "effector"
     ],
     "rules": {
+        "effector/mandatory-scope-binding": "off"
     }
 }
