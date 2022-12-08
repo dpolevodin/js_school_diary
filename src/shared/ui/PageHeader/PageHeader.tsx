@@ -1,20 +1,16 @@
-import { Layout, Typography } from "antd";
-import { ReactElement } from "react";
+import { Layout } from "antd";
 import { ThemeSwitcher } from "../../../features/theme-switcher";
-import './PageHeader.css'
+import "./PageHeader.css";
 
 const { Header } = Layout;
-const { Title } = Typography;
 
 type Props = {
-    title: string,
-  };
-
-export const PageHeader = ({title}: Props) => {
-  return (
-        <Header className="Header">
-          <span className="Header__title">{title}</span>
-          <ThemeSwitcher />
-        </Header>
-  );
+  title: string;
 };
+
+export const PageHeader = ({ title }: Props) => (
+  <Header className="Header">
+    <span className="Header__title">{title}</span>
+    <ThemeSwitcher />
+  </Header>
+);

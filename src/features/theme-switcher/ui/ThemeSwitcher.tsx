@@ -8,12 +8,11 @@ export enum Themes {
   DARK = "dark",
 }
 
-const handleChange = themeChanged.prepend((checked: boolean) =>
-  checked ? Themes.DARK : Themes.DEFAULT
-);
+export const ThemeSwitcher = () => {
+  const [themeValue, themeChangedFn] = useUnit([$theme, themeChanged]);
 
-export function ThemeSwitcher() {
-  const themeValue = useUnit($theme);
+  const handleChange = (checked: boolean) =>
+    checked ? themeChangedFn(Themes.DARK) : themeChangedFn(Themes.DEFAULT);
 
   return (
     <Space className="Space">
@@ -26,4 +25,4 @@ export function ThemeSwitcher() {
       Ночь
     </Space>
   );
-}
+};

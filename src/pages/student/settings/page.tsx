@@ -3,11 +3,9 @@ import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
 
 const { Content } = Layout;
 
-export const StudentSettingsPage = () => {
-  return (
-    <Layout>
-      <PageHeader title="Настройки" />
-      <Content></Content>
-    </Layout>
-  );
-};
+export const StudentSettingsPage = () => (
+  <Layout>
+    <PageHeader title="Настройки" />
+    <Content />
+  </Layout>
+);

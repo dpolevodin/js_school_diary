@@ -1,5 +1,5 @@
 import { useUnit } from "effector-react";
-import { ConfigProvider, Layout, theme } from "antd";
+import { ConfigProvider, theme } from "antd";
 import { $theme, Themes } from "./features/theme-switcher";
 import "./App.css";
 import { Pages } from "./pages";

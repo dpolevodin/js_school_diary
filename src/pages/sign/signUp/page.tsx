@@ -3,11 +3,9 @@ import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
 
 const { Content } = Layout;
 
-export const SignUpPage = () => {
-  return (
-    <Layout>
-      <PageHeader title="Регистрация" />
-      <Content></Content>
-    </Layout>
-  );
-};
+export const SignUpPage = () => (
+  <Layout>
+    <PageHeader title="Регистрация" />
+    <Content />
+  </Layout>
+);
