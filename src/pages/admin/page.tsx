@@ -271,34 +271,44 @@ export const AdminPage = () => {
             </Row>
           </Checkbox.Group>
           <Title level={4}>Красные дни календаря</Title>
-          <Space wrap>
+          <Space direction="vertical">
             <DatePicker onChange={hadleChangeForbiddenDays} />
-            {forbiddenDates.map((date) => (
-              <Space size="small" key={date}>
-                <DatePicker defaultValue={dayjs(date, "YYYY-MM-DD")} disabled />
-                <Button
-                  type="primary"
-                  onClick={handleClickDeleteForbiddenDate(date)}
-                  icon={<DeleteOutlined />}
-                  size="small"
-                />
-              </Space>
-            ))}
+            <Space wrap>
+              {forbiddenDates.map((date) => (
+                <Space size="small" key={date}>
+                  <DatePicker
+                    defaultValue={dayjs(date, "YYYY-MM-DD")}
+                    disabled
+                  />
+                  <Button
+                    type="primary"
+                    onClick={handleClickDeleteForbiddenDate(date)}
+                    icon={<DeleteOutlined />}
+                    size="small"
+                  />
+                </Space>
+              ))}
+            </Space>
           </Space>
           <Title level={4}>Зеленые даты</Title>
-          <Space wrap>
+          <Space direction="vertical">
             <DatePicker onChange={hadleChangeAdditionalDays} />
-            {additionalDates.map((date) => (
-              <Space size="small" key={date}>
-                <DatePicker defaultValue={dayjs(date, "YYYY-MM-DD")} disabled />
-                <Button
-                  type="primary"
-                  onClick={handleClickDeleteAdditionalDate(date)}
-                  icon={<DeleteOutlined />}
-                  size="small"
-                />
-              </Space>
-            ))}
+            <Space wrap>
+              {additionalDates.map((date) => (
+                <Space size="small" key={date}>
+                  <DatePicker
+                    defaultValue={dayjs(date, "YYYY-MM-DD")}
+                    disabled
+                  />
+                  <Button
+                    type="primary"
+                    onClick={handleClickDeleteAdditionalDate(date)}
+                    icon={<DeleteOutlined />}
+                    size="small"
+                  />
+                </Space>
+              ))}
+            </Space>
           </Space>
 
           <Title level={3}>Блоки</Title>
