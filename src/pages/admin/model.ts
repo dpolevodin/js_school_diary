@@ -53,15 +53,15 @@ export const setAvailableDays = createEvent<CheckboxValueType[]>();
 
 $availableDays.on(setAvailableDays, (_, availableDays) => availableDays);
 
-export const $forbiddenDates = createStore<Array<string>>([]);
+export const $forbiddenDates = createStore<string[]>([]);
 
 export const setForbiddenDates = createEvent<string>();
 
 export const deleteForbiddenDate = createEvent<string>();
 
 $forbiddenDates
-  .on(setForbiddenDates, (state, payload) => [...state, payload])
-  .on(deleteForbiddenDate, (state, payload) =>
+  .on(setForbiddenDates, (state, payload: string) => [...state, payload])
+  .on(deleteForbiddenDate, (state, payload: string) =>
     state.filter((date) => date !== payload)
   );
 

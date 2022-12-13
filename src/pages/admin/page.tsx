@@ -9,6 +9,7 @@ import {
   Col,
   Row,
   DatePicker,
+  DatePickerProps,
 } from "antd";
 import dayjs from "dayjs";
 import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -25,15 +26,19 @@ import {
   addBlock,
   addRepository,
   addTutor,
+  Block,
   deleteAdditionalDate,
   deleteBlock,
   deleteForbiddenDate,
   deleteRepository,
   deleteTutor,
+  Repository,
   setAdditionalDates,
   setAvailableDays,
   setForbiddenDates,
+  Tutor,
 } from "./model";
+import "./page.css";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -77,46 +82,62 @@ export const AdminPage = () => {
     deleteBlock,
   ]);
 
+  const handleClickAddTutor = (value: Tutor) => addTutorFn(value);
+  const handleClickDeleteTutor = (value: Tutor) =>
+    deleteTutorFn(value.telegramNickName);
+
+  const handleClickAddRepository = (value: Repository) =>
+    addRepositoryFn(value);
+  const handleClickDeleteRepository = (value: Repository) =>
+    deleteRepositoryFn(value.name);
+
+  const handleClickAddBlock = (value: Block) => addBlockFn(value);
+  const handleClickDeleteBlock = (value: Block) => deleteBlockFn(value.name);
+
   const handleChangeAvailableDays = (checkedValues: CheckboxValueType[]) => {
     setAvailableDaysFn(checkedValues);
   };
 
-  const hadleChangeForbiddenDays = (dateString: string) => {
-    if (dateString !== null) {
+  const hadleChangeForbiddenDays: DatePickerProps["onChange"] = (
+    _,
+    dateString: string
+  ) => {
+    if (dateString !== "") {
       setForbiddenDatesFn(dateString);
     }
   };
-
   const handleClickDeleteForbiddenDate = (date: string) => {
     const dateToDelete = date;
     return () => deleteForbiddenDateFn(dateToDelete);
   };
 
-  const hadleChangeAdditionalDays = (dateString: string) => {
-    if (dateString !== null) {
+  const hadleChangeAdditionalDays: DatePickerProps["onChange"] = (
+    _,
+    dateString: string
+  ) => {
+    if (dateString !== "") {
       setAdditionalDatesFn(dateString);
     }
   };
-
   const handleClickDeleteAdditionalDate = (date: string) => {
     const dateToDelete = date;
     return () => deleteAdditionalDateFn(dateToDelete);
   };
 
-  console.log(blocks);
-
   return (
     <Layout>
       <PageHeader title="Настройки курса" />
       <Content className="Content">
-        <Title level={3}>Преподаватели</Title>
+        <Title className="Content__title--three" level={3}>
+          Преподаватели
+        </Title>
         <Space direction="vertical">
           <Form
             name="tutors"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 24 }}
             initialValues={{ remember: true }}
-            onFinish={(value) => addTutorFn(value)}
+            onFinish={handleClickAddTutor}
             autoComplete="off"
             layout="inline"
           >
@@ -157,20 +178,20 @@ export const AdminPage = () => {
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 24 }}
               initialValues={tutor}
-              onFinish={(value) => deleteTutorFn(value.telegramNickName)}
+              onFinish={handleClickDeleteTutor}
               autoComplete="off"
               layout="inline"
             >
               <Form.Item name="fullName">
-                <Input value={tutor.fullName} disabled />
+                <Input disabled />
               </Form.Item>
 
               <Form.Item name="telegramNickName">
-                <Input value={tutor.telegramNickName} disabled />
+                <Input disabled />
               </Form.Item>
 
               <Form.Item name="githubNickName">
-                <Input value={tutor.githubNickName} disabled />
+                <Input disabled />
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
@@ -190,7 +211,7 @@ export const AdminPage = () => {
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 24 }}
             initialValues={{ remember: true }}
-            onFinish={(value) => addRepositoryFn(value)}
+            onFinish={handleClickAddRepository}
             autoComplete="off"
             layout="inline"
           >
@@ -224,16 +245,16 @@ export const AdminPage = () => {
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 24 }}
               initialValues={repository}
-              onFinish={(value) => deleteRepositoryFn(value.name)}
+              onFinish={handleClickDeleteRepository}
               autoComplete="off"
               layout="inline"
             >
               <Form.Item name="name">
-                <Input value={repository.name} disabled />
+                <Input disabled />
               </Form.Item>
 
               <Form.Item name="description">
-                <Input value={repository.description} disabled />
+                <Input disabled />
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
@@ -270,7 +291,9 @@ export const AdminPage = () => {
               </Col>
             </Row>
           </Checkbox.Group>
-          <Title level={4}>Красные дни календаря</Title>
+          <Title className="Content__title--four" level={4}>
+            Красные дни календаря
+          </Title>
           <Space direction="vertical">
             <DatePicker onChange={hadleChangeForbiddenDays} />
             <Space wrap>
@@ -290,7 +313,9 @@ export const AdminPage = () => {
               ))}
             </Space>
           </Space>
-          <Title level={4}>Зеленые даты</Title>
+          <Title className="Content__title--four" level={4}>
+            Зеленые даты
+          </Title>
           <Space direction="vertical">
             <DatePicker onChange={hadleChangeAdditionalDays} />
             <Space wrap>
@@ -317,7 +342,7 @@ export const AdminPage = () => {
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 24 }}
             initialValues={{ remember: true }}
-            onFinish={(value) => addBlockFn(value)}
+            onFinish={handleClickAddBlock}
             autoComplete="off"
             layout="inline"
           >
@@ -348,18 +373,19 @@ export const AdminPage = () => {
             <Form
               key={block.name}
               name={block.name}
+              initialValues={block}
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 24 }}
-              onFinish={(value) => deleteBlockFn(value.blockName)}
+              onFinish={handleClickDeleteBlock}
               autoComplete="off"
               layout="inline"
             >
-              <Form.Item name="blockName">
-                <Input value={block.name} disabled />
+              <Form.Item name="name">
+                <Input disabled />
               </Form.Item>
 
-              <Form.Item name="blockDescription">
-                <Input value={block.description} disabled />
+              <Form.Item name="description">
+                <Input disabled />
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
