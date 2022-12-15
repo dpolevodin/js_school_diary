@@ -6,7 +6,7 @@ type Props = {
   store: { [key: string]: string }[];
 };
 
-export const StoreDisplay = ({ handleClickDelete, store }: Props) => (
+export const StoreDisplayForms = ({ handleClickDelete, store }: Props) => (
   <Space direction="vertical">
     {store.map((obj) => (
       <Form

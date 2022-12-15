@@ -11,9 +11,7 @@ type Props = {
 
 export const AddForm = ({ handleClickAdd, inputMap, title }: Props) => (
   <>
-    <Title className="Content__title--three" level={3}>
-      {title}
-    </Title>
+    <Title level={3}>{title}</Title>
     <Form
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 24 }}

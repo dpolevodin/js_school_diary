@@ -1,16 +1,12 @@
 import {
-  Button,
   Layout,
   Space,
   Typography,
   Checkbox,
   Col,
   Row,
-  DatePicker,
   DatePickerProps,
 } from "antd";
-import dayjs from "dayjs";
-import { DeleteOutlined } from "@ant-design/icons";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useUnit } from "effector-react";
 import { PageHeader } from "../../shared/ui/PageHeader/PageHeader";
@@ -36,9 +32,10 @@ import {
   setForbiddenDates,
   Tutor,
 } from "./model";
-import "./page.css";
 import { AddForm } from "../../features/add-form/AddForm";
-import { StoreDisplay } from "../../features/store-display/StoreDisplay";
+import { StoreDisplayForms } from "../../features/store-display-forms/StoreDisplayForms";
+import { AddDate } from "../../features/add-date/AddDate";
+import { StoreDisplayDates } from "../../features/store-display-dates/StoreDisplayDates";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -150,7 +147,7 @@ export const AdminPage = () => {
             inputMap={TUTORS_MAP}
             title="Преподаватели"
           />
-          <StoreDisplay
+          <StoreDisplayForms
             handleClickDelete={handleClickDeleteTutor}
             store={tutors}
           />
@@ -159,7 +156,7 @@ export const AdminPage = () => {
             inputMap={REPOSITORIES_MAP}
             title="Имена репозиториев"
           />
-          <StoreDisplay
+          <StoreDisplayForms
             handleClickDelete={handleClickDeleteRepository}
             store={repositories}
           />
@@ -187,57 +184,29 @@ export const AdminPage = () => {
               </Col>
             </Row>
           </Checkbox.Group>
-          <Title className="Content__title--four" level={4}>
-            Красные дни календаря
-          </Title>
-          <Space direction="vertical">
-            <DatePicker onChange={hadleChangeForbiddenDays} />
-            <Space wrap>
-              {forbiddenDates.map((date) => (
-                <Space size="small" key={date}>
-                  <DatePicker
-                    defaultValue={dayjs(date, "YYYY-MM-DD")}
-                    disabled
-                  />
-                  <Button
-                    type="primary"
-                    onClick={handleClickDeleteForbiddenDate(date)}
-                    icon={<DeleteOutlined />}
-                    size="small"
-                  />
-                </Space>
-              ))}
-            </Space>
-          </Space>
-          <Title className="Content__title--four" level={4}>
-            Зеленые даты
-          </Title>
-          <Space direction="vertical">
-            <DatePicker onChange={hadleChangeAdditionalDays} />
-            <Space wrap>
-              {additionalDates.map((date) => (
-                <Space size="small" key={date}>
-                  <DatePicker
-                    defaultValue={dayjs(date, "YYYY-MM-DD")}
-                    disabled
-                  />
-                  <Button
-                    type="primary"
-                    onClick={handleClickDeleteAdditionalDate(date)}
-                    icon={<DeleteOutlined />}
-                    size="small"
-                  />
-                </Space>
-              ))}
-            </Space>
-          </Space>
+          <AddDate
+            handleChangeAddDate={hadleChangeForbiddenDays}
+            title="Красные дни календаря"
+          />
+          <StoreDisplayDates
+            handleClickDeleteDate={handleClickDeleteForbiddenDate}
+            store={forbiddenDates}
+          />
+          <AddDate
+            handleChangeAddDate={hadleChangeAdditionalDays}
+            title="Зеленые даты"
+          />
+          <StoreDisplayDates
+            handleClickDeleteDate={handleClickDeleteAdditionalDate}
+            store={additionalDates}
+          />
 
           <AddForm
             handleClickAdd={handleClickAddBlock}
             inputMap={BLOCKS_MAP}
             title="Блоки"
           />
-          <StoreDisplay
+          <StoreDisplayForms
             handleClickDelete={handleClickDeleteBlock}
             store={blocks}
           />
