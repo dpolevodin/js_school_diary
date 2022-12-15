@@ -1,8 +1,6 @@
 import {
   Button,
-  Form,
   Layout,
-  Input,
   Space,
   Typography,
   Checkbox,
@@ -12,7 +10,7 @@ import {
   DatePickerProps,
 } from "antd";
 import dayjs from "dayjs";
-import { PlusOutlined, DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useUnit } from "effector-react";
 import { PageHeader } from "../../shared/ui/PageHeader/PageHeader";
@@ -39,9 +37,27 @@ import {
   Tutor,
 } from "./model";
 import "./page.css";
+import { AddForm } from "../../features/add-form/AddForm";
+import { StoreDisplay } from "../../features/store-display/StoreDisplay";
 
 const { Content } = Layout;
 const { Title } = Typography;
+
+const TUTORS_MAP = {
+  fullName: "фио преподавателя",
+  telegramNickName: "ник в телеграм",
+  githubNickName: "ник в гитхабе",
+};
+
+const REPOSITORIES_MAP = {
+  name: "имя репозитория",
+  description: "описание",
+};
+
+const BLOCKS_MAP = {
+  name: "имя блока",
+  description: "описание",
+};
 
 export const AdminPage = () => {
   const [
@@ -128,145 +144,25 @@ export const AdminPage = () => {
     <Layout>
       <PageHeader title="Настройки курса" />
       <Content className="Content">
-        <Title className="Content__title--three" level={3}>
-          Преподаватели
-        </Title>
         <Space direction="vertical">
-          <Form
-            name="tutors"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 24 }}
-            initialValues={{ remember: true }}
-            onFinish={handleClickAddTutor}
-            autoComplete="off"
-            layout="inline"
-          >
-            <Form.Item
-              name="fullName"
-              rules={[{ required: true, message: "Введите ФИО" }]}
-            >
-              <Input placeholder="фио преподавателя" />
-            </Form.Item>
-
-            <Form.Item
-              name="telegramNickName"
-              rules={[{ required: true, message: "Введите ник в телеграмме" }]}
-            >
-              <Input placeholder="ник в телеграмме" />
-            </Form.Item>
-
-            <Form.Item
-              name="githubNickName"
-              rules={[{ required: true, message: "Введите ник в гитхабе" }]}
-            >
-              <Input placeholder="ник в гитхабе" />
-            </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                icon={<PlusOutlined />}
-                size="small"
-              />
-            </Form.Item>
-          </Form>
-          {tutors.map((tutor) => (
-            <Form
-              key={tutor.telegramNickName}
-              name={tutor.fullName}
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 24 }}
-              initialValues={tutor}
-              onFinish={handleClickDeleteTutor}
-              autoComplete="off"
-              layout="inline"
-            >
-              <Form.Item name="fullName">
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item name="telegramNickName">
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item name="githubNickName">
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  icon={<DeleteOutlined />}
-                  size="small"
-                />
-              </Form.Item>
-            </Form>
-          ))}
-
-          <Title level={3}>Имена репозиториев</Title>
-          <Form
-            name="repositories"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 24 }}
-            initialValues={{ remember: true }}
-            onFinish={handleClickAddRepository}
-            autoComplete="off"
-            layout="inline"
-          >
-            <Form.Item
-              name="name"
-              rules={[{ required: true, message: "Введите имя репозитория" }]}
-            >
-              <Input placeholder="имя репозитория" />
-            </Form.Item>
-
-            <Form.Item
-              name="description"
-              rules={[{ required: true, message: "Введите описание" }]}
-            >
-              <Input placeholder="описание" />
-            </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                icon={<PlusOutlined />}
-                size="small"
-              />
-            </Form.Item>
-          </Form>
-          {repositories.map((repository) => (
-            <Form
-              key={repository.name}
-              name={repository.name}
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 24 }}
-              initialValues={repository}
-              onFinish={handleClickDeleteRepository}
-              autoComplete="off"
-              layout="inline"
-            >
-              <Form.Item name="name">
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item name="description">
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  icon={<DeleteOutlined />}
-                  size="small"
-                />
-              </Form.Item>
-            </Form>
-          ))}
+          <AddForm
+            handleClickAdd={handleClickAddTutor}
+            inputMap={TUTORS_MAP}
+            title="Преподаватели"
+          />
+          <StoreDisplay
+            handleClickDelete={handleClickDeleteTutor}
+            store={tutors}
+          />
+          <AddForm
+            handleClickAdd={handleClickAddRepository}
+            inputMap={REPOSITORIES_MAP}
+            title="Имена репозиториев"
+          />
+          <StoreDisplay
+            handleClickDelete={handleClickDeleteRepository}
+            store={repositories}
+          />
 
           <Title level={3}>Календарь</Title>
           <Checkbox.Group
@@ -336,68 +232,15 @@ export const AdminPage = () => {
             </Space>
           </Space>
 
-          <Title level={3}>Блоки</Title>
-          <Form
-            name="blocks"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 24 }}
-            initialValues={{ remember: true }}
-            onFinish={handleClickAddBlock}
-            autoComplete="off"
-            layout="inline"
-          >
-            <Form.Item
-              name="name"
-              rules={[{ required: true, message: "Введите имя блока" }]}
-            >
-              <Input placeholder="имя блока" />
-            </Form.Item>
-
-            <Form.Item
-              name="description"
-              rules={[{ required: true, message: "Введите описание" }]}
-            >
-              <Input placeholder="описание" />
-            </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button
-                type="primary"
-                htmlType="submit"
-                icon={<PlusOutlined />}
-                size="small"
-              />
-            </Form.Item>
-          </Form>
-          {blocks.map((block) => (
-            <Form
-              key={block.name}
-              name={block.name}
-              initialValues={block}
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 24 }}
-              onFinish={handleClickDeleteBlock}
-              autoComplete="off"
-              layout="inline"
-            >
-              <Form.Item name="name">
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item name="description">
-                <Input disabled />
-              </Form.Item>
-
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  icon={<DeleteOutlined />}
-                  size="small"
-                />
-              </Form.Item>
-            </Form>
-          ))}
+          <AddForm
+            handleClickAdd={handleClickAddBlock}
+            inputMap={BLOCKS_MAP}
+            title="Блоки"
+          />
+          <StoreDisplay
+            handleClickDelete={handleClickDeleteBlock}
+            store={blocks}
+          />
         </Space>
       </Content>
     </Layout>
