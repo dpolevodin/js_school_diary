@@ -1,0 +1,13 @@
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.Content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Form {
+  width: 15rem;
+}
