@@ -1,9 +1,7 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import { Form, Input, Layout, Button } from "antd";
 import { useUnit } from "effector-react";
-import { routes } from "../../../shared/lib/atomic-router/route";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
-import { $users, addUser } from "./model";
+import { $users, addUser, signupFormSubmitted } from "./model";
 import "./page.css";
 
 const { Content } = Layout;
@@ -18,20 +16,23 @@ type User = {
 };
 
 export const SignUpPage = () => {
-  const [users, addUserFn] = useUnit([$users, addUser]);
+  const [users, addUserFn, signupFormSubmittedFn] = useUnit([
+    $users,
+    addUser,
+    signupFormSubmitted,
+  ]);
 
   const onFinish = (values: User) => {
     const user = { ...values, isAdmin: false };
     delete user.confirm;
     addUserFn(user);
-    // eslint-disable-next-line effector/mandatory-scope-binding
-    routes.student.open();
+    signupFormSubmittedFn();
   };
 
   return (
     <Layout>
       <PageHeader title="Регистрация" />
-      <Content className="Content">
+      <Content className="Content--signUpPage">
         <Form
           className="Form"
           labelCol={{ span: 24 }}

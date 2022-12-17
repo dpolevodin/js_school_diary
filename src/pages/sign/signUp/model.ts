@@ -1,4 +1,6 @@
+import { redirect } from "atomic-router";
 import { createEvent, createStore } from "effector";
+import { routes } from "../../../shared/lib/atomic-router/route";
 
 type User = {
   nickName: string;
@@ -21,4 +23,11 @@ export const $users = createStore<User[]>([
 
 export const addUser = createEvent<User>();
 
+export const signupFormSubmitted = createEvent();
+
 $users.on(addUser, (state, payload) => [...state, payload]);
+
+redirect({
+  clock: signupFormSubmitted,
+  route: routes.student,
+});
