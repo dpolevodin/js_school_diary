@@ -1,7 +1,7 @@
-/* eslint-disable effector/mandatory-scope-binding */
 import { Button, Form, Input, Layout } from "antd";
-import { routes } from "../../../shared/lib/atomic-router/route";
+import { useUnit } from "effector-react";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
+import { signInAdmin, signInUser } from "./model";
 import "./page.css";
 
 const { Content } = Layout;
@@ -18,13 +18,15 @@ const users = [
 ];
 
 export const SignInPage = () => {
+  const [signInAdminFn, signInUserFn] = useUnit([signInAdmin, signInUser]);
+
   const onFinish = (user: Value) =>
-    user.nickName === "admin" ? routes.admin.open() : routes.student.open();
+    user.nickName === "admin" ? signInAdminFn() : signInUserFn();
 
   return (
     <Layout>
       <PageHeader title="Вход" />
-      <Content className="Content">
+      <Content className="Content--signInPage">
         <Form
           className="Form"
           onFinish={onFinish}
