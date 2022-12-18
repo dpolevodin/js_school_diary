@@ -1,4 +1,5 @@
 import { Form, Input, Layout, Button } from "antd";
+import uuid from "react-uuid";
 import { useUnit } from "effector-react";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
 import { $users, addUser, signupFormSubmitted } from "./model";
@@ -15,6 +16,12 @@ type User = {
   confirm: never;
 };
 
+const deleteConfirmAddId = (user: User) => {
+  const userData = { ...user, id: uuid() };
+  delete userData.confirm;
+  return userData;
+};
+
 export const SignUpPage = () => {
   const [users, addUserFn, signupFormSubmittedFn] = useUnit([
     $users,
@@ -23,9 +30,7 @@ export const SignUpPage = () => {
   ]);
 
   const onFinish = (values: User) => {
-    const user = { ...values, isAdmin: false };
-    delete user.confirm;
-    addUserFn(user);
+    addUserFn(deleteConfirmAddId(values));
     signupFormSubmittedFn();
   };
 
@@ -35,8 +40,7 @@ export const SignUpPage = () => {
       <Content className="Content--signUpPage">
         <Form
           className="Form"
-          labelCol={{ span: 24 }}
-          wrapperCol={{ span: 24 }}
+          wrapperCol={{ span: 6, offset: 9 }}
           name="register"
           onFinish={onFinish}
           scrollToFirstError
@@ -59,7 +63,7 @@ export const SignUpPage = () => {
               }),
             ]}
           >
-            <Input placeholder="ник" />
+            <Input placeholder="ник" allowClear />
           </Form.Item>
           <Form.Item
             name="surname"
@@ -75,7 +79,7 @@ export const SignUpPage = () => {
               },
             ]}
           >
-            <Input placeholder="фамилия" />
+            <Input placeholder="фамилия" allowClear />
           </Form.Item>
           <Form.Item
             name="name"
@@ -91,7 +95,7 @@ export const SignUpPage = () => {
               },
             ]}
           >
-            <Input placeholder="имя" />
+            <Input placeholder="имя" allowClear />
           </Form.Item>
           <Form.Item
             name="patronymic"
@@ -107,7 +111,7 @@ export const SignUpPage = () => {
               },
             ]}
           >
-            <Input placeholder="отчество" />
+            <Input placeholder="отчество" allowClear />
           </Form.Item>
 
           <Form.Item
@@ -129,7 +133,7 @@ export const SignUpPage = () => {
             ]}
             hasFeedback
           >
-            <Input.Password placeholder="пароль" />
+            <Input.Password placeholder="пароль" allowClear />
           </Form.Item>
 
           <Form.Item
@@ -155,7 +159,7 @@ export const SignUpPage = () => {
               }),
             ]}
           >
-            <Input.Password placeholder="повторите пароль" />
+            <Input.Password placeholder="повторите пароль" allowClear />
           </Form.Item>
 
           <Form.Item>

@@ -3,22 +3,28 @@ import { createEvent, createStore } from "effector";
 import { routes } from "../../../shared/lib/atomic-router/route";
 
 type User = {
+  id: string;
   nickName: string;
   name: string;
   surname: string;
-  patronymic: string;
+  patronymic?: string;
   password: string;
-  isAdmin: boolean;
 };
+
+type AdminIds = string[];
+
 export const $users = createStore<User[]>([
   {
+    id: "f115a395-19b4-0b15-f474-33dbf9bd9e3b",
     nickName: "admin",
     password: "123",
     name: "",
     surname: "",
-    patronymic: "",
-    isAdmin: true,
   },
+]);
+
+export const $adminIds = createStore<AdminIds>([
+  "f115a395-19b4-0b15-f474-33dbf9bd9e3b",
 ]);
 
 export const addUser = createEvent<User>();
