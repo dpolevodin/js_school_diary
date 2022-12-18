@@ -1,13 +1,8 @@
-::-webkit-input-placeholder {
-  text-align: center;
-}
-
 .Content--signInPage {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
 .Form {
-  width: 15rem;
+  width: 100%;
 }

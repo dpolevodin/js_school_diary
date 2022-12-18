@@ -1,6 +1,7 @@
 import { Button, Form, Input, Layout } from "antd";
 import { useUnit } from "effector-react";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
+import { users } from "./mocks";
 import { signInAdmin, signInUser } from "./model";
 import "./page.css";
 
@@ -11,16 +12,10 @@ type Value = {
   password: string;
 };
 
-const users = [
-  { nickName: "asd", password: "123" },
-  { nickName: "qwe", password: "123" },
-  { nickName: "admin", password: "123" },
-];
-
 export const SignInPage = () => {
   const [signInAdminFn, signInUserFn] = useUnit([signInAdmin, signInUser]);
 
-  const onFinish = (user: Value) =>
+  const handleFinish = (user: Value) =>
     user.nickName === "admin" ? signInAdminFn() : signInUserFn();
 
   return (
@@ -29,7 +24,8 @@ export const SignInPage = () => {
       <Content className="Content--signInPage">
         <Form
           className="Form"
-          onFinish={onFinish}
+          wrapperCol={{ span: 6, offset: 9 }}
+          onFinish={handleFinish}
           autoComplete="off"
           validateTrigger="onFinish"
         >
@@ -49,7 +45,7 @@ export const SignInPage = () => {
               }),
             ]}
           >
-            <Input placeholder="ник" />
+            <Input placeholder="ник" allowClear />
           </Form.Item>
           <Form.Item
             name="password"
@@ -71,7 +67,7 @@ export const SignInPage = () => {
               }),
             ]}
           >
-            <Input type="password" placeholder="пароль" />
+            <Input type="password" placeholder="пароль" allowClear />
           </Form.Item>
 
           <Form.Item>
