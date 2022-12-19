@@ -1,7 +1,7 @@
 import { Button, Form, Input, Layout } from "antd";
 import { useUnit } from "effector-react";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
-import { users } from "./mocks";
+import { $adminIds, $users } from "../signUp/model";
 import { signInAdmin, signInUser } from "./model";
 import "./page.css";
 
@@ -13,10 +13,21 @@ type Value = {
 };
 
 export const SignInPage = () => {
-  const [signInAdminFn, signInUserFn] = useUnit([signInAdmin, signInUser]);
+  const [signInAdminFn, signInUserFn, users, adminIds] = useUnit([
+    signInAdmin,
+    signInUser,
+    $users,
+    $adminIds,
+  ]);
 
-  const handleFinish = (user: Value) =>
-    user.nickName === "admin" ? signInAdminFn() : signInUserFn();
+  const handleFinish = ({ nickName }: Value) => {
+    const userIndex = users.findIndex(
+      (userData) => userData.nickName === nickName
+    );
+    return adminIds.includes(users[userIndex].id)
+      ? signInAdminFn()
+      : signInUserFn();
+  };
 
   return (
     <Layout>
@@ -27,7 +38,7 @@ export const SignInPage = () => {
           wrapperCol={{ span: 6, offset: 9 }}
           onFinish={handleFinish}
           autoComplete="off"
-          validateTrigger="onFinish"
+          validateTrigger="onSubmit"
         >
           <Form.Item
             name="nickName"

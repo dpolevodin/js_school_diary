@@ -4,6 +4,12 @@ import { useUnit } from "effector-react";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
 import { $users, addUser, signupFormSubmitted } from "./model";
 import "./page.css";
+import {
+  nameRules,
+  passwordRules,
+  patronymicRules,
+  surnameRules,
+} from "../rules";
 
 const { Content } = Layout;
 
@@ -29,7 +35,7 @@ export const SignUpPage = () => {
     signupFormSubmitted,
   ]);
 
-  const onFinish = (values: User) => {
+  const handleFinish = (values: User) => {
     addUserFn(deleteConfirmAddId(values));
     signupFormSubmittedFn();
   };
@@ -42,7 +48,7 @@ export const SignUpPage = () => {
           className="Form"
           wrapperCol={{ span: 6, offset: 9 }}
           name="register"
-          onFinish={onFinish}
+          onFinish={handleFinish}
           scrollToFirstError
         >
           <Form.Item
@@ -65,74 +71,17 @@ export const SignUpPage = () => {
           >
             <Input placeholder="ник" allowClear />
           </Form.Item>
-          <Form.Item
-            name="surname"
-            rules={[
-              {
-                required: true,
-                message: "Please input your surname!",
-                whitespace: true,
-              },
-              {
-                pattern: /^[А-ЯЁ][а-яё]*$/,
-                message: "Введите фамилию с заглавной буквы",
-              },
-            ]}
-          >
+          <Form.Item name="surname" rules={surnameRules}>
             <Input placeholder="фамилия" allowClear />
           </Form.Item>
-          <Form.Item
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: "Введите имя!",
-                whitespace: true,
-              },
-              {
-                pattern: /^[А-ЯЁ][а-яё]*$/,
-                message: "Введите имя с заглавной буквы",
-              },
-            ]}
-          >
+          <Form.Item name="name" rules={nameRules}>
             <Input placeholder="имя" allowClear />
           </Form.Item>
-          <Form.Item
-            name="patronymic"
-            rules={[
-              {
-                required: true,
-                message: "Введите отчество!",
-                whitespace: true,
-              },
-              {
-                pattern: /^[А-ЯЁ][а-яё]*$/,
-                message: "Введите отчество с заглавной буквы",
-              },
-            ]}
-          >
+          <Form.Item name="patronymic" rules={patronymicRules}>
             <Input placeholder="отчество" allowClear />
           </Form.Item>
 
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Введите пароль!",
-              },
-              {
-                min: 8,
-                message: "Пароль должен содержать не менее 8 символов",
-              },
-              {
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^\w\s])/,
-                message:
-                  "пароль должен содержать минимум: 1 символ, 1 заглавную букву, 1 цифру",
-              },
-            ]}
-            hasFeedback
-          >
+          <Form.Item name="password" rules={passwordRules} hasFeedback>
             <Input.Password placeholder="пароль" allowClear />
           </Form.Item>
 
@@ -150,11 +99,7 @@ export const SignUpPage = () => {
                   if (!value || getFieldValue("password") === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(
-                    new Error(
-                      "The two passwords that you entered do not match!"
-                    )
-                  );
+                  return Promise.reject(new Error("Пароли не совпадают!"));
                 },
               }),
             ]}
