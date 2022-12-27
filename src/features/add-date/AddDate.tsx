@@ -1,8 +1,9 @@
 import { DatePicker, Typography } from "antd";
+import { Dayjs } from "dayjs";
 import "./AddDate.css";
 
 type Props = {
-  handleChangeAddDate: (...args: any[]) => void;
+  handleChangeAddDate: (_: Dayjs | null, dateString: string) => void;
   title: string;
 };
 

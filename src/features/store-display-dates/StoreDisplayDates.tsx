@@ -3,7 +3,7 @@ import { Button, DatePicker, Space } from "antd";
 import dayjs from "dayjs";
 
 type Props = {
-  handleClickDeleteDate: (date: string) => any;
+  handleClickDeleteDate: (date: string) => () => void;
   store: string[];
 };
 
