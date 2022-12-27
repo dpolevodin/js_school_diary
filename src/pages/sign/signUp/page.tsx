@@ -3,7 +3,7 @@ import uuid from "react-uuid";
 import { useUnit } from "effector-react";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
 import { $users, addUser, signupFormSubmitted } from "./model";
-import "./page.css";
+import styles from "./page.module.css";
 import {
   nameRules,
   passwordRules,
@@ -43,9 +43,9 @@ export const SignUpPage = () => {
   return (
     <Layout>
       <PageHeader title="Регистрация" />
-      <Content className="Content--signUpPage">
+      <Content className={styles._}>
         <Form
-          className="Form"
+          className={styles.form}
           wrapperCol={{ span: 6, offset: 9 }}
           name="register"
           onFinish={handleFinish}

@@ -1,5 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
+import styles from "./AddForm.module.css";
 
 const { Title } = Typography;
 
@@ -11,7 +12,9 @@ type Props = {
 
 export const AddForm = ({ handleClickAdd, inputMap, title }: Props) => (
   <>
-    <Title level={3}>{title}</Title>
+    <Title level={3} className={styles.title}>
+      {title}
+    </Title>
     <Form
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 24 }}

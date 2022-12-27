@@ -1,0 +1,7 @@
+._ {
+  color: var(--primary-header-text-color);
+}
+
+.switch {
+  background-color: var(--primary-themeswitcher-color);
+}
