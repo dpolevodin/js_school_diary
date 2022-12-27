@@ -36,6 +36,7 @@ import { AddForm } from "../../features/add-form/AddForm";
 import { StoreDisplayForms } from "../../features/store-display-forms/StoreDisplayForms";
 import { AddDate } from "../../features/add-date/AddDate";
 import { StoreDisplayDates } from "../../features/store-display-dates/StoreDisplayDates";
+import styles from "./page.module.css";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -140,7 +141,7 @@ export const AdminPage = () => {
   return (
     <Layout>
       <PageHeader title="Настройки курса" />
-      <Content className="Content">
+      <Content className={styles._}>
         <Space direction="vertical">
           <AddForm
             handleClickAdd={handleClickAddTutor}

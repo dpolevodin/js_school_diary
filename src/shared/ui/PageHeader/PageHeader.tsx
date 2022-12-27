@@ -1,6 +1,6 @@
 import { Layout } from "antd";
 import { ThemeSwitcher } from "../../../features/theme-switcher";
-import "./PageHeader.css";
+import styles from "./PageHeader.module.css";
 
 const { Header } = Layout;
 
@@ -9,8 +9,8 @@ type Props = {
 };
 
 export const PageHeader = ({ title }: Props) => (
-  <Header className="Header">
-    <span className="Header__title">{title}</span>
+  <Header className={styles._}>
+    <span className={styles.title}>{title}</span>
     <ThemeSwitcher />
   </Header>
 );

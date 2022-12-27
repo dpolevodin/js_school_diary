@@ -1,5 +1,5 @@
 import { DatePicker, Typography } from "antd";
-import "./AddDate.css";
+import styles from "./AddDate.module.css";
 
 type Props = {
   handleChangeAddDate: (...args: any[]) => void;
@@ -10,7 +10,7 @@ const { Title } = Typography;
 
 export const AddDate = ({ handleChangeAddDate, title }: Props) => (
   <>
-    <Title className="Title" level={4}>
+    <Title className={styles.title} level={4}>
       {title}
     </Title>
     <DatePicker onChange={handleChangeAddDate} />

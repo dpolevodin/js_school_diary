@@ -3,7 +3,7 @@ import { useUnit } from "effector-react";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
 import { $adminIds, $users } from "../signUp/model";
 import { signInAdmin, signInUser } from "./model";
-import "./page.css";
+import styles from "./page.module.css";
 
 const { Content } = Layout;
 
@@ -32,9 +32,9 @@ export const SignInPage = () => {
   return (
     <Layout>
       <PageHeader title="Вход" />
-      <Content className="Content--signInPage">
+      <Content className={styles._}>
         <Form
-          className="Form"
+          className={styles.form}
           wrapperCol={{ span: 6, offset: 9 }}
           onFinish={handleFinish}
           autoComplete="off"

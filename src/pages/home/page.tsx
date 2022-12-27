@@ -2,7 +2,7 @@ import { Link } from "atomic-router-react";
 import { Col, Layout, Row, Space, Typography } from "antd";
 import { routes } from "../../shared/lib/atomic-router/route";
 import { PageHeader } from "../../shared/ui/PageHeader/PageHeader";
-import "./page.css";
+import styles from "./page.module.css";
 
 const { Content } = Layout;
 const { Title, Paragraph } = Typography;
@@ -10,11 +10,11 @@ const { Title, Paragraph } = Typography;
 export const HomePage = () => (
   <Layout>
     <PageHeader title="Школа JS" />
-    <Content className="Content">
+    <Content className={styles._}>
       <Row>
         <Col span={18}>
           <Typography>
-            <Title className="Typography__title">
+            <Title className={styles.title}>
               Школа JavaScript поток – 2023.03
             </Title>
             <Title level={3}>Кратко</Title>
@@ -28,7 +28,7 @@ export const HomePage = () => (
           </Typography>
         </Col>
         <Col span={6}>
-          <Space direction="vertical" className="Navigation">
+          <Space direction="vertical" className={styles.navigation}>
             <Link to={routes.admin}>
               <u>Настройки курса</u>
             </Link>
