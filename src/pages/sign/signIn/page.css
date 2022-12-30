@@ -1,8 +1,8 @@
 .Content--signInPage {
-    display: flex;
-    align-items: center;
-  }
-  
-  .Form {
-    width: 100%;
-  }
+  display: flex;
+  align-items: center;
+}
+
+.Form {
+  width: 100%;
+}
