@@ -33,6 +33,11 @@ const gridStyle: React.CSSProperties = {
   justifyContent: 'center'
 
 };
+
+import {
+  homeworkCards,
+  HomeworkCards
+} from "./settings/mocks";
 import "./page.css";
 
 export const StudentPage = () => {
@@ -62,13 +67,18 @@ export const StudentPage = () => {
             <Title className="Typography__title">Привет, {userFullName} ({login})</Title>
             <Title level={3}>Оценки за дз</Title>
             <Card>
-              <Card.Grid style={gridStyle}><Text>Дз 1</Text></Card.Grid>
+              {/* <Card.Grid style={gridStyle}><Text>Дз 1</Text></Card.Grid>
               <Card.Grid hoverable={false} style={gridStyle}>
                 <Text>Дз 2</Text>
               </Card.Grid>
               <Card.Grid style={gridStyle}><Text>Дз 3</Text></Card.Grid>
               <Card.Grid style={gridStyle}><Text>Дз 4</Text></Card.Grid>
-              <Card.Grid style={gridStyle}><Text>Дз 5</Text></Card.Grid>
+              <Card.Grid style={gridStyle}><Text>Дз 5</Text></Card.Grid> */}
+              {homeworkCards.map((card) => (
+                <Card.Grid key={card.deadline} style={gridStyle}>
+                  <Text type={card.homeworkStatus}>{card.homework}</Text>
+                </Card.Grid>
+              ))}
             </Card>
           </Col>
           <Space direction="vertical">

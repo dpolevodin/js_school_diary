@@ -5,17 +5,23 @@ import {
   toStudentPage,
   setTelegramNickName,
   setGithubNickName,
-  setRepositoryHtml,
   setRepositoryReact,
   $telegramNickName,
   $githubNickName,
   $repositoryHtml,
-  $repositoryReact
+  $repositoryReact,
+  setRepositoryHtml,
 } from "../model";
+import {
+  repository,
+  Repository,
+} from './mocks';
 
 import "./page.css";
 
 const { Content } = Layout;
+
+ 
 
 export const StudentSettingsPage = () => {
   const [
@@ -40,6 +46,34 @@ export const StudentSettingsPage = () => {
     setRepositoryReact
   ])
   const handleFinish = () => toStudentPageFn();
+  const repositories = repository.map( obj => {
+    return (
+      <Form.Item
+
+        key={obj.description}
+        name={obj.name}
+        rules={[
+          {
+            required: true,
+            message: 'Please input name of repository!'
+          },
+          {
+            pattern: /[0-9a-z_]*$/,
+            message: "Please input name of repository!",
+          }
+        ]}
+        >
+    <Input
+      placeholder="имя репозитория с версткой"
+      value={obj.name}
+      onChange={({ target: { value } }) => setRepositoryFn(value)}
+      allowClear
+    />
+    </Form.Item>
+    
+    )}
+    );
+
 
   return(
   <Layout>
@@ -54,6 +88,7 @@ export const StudentSettingsPage = () => {
         validateTrigger="onSubmit"
       >
         <Form.Item
+        fieldId="github"
           name="githubNickName"
           rules={[
             { 
@@ -74,6 +109,7 @@ export const StudentSettingsPage = () => {
           />
         </Form.Item>
         <Form.Item
+          fieldId=""
           name="telegramNickName"
           rules={[
             {
@@ -81,7 +117,7 @@ export const StudentSettingsPage = () => {
               message: 'Please input your telegram nickname!'
             },
             {
-              pattern: /[@][0-9a-z_]*$/,
+              pattern: /[0-9A-Za-z_]*$/,
               message: "@tgNickName",
             }
           ]}
@@ -93,46 +129,8 @@ export const StudentSettingsPage = () => {
             allowClear
           />
         </Form.Item>
-        <Form.Item
-          name="repository_html"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your name of repository with layout!'
-            },
-            {
-              pattern: /[0-9a-z_]*$/,
-              message: "Please input your name of repository with layout!",
-            }
-          ]}
-        >
-          <Input
-            placeholder="имя репозитория с версткой"
-            value={repositoryHtml}
-            onChange={({ target: { value } }) => setRepositoryHtmlFn(value)}
-            allowClear
-          />
-        </Form.Item>
-        <Form.Item
+        {repositories}
 
-          name="repository_react"
-          rules={[
-            { required: true,
-              message: 'Please input your name of repository with react!'
-            },
-            {
-              pattern: /[0-9a-z_]*$/,
-              message: "Please input your name of repository with react!",
-            }
-          ]}
-        >
-          <Input
-            placeholder="имя репозитория с реактом"
-            value={repositoryReact}
-            onChange={ ({ target: {value} }) => setRepositoryReactFn(value) }
-            allowClear
-          />
-        </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Сохранить
@@ -143,3 +141,46 @@ export const StudentSettingsPage = () => {
   </Layout>
   )
 };
+
+
+
+{/* <Form.Item
+    name="repository_html"
+    rules={[
+      {
+        required: true,
+        message: 'Please input your name of repository with layout!'
+      },
+      {
+        pattern: /[0-9a-z_]*$/,
+        message: "Please input your name of repository with layout!",
+      }
+    ]}
+  >
+    <Input
+      placeholder="имя репозитория с версткой"
+      value={repositoryHtml}
+      onChange={({ target: { value } }) => setRepositoryHtmlFn(value)}
+      allowClear
+    />
+  </Form.Item>
+  <Form.Item
+
+  name="repository_react"
+  rules={[
+    { required: true,
+      message: 'Please input your name of repository with react!'
+    },
+    {
+      pattern: /[0-9a-z_]*$/,
+      message: "Please input your name of repository with react!",
+    }
+  ]}
+>
+  <Input
+    placeholder="имя репозитория с реактом"
+    value={repositoryReact}
+    onChange={ ({ target: {value} }) => setRepositoryReactFn(value) }
+    allowClear
+  />
+</Form.Item> */}
