@@ -43,7 +43,7 @@ export const StudentPage = () => {
               {homeworkCards.map((card) => (
                 <Card.Grid key={card.deadline} className={styles.gridStyle}>
                   <Text
-                    type={card.homeworkStatus}
+                    // type={card.homeworkStatus}
                   >
                     {card.homework}
                   </Text>
