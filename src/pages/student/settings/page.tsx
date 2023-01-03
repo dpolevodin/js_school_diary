@@ -1,23 +1,19 @@
-import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
-import { Button, Form, Input, Layout } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Layout
+} from "antd";
 import { useUnit } from "effector-react";
+import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
 import {
   toStudentPage,
-  setTelegramNickName,
-  setGithubNickName,
-  setRepositoryReact,
-  $telegramNickName,
-  $githubNickName,
-  $repositoryHtml,
-  $repositoryReact,
-  setRepositoryHtml,
+  $userSettings,
+  UserSettings,
+  setUserSettings
 } from "../model";
-import {
-  repository,
-  Repository,
-} from './mocks';
 
-import "./page.css";
+import styles from  "./page.module.css";
 
 const { Content } = Layout;
 
@@ -25,70 +21,33 @@ const { Content } = Layout;
 
 export const StudentSettingsPage = () => {
   const [
-    telegramNickName,
-    githubNickName,
-    repositoryHtml,
-    repositoryReact,
-    toStudentPageFn,
-    setTelegramNickNameFn,
-    setGithubNickNameFn,
-    setRepositoryHtmlFn,
-    setRepositoryReactFn
+    userSettings,
+    setUserSettingsFn,
+    toStudentPageFn
   ] = useUnit([
-    $telegramNickName,
-    $githubNickName,
-    $repositoryHtml,
-    $repositoryReact,
-    toStudentPage,
-    setTelegramNickName,
-    setGithubNickName,
-    setRepositoryHtml,
-    setRepositoryReact
+    $userSettings,
+    setUserSettings,
+    toStudentPage
   ])
-  const handleFinish = () => toStudentPageFn();
-  const repositories = repository.map( obj => {
-    return (
-      <Form.Item
-
-        key={obj.description}
-        name={obj.name}
-        rules={[
-          {
-            required: true,
-            message: 'Please input name of repository!'
-          },
-          {
-            pattern: /[0-9a-z_]*$/,
-            message: "Please input name of repository!",
-          }
-        ]}
-        >
-    <Input
-      placeholder="имя репозитория с версткой"
-      value={obj.name}
-      onChange={({ target: { value } }) => setRepositoryFn(value)}
-      allowClear
-    />
-    </Form.Item>
-    
-    )}
-    );
-
+  const handleFinish = (value: UserSettings) => {
+    setUserSettingsFn(value)
+    toStudentPageFn()
+  };
 
   return(
   <Layout>
     <PageHeader title="Настройки" />
-    <Content className="Content__settings">
+    <Content className={styles._}>
       <Form
-        name="userLinks"
+        name="userSettings"
         className="Form"
+        initialValues={{ remember: true }}
         wrapperCol={{ span: 4, offset: 1 }}
         onFinish={handleFinish}
         autoComplete="off"
-        validateTrigger="onSubmit"
+        validateTrigger="onChange"
       >
         <Form.Item
-        fieldId="github"
           name="githubNickName"
           rules={[
             { 
@@ -103,33 +62,68 @@ export const StudentSettingsPage = () => {
         >
           <Input
             placeholder="ник в гитхабе"
-            value={githubNickName}
-            onChange={ ({ target: { value } }) => setGithubNickNameFn(value) }
+            value={userSettings.githubNickName}
             allowClear
           />
         </Form.Item>
         <Form.Item
           fieldId=""
-          name="telegramNickName"
+          name="tgNickName"
           rules={[
             {
               required: true,
               message: 'Please input your telegram nickname!'
             },
             {
-              pattern: /[0-9A-Za-z_]*$/,
+              pattern:  /^@[0-9A-Za-z_]*$/,
               message: "@tgNickName",
             }
           ]}
         >
           <Input
             placeholder="ник в телеграме"
-            value={telegramNickName}
-            onChange={({ target: { value } }) => setTelegramNickNameFn(value)}
+            value={userSettings.tgNickName}
             allowClear
           />
         </Form.Item>
-        {repositories}
+        <Form.Item
+        name="htmlRepository"
+        rules={[
+          {
+            required: true,
+            message: 'Please input name of repository!'
+          },
+          {
+            pattern: /[0-9a-z_]*$/,
+            message: "Please input name of repository!",
+          }
+        ]}
+        >
+          <Input
+            placeholder="имя репозитория html"
+            value={userSettings.htmlRepository}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item
+        name="reactRepository"
+        rules={[
+          {
+            required: true,
+            message: 'Please input name of repository!'
+          },
+          {
+            pattern: /[0-9a-z_]*$/,
+            message: "Please input name of repository!",
+          }
+        ]}
+        >
+          <Input
+            placeholder="имя репозитория react"
+            value={userSettings.reactRepository}
+            allowClear
+          />
+        </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit">
@@ -141,46 +135,3 @@ export const StudentSettingsPage = () => {
   </Layout>
   )
 };
-
-
-
-{/* <Form.Item
-    name="repository_html"
-    rules={[
-      {
-        required: true,
-        message: 'Please input your name of repository with layout!'
-      },
-      {
-        pattern: /[0-9a-z_]*$/,
-        message: "Please input your name of repository with layout!",
-      }
-    ]}
-  >
-    <Input
-      placeholder="имя репозитория с версткой"
-      value={repositoryHtml}
-      onChange={({ target: { value } }) => setRepositoryHtmlFn(value)}
-      allowClear
-    />
-  </Form.Item>
-  <Form.Item
-
-  name="repository_react"
-  rules={[
-    { required: true,
-      message: 'Please input your name of repository with react!'
-    },
-    {
-      pattern: /[0-9a-z_]*$/,
-      message: "Please input your name of repository with react!",
-    }
-  ]}
->
-  <Input
-    placeholder="имя репозитория с реактом"
-    value={repositoryReact}
-    onChange={ ({ target: {value} }) => setRepositoryReactFn(value) }
-    allowClear
-  />
-</Form.Item> */}
