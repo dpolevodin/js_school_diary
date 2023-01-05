@@ -2,7 +2,7 @@
 
 ## installation:
 
-```javascript
+```
 git clone git@github.com:dpolevodin/js_school_diary.git
 cd js_school_diary
 npm install
