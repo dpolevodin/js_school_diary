@@ -9,3 +9,7 @@
   font-weight: bold;
   color: var(--primary-header-text-color);
 }
+
+.menu {
+  color: var(--primary-header-text-color);
+}

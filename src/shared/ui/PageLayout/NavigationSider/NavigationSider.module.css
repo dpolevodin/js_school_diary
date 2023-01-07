@@ -1,0 +1,11 @@
+._ {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+}

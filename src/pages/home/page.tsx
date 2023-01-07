@@ -8,7 +8,6 @@ const { Title, Paragraph } = Typography;
 const nav = [
   "home",
   "admin",
-  "student",
   "signIn",
   "signUp",
   "schedule",
