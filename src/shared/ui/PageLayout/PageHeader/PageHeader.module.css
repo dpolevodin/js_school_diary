@@ -1,9 +1,10 @@
-.Header {
+._ {
   display: flex;
   justify-content: space-between;
+  padding-inline: 1.875rem !important;
 }
 
-.Header__title {
+.title {
   font-size: 1.5rem;
   font-weight: bold;
   color: var(--primary-header-text-color);
