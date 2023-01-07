@@ -1,5 +1,5 @@
 import { createEffect, sample } from "effector";
-import { getSessionFx } from "../../shared/lib/api/session";
+import { createSessionFx } from "../../shared/lib/api/session";
 import { User } from "../../pages/sign/signUp/model";
 
 type SignUpPayload = {
@@ -14,5 +14,5 @@ export const signUpFx = createEffect(async (obj: SignUpPayload) => {
 
 sample({
   clock: signUpFx.doneData,
-  target: getSessionFx,
+  target: createSessionFx,
 });
