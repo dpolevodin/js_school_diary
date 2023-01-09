@@ -69,7 +69,7 @@ export const SignInPage = () => {
                 ) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error("Не верный пароль"));
+                return Promise.reject(new Error("Неверный пароль"));
               },
             }),
           ]}
