@@ -1,11 +1,5 @@
-import { Layout } from "antd";
-import { PageHeader } from "../../shared/ui/PageHeader/PageHeader";
+import { PageLayout } from "../../shared/ui";
 
-const { Content } = Layout;
+const nav = ["home", "admin", "schedule", "diary", "contests"];
 
-export const DiaryPage = () => (
-  <Layout>
-    <PageHeader title="Дневник" />
-    <Content />
-  </Layout>
-);
+export const DiaryPage = () => <PageLayout title="Дневник" nav={nav} />;
