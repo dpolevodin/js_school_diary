@@ -3,6 +3,10 @@
   align-items: center;
 }
 
+.Content_spin {
+  width: 100%;
+}
+
 .Form {
   width: 100%;
 }
