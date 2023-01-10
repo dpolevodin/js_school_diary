@@ -1,5 +1,5 @@
 import { createEffect, sample } from "effector";
-import { createSessionFx } from "../../shared/lib/api/session";
+import { createSessionFx } from "../auth/session";
 import { User } from "../../pages/sign/signUp/model";
 
 type SignUpPayload = {

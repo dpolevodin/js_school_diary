@@ -6,30 +6,30 @@ import {
   sample,
   split,
 } from "effector";
-import { routes } from "../atomic-router/route";
-import { wait } from "../wait";
-import { $users, User } from "../../../pages/sign/signUp/model";
+import { routes } from "../../shared/lib/atomic-router/route";
+import { wait } from "../../shared/lib/wait";
+import { $users, User } from "../../pages/sign/signUp/model";
 
 export const $session = createStore<User | null>(null);
-
-export const $loading = createStore(false);
 
 export const createSessionFx = createEffect(async (users: User[]) => {
   await wait();
 
   const id = localStorage.getItem("authenticatedUser");
   if (id !== "") {
-    const userIndex = users.findIndex((userData) => userData.id === id);
-    return users[userIndex];
+    const user = users.find((userData) => userData.id === id);
+    return user;
   }
   return null;
 });
 
 export const getSessionFx = createEffect(async (users: User[]) => {
+  await wait();
+
   const id = localStorage.getItem("authenticatedUser");
   if (id !== "") {
-    const userIndex = users.findIndex((userData) => userData.id === id);
-    return users[userIndex];
+    const user = users.find((userData) => userData.id === id);
+    return user;
   }
   return null;
 });
@@ -37,16 +37,14 @@ export const getSessionFx = createEffect(async (users: User[]) => {
 export const pageMounted = createEvent();
 
 $session
-  .on(createSessionFx.doneData, (_, user: User | null) => user)
+  .on(createSessionFx.doneData, (_, user: User | null | undefined) => user)
   .on(createSessionFx.failData, (session, error) =>
     error.message === "unauthorized" ? null : session
   )
-  .on(getSessionFx.doneData, (_, user: User | null) => user)
+  .on(getSessionFx.doneData, (_, user: User | null | undefined) => user)
   .on(getSessionFx.failData, (session, error) =>
     error.message === "unauthorized" ? null : session
   );
-
-$loading.on(createSessionFx, () => true).on(getSessionFx.doneData, () => false);
 
 split({
   source: createSessionFx.doneData,

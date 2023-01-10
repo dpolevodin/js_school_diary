@@ -2,7 +2,7 @@ import { Button, Form, Input, Layout, Spin } from "antd";
 import { useUnit } from "effector-react";
 import { signInFx } from "../../../entities/signIn/model";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
-import { $loading } from "../../../shared/lib/api/session";
+import { createSessionFx } from "../../../entities/auth/session";
 import { $users } from "../signUp/model";
 import "./page.css";
 
@@ -14,13 +14,15 @@ type Value = {
 };
 
 export const SignInPage = () => {
-  const [users, signInFn, loading] = useUnit([$users, signInFx, $loading]);
+  const [users, signInFn, loading] = useUnit([
+    $users,
+    signInFx,
+    createSessionFx.pending,
+  ]);
 
   const handleFinish = ({ nickName, password }: Value) => {
-    const userIndex = users.findIndex(
-      (userData) => userData.nickName === nickName
-    );
-    signInFn({ id: users[userIndex].id, users, password });
+    const user = users.find((userData) => userData.nickName === nickName);
+    signInFn({ id: user?.id, users, password });
   };
 
   return (

@@ -11,7 +11,7 @@ import {
   surnameRules,
 } from "../rules";
 import { signUpFx } from "../../../entities/signUp/model";
-import { $loading } from "../../../shared/lib/api/session";
+import { createSessionFx } from "../../../entities/auth/session";
 
 const { Content } = Layout;
 
@@ -36,7 +36,7 @@ export const SignUpPage = () => {
     $users,
     addUser,
     signUpFx,
-    $loading,
+    createSessionFx.pending,
   ]);
 
   const handleFinish = (values: User) => {

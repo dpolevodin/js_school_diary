@@ -1,16 +1,21 @@
 import { createEffect, sample } from "effector";
-import { createSessionFx } from "../../shared/lib/api/session";
+import { createSessionFx } from "../auth/session";
 import { User } from "../../pages/sign/signUp/model";
 
 type SignInPayload = {
-  id: string;
+  id: string | undefined;
   password: string;
   users: User[];
 };
 
 export const signInFx = createEffect(async (obj: SignInPayload) => {
-  const auth: string = obj.password === "123" ? obj.id : "";
-  localStorage.setItem("authenticatedUser", auth);
+  if (obj.id === undefined) {
+    localStorage.setItem("authenticatedUser", "");
+  } else {
+    const auth: string = obj.password === "123" ? obj.id : "";
+    localStorage.setItem("authenticatedUser", auth);
+  }
+
   return obj.users;
 });
 
