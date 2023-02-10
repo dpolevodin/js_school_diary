@@ -21,6 +21,7 @@ export type Schedule = {
 export const addScheduleRow = createEvent<Schedule>();
 export const saveData = createEvent<Schedule[]>();
 export const editSchedule = createEvent<string>();
+export const deleteSchedule = createEvent<string>();
 
 export const $schedule = createStore<Schedule[]>([
   {
@@ -53,6 +54,9 @@ $schedule
   .on(saveData, (_, payload) => payload)
   .on(editSchedule, (state, payload) =>
     state.filter((schedule) => schedule.key === payload)
+  )
+  .on(deleteSchedule, (state, payload) =>
+    state.filter((schedule) => schedule.key !== payload)
   );
 
 export const $editingKey = createStore<string>("");

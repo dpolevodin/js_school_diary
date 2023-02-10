@@ -9,6 +9,7 @@ import {
   $editingKey,
   $schedule,
   addScheduleRow,
+  deleteSchedule,
   saveData,
   Schedule,
   setEditingKey,
@@ -21,6 +22,7 @@ const { Content } = Layout;
 export const ScheduleCreatePage = () => {
   const [
     addScheduleRowFn,
+    deleteScheduleFn,
     schedule,
     tutors,
     saveDataFn,
@@ -28,6 +30,7 @@ export const ScheduleCreatePage = () => {
     setEditingKeyFn,
   ] = useUnit([
     addScheduleRow,
+    deleteSchedule,
     $schedule,
     $tutors,
     saveData,
@@ -190,12 +193,26 @@ export const ScheduleCreatePage = () => {
             <Typography.Link onClick={() => cancel()}>Отмена</Typography.Link>
           </Space>
         ) : (
-          <Typography.Link
-            disabled={editingKey !== ""}
-            onClick={() => (typeof store.key === "string" ? edit(store) : null)}
-          >
-            Редактировать
-          </Typography.Link>
+          <Space direction="vertical">
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() =>
+                typeof store.key === "string" ? edit(store) : null
+              }
+            >
+              Редактировать
+            </Typography.Link>
+            <Typography.Link
+              disabled={editingKey !== ""}
+              onClick={() =>
+                typeof store.key === "string"
+                  ? deleteScheduleFn(store.key)
+                  : null
+              }
+            >
+              Удалить
+            </Typography.Link>
+          </Space>
         );
       },
     },
