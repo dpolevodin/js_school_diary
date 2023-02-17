@@ -1,22 +1,20 @@
 import { Button, Form, Input, Layout } from "antd";
 import { useUnit } from "effector-react";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
-import { $user, toStudentPage, UserSettings, setUserSettings } from "../model";
+import { $user, UserSettings, setUserSettings } from "../model";
+import { $repositories } from "../../admin/model";
 
 import styles from "./page.module.css";
 
 const { Content } = Layout;
 
 export const StudentSettingsPage = () => {
-  const [user, setUserSettingsFn, toStudentPageFn] = useUnit([
+  const [user, setUserSettingsFn, repositories] = useUnit([
     $user,
     setUserSettings,
-    toStudentPage,
+    $repositories,
   ]);
-  const handleFinish = (value: UserSettings) => {
-    setUserSettingsFn(value);
-    toStudentPageFn();
-  };
+  const handleFinish = (value: UserSettings) => setUserSettingsFn(value);
 
   return (
     <Layout>
@@ -47,7 +45,6 @@ export const StudentSettingsPage = () => {
             <Input placeholder="ник в гитхабе" allowClear />
           </Form.Item>
           <Form.Item
-            fieldId=""
             name="tgNickName"
             rules={[
               {
@@ -62,36 +59,12 @@ export const StudentSettingsPage = () => {
           >
             <Input placeholder="ник в телеграме" allowClear />
           </Form.Item>
-          <Form.Item
-            name="htmlRepository"
-            rules={[
-              {
-                required: true,
-                message: "Please input name of repository!",
-              },
-              {
-                pattern: /[0-9a-z_]*$/,
-                message: "Please input name of repository!",
-              },
-            ]}
-          >
-            <Input placeholder="имя репозитория html" allowClear />
-          </Form.Item>
-          <Form.Item
-            name="reactRepository"
-            rules={[
-              {
-                required: true,
-                message: "Please input name of repository!",
-              },
-              {
-                pattern: /[0-9a-z_]*$/,
-                message: "Please input name of repository!",
-              },
-            ]}
-          >
-            <Input placeholder="имя репозитория react" allowClear />
-          </Form.Item>
+
+          {repositories.map((repository) => (
+            <Form.Item name={repository.name}>
+              <Input placeholder={repository.description} allowClear />
+            </Form.Item>
+          ))}
 
           <Form.Item>
             <Button type="primary" htmlType="submit">

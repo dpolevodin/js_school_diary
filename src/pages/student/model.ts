@@ -5,8 +5,8 @@ import { routes } from "../../shared/lib/atomic-router/route";
 export type UserSettings = {
   tgNickName: string;
   githubNickName: string;
-  htmlRepository?: string;
-  reactRepository?: string;
+  htmlRepository: string;
+  reactRepository: string;
 };
 
 export type User = {
@@ -35,14 +35,12 @@ export const $user = createStore<User>({
 
 export const setUserSettings = createEvent<UserSettings>();
 
-$user.on(setUserSettings, (state, payload) => {
-  const user = { ...state };
-  user.settings = payload;
-  return user;
-});
+$user.on(setUserSettings, (state, payload) => ({
+  ...state,
+  settings: payload,
+}));
 
-export const toStudentPage = createEvent();
 redirect({
-  clock: toStudentPage,
+  clock: setUserSettings,
   route: routes.student,
 });

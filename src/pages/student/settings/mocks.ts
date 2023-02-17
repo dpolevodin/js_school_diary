@@ -1,9 +1,9 @@
-export type HomeworkCards = {
+export type HomeworkCard = {
   homework: string;
   homeworkStatus: string;
   deadline: string;
 };
-export const homeworkCards = <HomeworkCards[]>[
+export const homeworkCards = <HomeworkCard[]>[
   {
     homework: "Дз 1",
     homeworkStatus: "success",
