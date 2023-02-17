@@ -1,10 +1,10 @@
 {
-"plugins": [
-    [
-    "effector-logger/babel-plugin",
-    {
-        "inspector": true
-    }
+    "plugins": [
+      [
+        "effector-logger/babel-plugin",
+        {
+          "inspector": true
+        }
+      ]
     ]
-]
-}
+  }
