@@ -56,7 +56,13 @@ $schedule
     state.filter((schedule) => schedule.key === payload)
   )
   .on(deleteSchedule, (state, payload) =>
-    state.filter((schedule) => schedule.key !== payload)
+    state
+      .filter((schedule) => schedule.key !== payload)
+      .map((item, index) => ({
+        ...item,
+        key: (index + 1).toString(),
+        number: (index + 1).toString(),
+      }))
   );
 
 export const $editingKey = createStore<string>("");

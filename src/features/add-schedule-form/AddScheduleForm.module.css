@@ -7,3 +7,7 @@
 .inputs {
   width: 100%;
 }
+
+.dateStyle {
+  border: 1px solid green;
+}
