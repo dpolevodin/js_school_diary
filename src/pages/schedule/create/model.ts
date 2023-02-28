@@ -68,3 +68,88 @@ $schedule
 export const $editingKey = createStore<string>("");
 export const setEditingKey = createEvent<string>();
 $editingKey.on(setEditingKey, (_, payload) => payload);
+
+export type StudentDiary = {
+  key: string;
+  student: string;
+  homework1: {
+    homeworkNumber: string;
+    color: string;
+  };
+  homework2: {
+    homeworkNumber: string;
+    color: string;
+  };
+  homework3: {
+    homeworkNumber: string;
+    color: string;
+  };
+  homework4: {
+    homeworkNumber: string;
+    color: string;
+  };
+  homework5: {
+    homeworkNumber: string;
+    color: string;
+  };
+};
+
+// export const editColorDiary = createEvent<{[key: string]: {homeworkNumber: string; color: string;}}>();
+export const setEditingDiary = createEvent<StudentDiary>();
+export const setEditingDiaryKey = createEvent<string>();
+export const saveDataDiary = createEvent<StudentDiary[]>();
+export const $studentDiary = createStore<StudentDiary[]>([
+  {
+    key: "1",
+    student: "Иван Иванов",
+    homework1: {
+      homeworkNumber: "ДЗ 1",
+      color: "",
+    },
+    homework2: {
+      homeworkNumber: "ДЗ 2",
+      color: "",
+    },
+    homework3: {
+      homeworkNumber: "ДЗ 3",
+      color: "",
+    },
+    homework4: {
+      homeworkNumber: "ДЗ 4",
+      color: "",
+    },
+    homework5: {
+      homeworkNumber: "ДЗ 5",
+      color: "",
+    },
+  },
+  {
+    key: "2",
+    student: "Петр Петров",
+    homework1: {
+      homeworkNumber: "ДЗ 1",
+      color: "",
+    },
+    homework2: {
+      homeworkNumber: "ДЗ 2",
+      color: "",
+    },
+    homework3: {
+      homeworkNumber: "ДЗ 3",
+      color: "",
+    },
+    homework4: {
+      homeworkNumber: "ДЗ 4",
+      color: "",
+    },
+    homework5: {
+      homeworkNumber: "ДЗ 5",
+      color: "",
+    },
+  },
+]).on(saveDataDiary, (_, payload) => payload);
+
+export const $editingDiaryKey = createStore<string>("").on(
+  setEditingDiaryKey,
+  (_, payload) => payload
+);
