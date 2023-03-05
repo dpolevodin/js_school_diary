@@ -75,22 +75,27 @@ export type StudentDiary = {
   homework1: {
     homeworkNumber: string;
     color: string;
+    repository: string;
   };
   homework2: {
     homeworkNumber: string;
     color: string;
+    repository: string;
   };
   homework3: {
     homeworkNumber: string;
     color: string;
+    repository: string;
   };
   homework4: {
     homeworkNumber: string;
     color: string;
+    repository: string;
   };
   homework5: {
     homeworkNumber: string;
     color: string;
+    repository: string;
   };
 };
 
@@ -105,22 +110,27 @@ export const $studentDiary = createStore<StudentDiary[]>([
     homework1: {
       homeworkNumber: "ДЗ 1",
       color: "",
+      repository: "https://github.com",
     },
     homework2: {
       homeworkNumber: "ДЗ 2",
       color: "",
+      repository: "https://github.com",
     },
     homework3: {
       homeworkNumber: "ДЗ 3",
       color: "",
+      repository: "https://github.com",
     },
     homework4: {
       homeworkNumber: "ДЗ 4",
       color: "",
+      repository: "https://github.com",
     },
     homework5: {
       homeworkNumber: "ДЗ 5",
       color: "",
+      repository: "https://github.com",
     },
   },
   {
@@ -129,22 +139,27 @@ export const $studentDiary = createStore<StudentDiary[]>([
     homework1: {
       homeworkNumber: "ДЗ 1",
       color: "",
+      repository: "https://github.com",
     },
     homework2: {
       homeworkNumber: "ДЗ 2",
       color: "",
+      repository: "https://github.com",
     },
     homework3: {
       homeworkNumber: "ДЗ 3",
       color: "",
+      repository: "https://github.com",
     },
     homework4: {
       homeworkNumber: "ДЗ 4",
       color: "",
+      repository: "https://github.com",
     },
     homework5: {
       homeworkNumber: "ДЗ 5",
       color: "",
+      repository: "https://github.com",
     },
   },
 ]).on(saveDataDiary, (_, payload) => payload);

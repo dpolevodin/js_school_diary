@@ -150,12 +150,16 @@ export const ScheduleCreatePage = () => {
   }));
   const BLOCK_MAP = [
     {
-      value: "Block 1",
-      label: "Block 1",
+      value: "HTML/CSS",
+      label: "HTML/CSS",
     },
     {
-      value: "Block2",
-      label: "Block 2",
+      value: "Java Script",
+      label: "Java Script",
+    },
+    {
+      value: "React",
+      label: "React",
     },
   ];
 
@@ -186,6 +190,23 @@ export const ScheduleCreatePage = () => {
       key: "block",
       editable: true,
       width: "14%",
+      filters: [
+        {
+          text: "HTML/CSS",
+          value: "HTML/CSS",
+        },
+        {
+          text: "Java Script",
+          value: "Java Script",
+        },
+        {
+          text: "React",
+          value: "React",
+        },
+      ],
+      onFilter: (value: string, record: Schedule) =>
+        record.block.indexOf(value) === 0,
+      sorter: (a: Schedule, b: Schedule) => a.block.length - b.block.length,
     },
     {
       title: "Тема",
@@ -214,6 +235,20 @@ export const ScheduleCreatePage = () => {
       key: "teacher",
       editable: true,
       width: "14%",
+      filters: [
+        {
+          text: "Сергей Махнаткин",
+          value: "Сергей Махнаткин",
+        },
+        {
+          text: "Махнаткин Сергей",
+          value: "Махнаткин Сергей",
+        },
+      ],
+      onFilter: (value: string, record: Schedule) =>
+        record.teacher.indexOf(value) === 0,
+      sorter: (a: Schedule, b: Schedule) => a.teacher.length - b.teacher.length,
+      sortDirections: ["descend"],
     },
     {
       title: "ДЗ",
@@ -299,11 +334,18 @@ export const ScheduleCreatePage = () => {
       dataIndex: "homework1",
       key: "homework1",
       editable: true,
-      render: (homework1: { homeworkNumber: string; color: string }) => (
-        <Space>
+      render: (homework1: {
+        homeworkNumber: string;
+        color: string;
+        repository: string;
+      }) => (
+        <Space direction="vertical">
           <Form.Item name="homework1">
             <Tag color={homework1.color}>{homework1.homeworkNumber}</Tag>
           </Form.Item>
+          <a href={homework1.repository} target="_blank" rel="noreferrer">
+            Репозиторий
+          </a>
         </Space>
       ),
     },
@@ -312,11 +354,18 @@ export const ScheduleCreatePage = () => {
       dataIndex: "homework2",
       key: "homework2",
       editable: true,
-      render: (homework2: { homeworkNumber: string; color: string }) => (
-        <Space>
+      render: (homework2: {
+        homeworkNumber: string;
+        color: string;
+        repository: string;
+      }) => (
+        <Space direction="vertical">
           <Form.Item name="homework2">
             <Tag color={homework2.color}>{homework2.homeworkNumber}</Tag>
           </Form.Item>
+          <a href={homework2.repository} target="_blank" rel="noreferrer">
+            Репозиторий
+          </a>
         </Space>
       ),
     },
@@ -325,11 +374,18 @@ export const ScheduleCreatePage = () => {
       dataIndex: "homework3",
       key: "homework3",
       editable: true,
-      render: (homework3: { homeworkNumber: string; color: string }) => (
-        <Space>
+      render: (homework3: {
+        homeworkNumber: string;
+        color: string;
+        repository: string;
+      }) => (
+        <Space direction="vertical">
           <Form.Item name="homework3">
             <Tag color={homework3.color}>{homework3.homeworkNumber}</Tag>
           </Form.Item>
+          <a href={homework3.repository} target="_blank" rel="noreferrer">
+            Репозиторий
+          </a>
         </Space>
       ),
     },
@@ -338,11 +394,18 @@ export const ScheduleCreatePage = () => {
       dataIndex: "homework4",
       key: "homework4",
       editable: true,
-      render: (homework4: { homeworkNumber: string; color: string }) => (
-        <Space>
+      render: (homework4: {
+        homeworkNumber: string;
+        color: string;
+        repository: string;
+      }) => (
+        <Space direction="vertical">
           <Form.Item name="homework4">
             <Tag color={homework4.color}>{homework4.homeworkNumber}</Tag>
           </Form.Item>
+          <a href={homework4.repository} target="_blank" rel="noreferrer">
+            Репозиторий
+          </a>
         </Space>
       ),
     },
@@ -351,10 +414,19 @@ export const ScheduleCreatePage = () => {
       dataIndex: "homework5",
       key: "homework5",
       editable: true,
-      render: (homework5: { homeworkNumber: string; color: string }) => (
-        <Form.Item name="homework5">
-          <Tag color={homework5.color}>{homework5.homeworkNumber}</Tag>
-        </Form.Item>
+      render: (homework5: {
+        homeworkNumber: string;
+        color: string;
+        repository: string;
+      }) => (
+        <Space direction="vertical">
+          <Form.Item name="homework5">
+            <Tag color={homework5.color}>{homework5.homeworkNumber}</Tag>
+          </Form.Item>
+          <a href={homework5.repository} target="_blank" rel="noreferrer">
+            Репозиторий
+          </a>
+        </Space>
       ),
     },
     {

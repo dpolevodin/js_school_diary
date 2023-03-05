@@ -38,7 +38,6 @@ export const ScheduleTable = ({
               cell: EditableCell,
             },
           }}
-          // bordered
           dataSource={scheduleStore}
           columns={columns}
           rowClassName="editable-row"

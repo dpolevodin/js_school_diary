@@ -30,7 +30,7 @@ export const DiaryEditableCell: React.FC<EditableCellProps> = ({
           <FormItem noStyle name={[dataIndex, "color"]}>
             <Select
               size="small"
-              style={{ width: "100%" }}
+              style={{ width: "6rem" }}
               bordered={false}
               options={COLOR_MAP}
             />

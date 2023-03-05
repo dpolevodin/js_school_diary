@@ -22,12 +22,16 @@ export const ScheduleEditableCell: React.FC<EditableCellProps> = ({
   }));
   const BLOCK_MAP = [
     {
-      value: "Block 1",
-      label: "Block 1",
+      value: "HTML/CSS",
+      label: "HTML/CSS",
     },
     {
-      value: "Block2",
-      label: "Block 2",
+      value: "Java Script",
+      label: "Java Script",
+    },
+    {
+      value: "React",
+      label: "React",
     },
   ];
 
