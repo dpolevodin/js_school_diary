@@ -1,7 +1,6 @@
-import { Form, Input, Layout, Button } from "antd";
+import { Form, Input, Button } from "antd";
 import uuid from "react-uuid";
 import { useUnit } from "effector-react";
-import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
 import { $users, addUser, signupFormSubmitted } from "./model";
 import styles from "./page.module.css";
 import {
@@ -10,8 +9,7 @@ import {
   patronymicRules,
   surnameRules,
 } from "../rules";
-
-const { Content } = Layout;
+import { PageLayout } from "../../../shared/ui";
 
 type User = {
   nickName: string;
@@ -28,6 +26,8 @@ const deleteConfirmAddId = (user: User) => {
   return userData;
 };
 
+const nav = ["home"];
+
 export const SignUpPage = () => {
   const [users, addUserFn, signupFormSubmittedFn] = useUnit([
     $users,
@@ -41,79 +41,76 @@ export const SignUpPage = () => {
   };
 
   return (
-    <Layout>
-      <PageHeader title="Регистрация" />
-      <Content className={styles._}>
-        <Form
-          className={styles.form}
-          wrapperCol={{ span: 6, offset: 9 }}
-          name="register"
-          onFinish={handleFinish}
-          scrollToFirstError
+    <PageLayout title="Регистрация" nav={nav} className={styles._}>
+      <Form
+        className={styles.form}
+        wrapperCol={{ span: 6, offset: 9 }}
+        name="register"
+        onFinish={handleFinish}
+        scrollToFirstError
+      >
+        <Form.Item
+          name="nickName"
+          rules={[
+            {
+              required: true,
+              message: "Введите ник!",
+              whitespace: true,
+            },
+            () => ({
+              validator(_, value) {
+                if (users.every((user) => user.nickName !== value)) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error("Такой ник занят!"));
+              },
+            }),
+          ]}
         >
-          <Form.Item
-            name="nickName"
-            rules={[
-              {
-                required: true,
-                message: "Введите ник!",
-                whitespace: true,
+          <Input placeholder="ник" allowClear />
+        </Form.Item>
+        <Form.Item name="surname" rules={surnameRules}>
+          <Input placeholder="фамилия" allowClear />
+        </Form.Item>
+        <Form.Item name="name" rules={nameRules}>
+          <Input placeholder="имя" allowClear />
+        </Form.Item>
+        <Form.Item name="patronymic" rules={patronymicRules}>
+          <Input placeholder="отчество" allowClear />
+        </Form.Item>
+
+        <Form.Item name="password" rules={passwordRules} hasFeedback>
+          <Input.Password placeholder="пароль" allowClear />
+        </Form.Item>
+
+        <Form.Item
+          name="confirm"
+          dependencies={["password"]}
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: "Подтвердите пароль!",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error("Пароли не совпадают!"));
               },
-              () => ({
-                validator(_, value) {
-                  if (users.every((user) => user.nickName !== value)) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("Такой ник занят!"));
-                },
-              }),
-            ]}
-          >
-            <Input placeholder="ник" allowClear />
-          </Form.Item>
-          <Form.Item name="surname" rules={surnameRules}>
-            <Input placeholder="фамилия" allowClear />
-          </Form.Item>
-          <Form.Item name="name" rules={nameRules}>
-            <Input placeholder="имя" allowClear />
-          </Form.Item>
-          <Form.Item name="patronymic" rules={patronymicRules}>
-            <Input placeholder="отчество" allowClear />
-          </Form.Item>
+            }),
+          ]}
+        >
+          <Input.Password placeholder="повторите пароль" allowClear />
+        </Form.Item>
 
-          <Form.Item name="password" rules={passwordRules} hasFeedback>
-            <Input.Password placeholder="пароль" allowClear />
-          </Form.Item>
-
-          <Form.Item
-            name="confirm"
-            dependencies={["password"]}
-            hasFeedback
-            rules={[
-              {
-                required: true,
-                message: "Подтвердите пароль!",
-              },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("Пароли не совпадают!"));
-                },
-              }),
-            ]}
-          >
-            <Input.Password placeholder="повторите пароль" allowClear />
-          </Form.Item>
-
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Создать
-            </Button>
-          </Form.Item>
-        </Form>
-      </Content>
-    </Layout>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Создать
+          </Button>
+        </Form.Item>
+      </Form>
+    </PageLayout>
   );
 };
