@@ -19,6 +19,7 @@ import { useUnit } from "effector-react";
 import { useState } from "react";
 import {
   $theme,
+  themeChanged,
   Themes,
   ThemeSwitcher,
 } from "../../../../features/theme-switcher";
@@ -154,7 +155,10 @@ const SELECTED_PAGE_MAP: { [key: string]: string } = {
 };
 
 export const NavigationSider = ({ title, nav }: NavigationProps) => {
-  const theme = useUnit($theme);
+  const [theme, themeChangedFn] = useUnit([$theme, themeChanged]);
+  const handleClickSetDarkTheme = () => themeChangedFn(Themes.DARK);
+  const handleClickSetDefaultTheme = () => themeChangedFn(Themes.DEFAULT);
+
   const [collapsed, setCollapsed] = useState(true);
   const items: MenuItem[] = nav.map((item) => NAV_MAP[item]);
 
@@ -163,9 +167,21 @@ export const NavigationSider = ({ title, nav }: NavigationProps) => {
       <ThemeSwitcher />,
       "theme",
       theme === Themes.DARK ? (
-        <IconMoon className={styles.icon} />
+        <button
+          type="button"
+          onClick={handleClickSetDefaultTheme}
+          className={styles.button}
+        >
+          <IconMoon className={styles.icon} />
+        </button>
       ) : (
-        <IconSun className={styles.icon} />
+        <button
+          type="button"
+          onClick={handleClickSetDarkTheme}
+          className={styles.button}
+        >
+          <IconSun className={styles.icon} />
+        </button>
       )
     ),
   ];

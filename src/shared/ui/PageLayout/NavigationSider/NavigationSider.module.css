@@ -5,6 +5,23 @@
   justify-content: space-between;
 }
 
+.button {
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+.button::before {
+  position: absolute;
+  inset: 0;
+  background-color: transparent;
+  content: "";
+}
+
+.button:focus {
+  outline: none;
+}
+
 .icon {
   width: 14px;
   height: 14px;
