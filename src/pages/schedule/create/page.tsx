@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { DatePicker, Form, Layout, Space, Tag, Typography } from "antd";
 import { useUnit } from "effector-react";
 import dayjs from "dayjs";
-import { PageLayout } from "../../../shared/ui";
 import { ScheduleTable } from "../../../features/schedule-table/ScheduleTable";
-import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
+import { PageLayout } from "../../../shared/ui";
 import { AddScheduleForm } from "../../../features/add-schedule-form/AddScheduleForm";
 import {
   saveDataDiary,
@@ -478,7 +477,6 @@ export const ScheduleCreatePage = () => {
 
   return (
     <PageLayout title="Создание расписания" nav={nav} >
-      <PageHeader title="Создание расписания" />
       <Content>
         <Space direction="vertical" className={styles._} size="large">
           <ScheduleTable
