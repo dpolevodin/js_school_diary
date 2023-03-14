@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { DatePicker, Form, Layout, Space, Tag, Typography } from "antd";
 import { useUnit } from "effector-react";
 import dayjs from "dayjs";
+import { PageLayout } from "../../../shared/ui";
 import { ScheduleTable } from "../../../features/schedule-table/ScheduleTable";
 import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
 import { AddScheduleForm } from "../../../features/add-schedule-form/AddScheduleForm";
@@ -472,9 +473,11 @@ export const ScheduleCreatePage = () => {
   });
 
   const [isScheduleOpen, setIsScheduleOpen] = useState(true);
+  
+  const nav = ["admin", "schedule", "diary", "contests"];
 
   return (
-    <Layout>
+    <PageLayout title="Создание расписания" nav={nav} >
       <PageHeader title="Создание расписания" />
       <Content>
         <Space direction="vertical" className={styles._} size="large">
@@ -499,6 +502,6 @@ export const ScheduleCreatePage = () => {
           ) : null}
         </Space>
       </Content>
-    </Layout>
+    </PageLayout>
   );
 };

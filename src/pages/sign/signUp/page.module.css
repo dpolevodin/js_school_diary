@@ -1,8 +1,12 @@
-.Content--signInPage {
+._ {
   display: flex;
   align-items: center;
 }
 
-.Form {
+.spin {
+  width: 100%;
+}
+
+.form {
   width: 100%;
 }

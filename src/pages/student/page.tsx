@@ -1,11 +1,7 @@
-import { Layout } from "antd";
-import { PageHeader } from "../../shared/ui/PageHeader/PageHeader";
+import { PageLayout } from "../../shared/ui";
 
-const { Content } = Layout;
+const nav = ["schedule"];
 
 export const StudentPage = () => (
-  <Layout>
-    <PageHeader title="Личный кабинет" />
-    <Content />
-  </Layout>
+  <PageLayout title="Личный кабинет" nav={nav} />
 );

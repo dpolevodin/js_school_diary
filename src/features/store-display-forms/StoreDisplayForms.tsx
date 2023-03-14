@@ -1,12 +1,15 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Space } from "antd";
 
-type Props = {
-  handleClickDelete: (...args: any[]) => void;
+type Props<T> = {
+  handleClickDelete: (data: T) => void;
   store: { [key: string]: string }[];
 };
 
-export const StoreDisplayForms = ({ handleClickDelete, store }: Props) => (
+export const StoreDisplayForms = <T,>({
+  handleClickDelete,
+  store,
+}: Props<T>) => (
   <Space direction="vertical">
     {store.map((obj) => (
       <Form
