@@ -1,0 +1,40 @@
+._ {
+  padding: 3rem;
+}
+.title {
+  margin-top: 0;
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.cardBody {
+  width: 50rem;
+}
+
+.gridStyle {
+  height: 3rem;
+  display: flex;
+  flex: 1 1 5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.links {
+  width: 10rem;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.green {
+  background: green;
+}
+
+.yellow {
+  background: yellow;
+}
