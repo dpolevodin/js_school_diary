@@ -1,12 +1,12 @@
 import { Button, Form, Input, Layout } from "antd";
 import { useUnit } from "effector-react";
-import { PageHeader } from "../../../shared/ui/PageHeader/PageHeader";
+import { PageLayout } from "../../../shared/ui";
 import { $user, UserSettings, setUserSettings } from "../model";
 import { $repositories } from "../../admin/model";
 
 import styles from "./page.module.css";
 
-const { Content } = Layout;
+const nav = ["schedule"];
 
 export const StudentSettingsPage = () => {
   const [user, setUserSettingsFn, repositories] = useUnit([
@@ -17,8 +17,7 @@ export const StudentSettingsPage = () => {
   const handleFinish = (value: UserSettings) => setUserSettingsFn(value);
 
   return (
-    <Layout>
-      <PageHeader title="Настройки" />
+    <PageLayout title="Настройки" nav={nav}>
       <Content className={styles._}>
         <Form
           name="userSettings"
@@ -73,6 +72,6 @@ export const StudentSettingsPage = () => {
           </Form.Item>
         </Form>
       </Content>
-    </Layout>
+    </PageLayout>
   );
 };
