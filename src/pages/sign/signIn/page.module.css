@@ -1,12 +1,12 @@
-.Content--signUpPage {
+._ {
   display: flex;
   align-items: center;
 }
 
-.Content_spin {
+.spin {
   width: 100%;
 }
 
-.Form {
+.form {
   width: 100%;
 }

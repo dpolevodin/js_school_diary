@@ -1,7 +1,7 @@
 import { Space, Switch } from "antd";
 import { useUnit } from "effector-react";
 import { $theme, themeChanged } from "../model";
-import "./ThemeSwitcher.css";
+import styles from "./ThemeSwitcher.module.css";
 
 export enum Themes {
   DEFAULT = "default",
@@ -15,12 +15,12 @@ export const ThemeSwitcher = () => {
     checked ? themeChangedFn(Themes.DARK) : themeChangedFn(Themes.DEFAULT);
 
   return (
-    <Space className="Space">
+    <Space className={styles._}>
       День
       <Switch
         checked={themeValue === Themes.DARK}
         onChange={handleChange}
-        className="Space__switch"
+        className={styles.switch}
       />
       Ночь
     </Space>

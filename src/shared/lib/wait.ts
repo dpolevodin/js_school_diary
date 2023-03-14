@@ -1,5 +1,5 @@
-export function wait() {
+export function wait(delay: number) {
   return new Promise((resolve) => {
-    setTimeout(resolve, 2000);
+    setTimeout(resolve, delay);
   });
 }

@@ -13,7 +13,7 @@ import { $users, User } from "../../pages/sign/signUp/model";
 export const $session = createStore<User | null>(null);
 
 export const createSessionFx = createEffect(async (users: User[]) => {
-  await wait();
+  await wait(2000);
 
   const id = localStorage.getItem("authenticatedUser");
   if (id !== "") {
@@ -24,7 +24,7 @@ export const createSessionFx = createEffect(async (users: User[]) => {
 });
 
 export const getSessionFx = createEffect(async (users: User[]) => {
-  await wait();
+  await wait(2000);
 
   const id = localStorage.getItem("authenticatedUser");
   if (id !== "") {
@@ -36,6 +36,8 @@ export const getSessionFx = createEffect(async (users: User[]) => {
 
 export const pageMounted = createEvent();
 
+export const signOut = createEvent();
+
 $session
   .on(createSessionFx.doneData, (_, user: User | null | undefined) => user)
   .on(createSessionFx.failData, (session, error) =>
@@ -44,7 +46,11 @@ $session
   .on(getSessionFx.doneData, (_, user: User | null | undefined) => user)
   .on(getSessionFx.failData, (session, error) =>
     error.message === "unauthorized" ? null : session
-  );
+  )
+  .on(signOut, () => {
+    localStorage.removeItem("authenticatedUser");
+    return null;
+  });
 
 split({
   source: createSessionFx.doneData,
