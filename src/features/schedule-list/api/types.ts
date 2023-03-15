@@ -1,20 +1,23 @@
-export interface DataType {
-  id: string;
-  index: number;
+export type ScheduleDataType = {
   date: string;
   block: string;
   theme: string;
-  theme_slot: string;
+  themeSlots: string[];
   teacher: string;
   homework: string;
-  homework_date: string;
-}
+  homeworkDate: string;
+};
 
-export interface ValueType {
+export type ExtendedScheduleDataType = ScheduleDataType & {
+  id: string;
+  key: number;
+};
+
+export type FilterValueType = {
   text: string;
   value: string;
-}
+};
 
 export type MapData<T> = {
-  [K in keyof T]: ValueType[];
+  [K in keyof T]: FilterValueType[];
 };

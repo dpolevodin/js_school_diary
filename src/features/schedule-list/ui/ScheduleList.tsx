@@ -1,24 +1,24 @@
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import { useUnit } from "effector-react";
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 
 import { $schedule, getDataEv } from "../model";
-import { DataType, MapData } from "../api/types";
+import { ExtendedScheduleDataType, MapData } from "../api/types";
 
-import styles from "./scheduleList.module.css";
+import styles from "./ScheduleList.module.css";
 
-export const ScheduleList: FC = () => {
+export const ScheduleList = () => {
   const getData = useUnit(getDataEv);
-  useEffect(() => getData());
+  useEffect(() => getData(), []);
 
   const schedule = useUnit($schedule);
 
-  let filters: MapData<DataType> | undefined;
-  let columns: ColumnsType<DataType> = [];
+  let filters: MapData<ExtendedScheduleDataType> | undefined;
+  let columns: ColumnsType<ExtendedScheduleDataType> = [];
 
   if (schedule?.length) {
-    const keys = Object.keys(schedule[0]) as (keyof DataType)[];
+    const keys = Object.keys(schedule[0]) as (keyof ExtendedScheduleDataType)[];
     keys.forEach((key) => {
       const curKey = schedule?.reduce((acc, obj) => {
         const curGroup = acc[key] ?? [];
@@ -27,7 +27,7 @@ export const ScheduleList: FC = () => {
           ...acc,
           [key]: [...curGroup, { text: objValue, value: objValue }],
         };
-      }, {} as MapData<DataType>);
+      }, {} as MapData<ExtendedScheduleDataType>);
       filters = { ...filters, ...curKey };
     });
 
@@ -35,9 +35,9 @@ export const ScheduleList: FC = () => {
       columns = [
         {
           title: "Номер",
-          dataIndex: "index",
-          sorter: (a, b) => a.index - b.index,
-          sortDirections: ["descend"],
+          dataIndex: "key",
+          sorter: (a, b) => a.key - b.key,
+          sortDirections: ["descend", "ascend"],
         },
         {
           title: "Дата",
@@ -55,7 +55,7 @@ export const ScheduleList: FC = () => {
           filters: filters.block,
           onFilter: (value, record) =>
             record.block.indexOf(value as string) === 0,
-          sorter: (a, b) => a.block.length - b.block.length,
+          sorter: (a, b) => (a.block > b.block ? 1 : -1),
         },
         {
           title: "Тема",
@@ -63,15 +63,21 @@ export const ScheduleList: FC = () => {
           filters: filters.theme,
           onFilter: (value, record) =>
             record.theme.indexOf(value as string) === 0,
-          sorter: (a, b) => a.theme.length - b.theme.length,
+          sorter: (a, b) => (a.theme > b.theme ? 1 : -1),
         },
         {
           title: "Тема слота",
-          dataIndex: "theme_slot",
-          filters: filters.theme_slot,
-          onFilter: (value, record) =>
-            record.theme_slot.indexOf(value as string) === 0,
-          sorter: (a, b) => a.theme_slot.length - b.theme_slot.length,
+          dataIndex: "themeSlot",
+          filters: filters.themeSlots,
+          render: (_, { themeSlots }) => (
+            <>
+              {themeSlots.map((slot: string) => (
+                <div className={styles.slot} key={slot}>
+                  {slot}
+                </div>
+              ))}
+            </>
+          ),
         },
         {
           title: "Преподаватель",
@@ -79,7 +85,7 @@ export const ScheduleList: FC = () => {
           filters: filters.teacher,
           onFilter: (value, record) =>
             record.teacher.indexOf(value as string) === 0,
-          sorter: (a, b) => a.teacher.length - b.teacher.length,
+          sorter: (a, b) => (a.teacher > b.teacher ? 1 : -1),
         },
         {
           title: "ДЗ",
@@ -87,25 +93,24 @@ export const ScheduleList: FC = () => {
           filters: filters.homework,
           onFilter: (value, record) =>
             record.homework.indexOf(value as string) === 0,
-          sorter: (a, b) => a.homework.length - b.homework.length,
+          sorter: (a, b) => (a.homework > b.homework ? 1 : -1),
+          sortDirections: ["descend", "ascend"],
         },
         {
           title: "ДЗ дата",
-          dataIndex: "homework_date",
-          filters: filters.homework_date,
+          dataIndex: "homeworkDate",
+          filters: filters.homeworkDate,
           onFilter: (value, record) =>
-            record.homework_date.indexOf(value as string) === 0,
+            record.homeworkDate.indexOf(value as string) === 0,
           sorter: (a, b) =>
-            new Date(a.homework_date).getTime() -
-            new Date(b.homework_date).getTime(),
+            new Date(a.homeworkDate).getTime() -
+            new Date(b.homeworkDate).getTime(),
         },
       ];
     }
   }
 
   return (
-    <div className={styles.Wrapper}>
-      <Table columns={columns} dataSource={schedule} onChange={() => null} />
-    </div>
+    <Table columns={columns} dataSource={schedule} onChange={() => null} />
   );
 };
