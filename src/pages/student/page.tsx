@@ -1,4 +1,4 @@
-import { Layout, Row, Space } from "antd";
+import { Row, Col } from "antd";
 import { useUnit } from "effector-react";
 import { PageLayout } from "../../shared/ui";
 import { StudentLinks } from "../../features/student-links/StudentLinks";
@@ -7,8 +7,6 @@ import { $repositories } from "../admin/model";
 import { homeworkCards } from "./settings/mocks";
 import { DiaryTable } from "../../features/diary-table/DiaryTable";
 
-import styles from "./page.module.css";
-
 const nav = ["schedule"];
 
 export const StudentPage = () => {
@@ -16,32 +14,31 @@ export const StudentPage = () => {
 
   return (
     <PageLayout title="Личный кабинет" nav={nav}>
-      <Content className={styles._}>
-        <Row>
-          <Space size={100}>
-            <DiaryTable
-              studentName={user.name}
-              studentSurname={user.surname}
-              studentNickName={user.nickName}
-              homeworkCards={homeworkCards}
-            />
-
-            <StudentLinks
-              tgNickName={
-                user.settings?.tgNickName
-                  ? `tg: ${user.settings.tgNickName}`
-                  : "Ваш telegram"
-              }
-              githubNickName={
-                user.settings?.githubNickName
-                  ? `github: ${user.settings.githubNickName}`
-                  : "Ваш github никнейм"
-              }
-              repositories={repositories}
-            />
-          </Space>
-        </Row>
-      </Content>
+      <Row gutter={16}>
+        <Col span={20}>
+          <DiaryTable
+            studentName={user.name}
+            studentSurname={user.surname}
+            studentNickName={user.nickName}
+            homeworkCards={homeworkCards}
+          />
+        </Col>
+        <Col span={4}>
+          <StudentLinks
+            tgNickName={
+              user.settings?.tgNickName
+                ? `tg: ${user.settings.tgNickName}`
+                : "Ваш telegram"
+            }
+            githubNickName={
+              user.settings?.githubNickName
+                ? `github: ${user.settings.githubNickName}`
+                : "Ваш github никнейм"
+            }
+            repositories={repositories}
+          />
+        </Col>
+      </Row>
     </PageLayout>
   );
 };
