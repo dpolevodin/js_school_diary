@@ -8,7 +8,8 @@ import {
 } from "effector";
 import { routes } from "../../shared/lib/atomic-router/route";
 import { wait } from "../../shared/lib/wait";
-import { $users, User } from "../../pages/sign/signUp/model";
+import { $users, updateUser } from "../../pages/sign/signUp/model";
+import { User, Settings } from "../../pages/sign/signUp/lib/types";
 
 export const $session = createStore<User | null>(null);
 
@@ -38,6 +39,8 @@ export const pageMounted = createEvent();
 
 export const signOut = createEvent();
 
+export const setUserSettings = createEvent<Settings>();
+
 $session
   .on(createSessionFx.doneData, (_, user: User | null | undefined) => user)
   .on(createSessionFx.failData, (session, error) =>
@@ -50,7 +53,10 @@ $session
   .on(signOut, () => {
     localStorage.removeItem("authenticatedUser");
     return null;
-  });
+  })
+  .on(setUserSettings, (state, payload) =>
+    state ? { ...state, settings: payload } : null
+  );
 
 split({
   source: createSessionFx.doneData,
@@ -68,4 +74,15 @@ sample({
   source: $users,
   clock: pageMounted,
   target: getSessionFx,
+});
+
+sample({
+  clock: setUserSettings,
+  source: $session,
+  target: updateUser,
+});
+
+redirect({
+  clock: setUserSettings,
+  route: routes.student,
 });
