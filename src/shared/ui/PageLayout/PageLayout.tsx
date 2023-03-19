@@ -1,4 +1,6 @@
-import { Empty, Layout, Typography } from "antd";
+import { Empty, Layout, Spin, Typography } from "antd";
+import { useUnit } from "effector-react";
+import { getSessionFx } from "../../../entities/auth/session";
 import { NavigationSider } from "./NavigationSider/NavigationSider";
 import { PageHeader } from "./PageHeader/PageHeader";
 import styles from "./PageLayout.module.css";
@@ -20,24 +22,31 @@ export const PageLayout = ({
   className,
   children,
   isSignedUp = true,
-}: PageLayoutProps) => (
-  <Layout>
-    <PageHeader title={title} />
+}: PageLayoutProps) => {
+  const loading = useUnit(getSessionFx.pending);
+
+  return (
     <Layout>
-      <NavigationSider title={title} nav={nav} />
-      <Content className={`${styles._} ${className}`}>
-        {isSignedUp ? (
-          children
-        ) : (
-          <Empty
-            description={<Text>Авторизуйтесь</Text>}
-            className={styles.empty}
-          />
-        )}
-      </Content>
+      <PageHeader title={title} />
+      <Layout hasSider>
+        <NavigationSider title={title} nav={nav} />
+
+        <Content className={`${styles._} ${className}`}>
+          <Spin size="large" spinning={loading} wrapperClassName={styles.spin}>
+            {isSignedUp ? (
+              children
+            ) : (
+              <Empty
+                description={<Text>Авторизуйтесь</Text>}
+                className={styles.empty}
+              />
+            )}
+          </Spin>
+        </Content>
+      </Layout>
     </Layout>
-  </Layout>
-);
+  );
+};
 
 PageLayout.defaultProps = {
   className: null,
