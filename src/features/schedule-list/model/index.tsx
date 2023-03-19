@@ -6,39 +6,74 @@ import { wait } from "../../../shared/lib/wait";
 import { scheduleData as scheduleMock } from "../api/mock";
 import { MapData, ExtendedScheduleDataType } from "../api/types";
 
-export const $schedule = createStore<ExtendedScheduleDataType[] | undefined>(
-  []
-);
+const filterColumns = (
+  value: string | number | boolean,
+  record: ExtendedScheduleDataType,
+  key: keyof ExtendedScheduleDataType | undefined
+) => {
+  if (key) {
+    const recordValue = record[key];
+    if (typeof recordValue === "string") {
+      return recordValue.indexOf(value as string) === 0;
+    }
+    if (typeof recordValue === "number") {
+      return recordValue === value;
+    }
+  }
+  return false;
+};
+
+const sortColumns = (
+  a: ExtendedScheduleDataType,
+  b: ExtendedScheduleDataType,
+  key: keyof ExtendedScheduleDataType
+) => {
+  if (typeof a[key] === "number") {
+    return +a[key] - +b[key];
+  }
+  if (key === "date" || key === "homeworkDate") {
+    return new Date(a.date).getTime() - new Date(b.date).getTime();
+  }
+  return a[key] > b[key] ? 1 : -1;
+};
+
+export const $schedule = createStore<ExtendedScheduleDataType[]>([]);
 
 export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
   {
     title: "Номер",
     dataIndex: "key",
-    sorter: (a, b) => a.key - b.key,
+    sorter: (a, b) => sortColumns(a, b, "key"),
     sortDirections: ["descend", "ascend"],
   },
   {
     title: "Дата",
     dataIndex: "date",
-    onFilter: (value, record) => record.date.indexOf(value as string) === 0,
-    sorter: (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
+    onFilter(value, record) {
+      return filterColumns(value, record, "date");
+    },
+    sorter: (a, b) => sortColumns(a, b, "date"),
     defaultSortOrder: "ascend",
   },
   {
     title: "Блок",
     dataIndex: "block",
-    onFilter: (value, record) => record.block.indexOf(value as string) === 0,
-    sorter: (a, b) => (a.block > b.block ? 1 : -1),
+    onFilter(value, record) {
+      return filterColumns(value, record, "block");
+    },
+    sorter: (a, b) => sortColumns(a, b, "block"),
   },
   {
     title: "Тема",
     dataIndex: "theme",
-    onFilter: (value, record) => record.theme.indexOf(value as string) === 0,
-    sorter: (a, b) => (a.theme > b.theme ? 1 : -1),
+    onFilter(value, record) {
+      return filterColumns(value, record, "theme");
+    },
+    sorter: (a, b) => sortColumns(a, b, "theme"),
   },
   {
     title: "Тема слота",
-    dataIndex: "themeSlot",
+    dataIndex: "themeSlots",
     render: (_, { themeSlots }) => (
       <Space direction="vertical" size="small">
         {themeSlots.map((slot: string) => (
@@ -50,23 +85,27 @@ export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
   {
     title: "Преподаватель",
     dataIndex: "teacher",
-    onFilter: (value, record) => record.teacher.indexOf(value as string) === 0,
-    sorter: (a, b) => (a.teacher > b.teacher ? 1 : -1),
+    onFilter(value, record) {
+      return filterColumns(value, record, "teacher");
+    },
+    sorter: (a, b) => sortColumns(a, b, "teacher"),
   },
   {
     title: "ДЗ",
     dataIndex: "homework",
-    onFilter: (value, record) => record.homework.indexOf(value as string) === 0,
-    sorter: (a, b) => (a.homework > b.homework ? 1 : -1),
+    onFilter(value, record) {
+      return filterColumns(value, record, "homework");
+    },
+    sorter: (a, b) => sortColumns(a, b, "homework"),
     sortDirections: ["descend", "ascend"],
   },
   {
     title: "ДЗ дата",
     dataIndex: "homeworkDate",
-    onFilter: (value, record) =>
-      record.homeworkDate.indexOf(value as string) === 0,
-    sorter: (a, b) =>
-      new Date(a.homeworkDate).getTime() - new Date(b.homeworkDate).getTime(),
+    onFilter(value, record) {
+      return filterColumns(value, record, "homeworkDate");
+    },
+    sorter: (a, b) => sortColumns(a, b, "homeworkDate"),
   },
 ]);
 
@@ -80,6 +119,56 @@ export const getDataFx = createEffect(async () => {
   }));
 });
 
+const getFilters = (schedule: ExtendedScheduleDataType[]) => {
+  let filters: MapData<ExtendedScheduleDataType> | undefined;
+  if (schedule?.length) {
+    const keys = Object.keys(schedule[0]) as (keyof ExtendedScheduleDataType)[];
+    keys.forEach((key) => {
+      const curKey = schedule?.reduce((acc, obj) => {
+        const curGroup = acc[key] ?? [];
+        const objValue = obj[key];
+        return {
+          ...acc,
+          [key]: [...curGroup, { text: objValue, value: objValue }],
+        };
+      }, {} as MapData<ExtendedScheduleDataType>);
+      filters = { ...filters, ...curKey };
+    });
+  }
+  return filters || null;
+};
+
+const updateColumnsByFilters = (
+  columns: ColumnsType<ExtendedScheduleDataType>,
+  filters: MapData<ExtendedScheduleDataType> | null
+) => {
+  let columnsWithFilters: ColumnsType<ExtendedScheduleDataType> | undefined;
+  if (filters) {
+    columnsWithFilters = columns.map(
+      (column: ColumnType<ExtendedScheduleDataType>) => {
+        if (column.dataIndex) {
+          switch (column.dataIndex) {
+            case "date":
+              return { ...column, filters: filters.date };
+            case "block":
+              return { ...column, filters: filters.block };
+            case "theme":
+              return { ...column, filters: filters.theme };
+            case "teacher":
+              return { ...column, filters: filters.teacher };
+            case "homework":
+              return { ...column, filters: filters.homework };
+            default:
+              return column;
+          }
+        }
+        return column;
+      }
+    );
+  }
+  return columnsWithFilters || columns;
+};
+
 sample({ clock: getDataEv, target: getDataFx });
 sample({
   source: getDataFx.doneData,
@@ -88,57 +177,12 @@ sample({
 
 const $filters = sample({
   source: $schedule,
-  fn: (schedule) => {
-    let filters: MapData<ExtendedScheduleDataType> | undefined;
-    if (schedule?.length) {
-      const keys = Object.keys(
-        schedule[0]
-      ) as (keyof ExtendedScheduleDataType)[];
-      keys.forEach((key) => {
-        const curKey = schedule?.reduce((acc, obj) => {
-          const curGroup = acc[key] ?? [];
-          const objValue = obj[key];
-          return {
-            ...acc,
-            [key]: [...curGroup, { text: objValue, value: objValue }],
-          };
-        }, {} as MapData<ExtendedScheduleDataType>);
-        filters = { ...filters, ...curKey };
-      });
-    }
-    return filters || null;
-  },
+  fn: (schedule) => getFilters(schedule),
 });
 
 sample({
   clock: $filters,
   source: $columns,
-  fn: (columns, filters) => {
-    let columnsWithFilters: ColumnsType<ExtendedScheduleDataType> | undefined;
-    if (filters) {
-      columnsWithFilters = columns.map(
-        (column: ColumnType<ExtendedScheduleDataType>) => {
-          if (column.dataIndex) {
-            switch (column.dataIndex) {
-              case "date":
-                return { ...column, filters: filters.date };
-              case "block":
-                return { ...column, filters: filters.block };
-              case "theme":
-                return { ...column, filters: filters.theme };
-              case "teacher":
-                return { ...column, filters: filters.teacher };
-              case "homework":
-                return { ...column, filters: filters.homework };
-              default:
-                return column;
-            }
-          }
-          return column;
-        }
-      );
-    }
-    return columnsWithFilters || columns;
-  },
+  fn: (columns, filters) => updateColumnsByFilters(columns, filters),
   target: $columns,
 });

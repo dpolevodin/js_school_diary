@@ -12,7 +12,5 @@ export const ScheduleList = () => {
   ]);
   useEffect(() => getData(), []);
 
-  return (
-    <Table columns={columns} dataSource={schedule} onChange={() => null} />
-  );
+  return <Table columns={columns} dataSource={schedule} />;
 };
