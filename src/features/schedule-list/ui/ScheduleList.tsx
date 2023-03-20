@@ -12,5 +12,5 @@ export const ScheduleList = () => {
   ]);
   useEffect(() => getData(), []);
 
-  return <Table columns={columns} dataSource={schedule} />;
+  return <Table columns={columns} dataSource={schedule} pagination={false} />;
 };

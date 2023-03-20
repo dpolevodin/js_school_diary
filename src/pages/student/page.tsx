@@ -32,7 +32,7 @@ export const StudentPage = () => {
             dataSource={user?.homeworks}
             columns={columns}
             pagination={false}
-          />{" "}
+          />
         </>
       )}
     </PageLayout>

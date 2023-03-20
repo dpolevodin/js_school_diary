@@ -4,15 +4,22 @@ export type Settings = {
   [key: string]: string | undefined;
 };
 
+export enum HomeworksStatus {
+  DEFAULT = "default",
+  APPROVED = "approved",
+  PENDING = "pending",
+  REJECTED = "rejected",
+}
+
 export type Homeworks = {
   [key: string]:
     | {
         id?: number;
         title: string;
         deadline?: string;
-        status?: "default" | "approved" | "pending" | "rejected";
+        status?: HomeworksStatus;
       }
-    | number;
+    | string;
 };
 
 export type User = {

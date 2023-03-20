@@ -5,3 +5,7 @@
   width: 100vw;
   margin: 0 auto;
 }
+
+.ant-spin-container {
+  height: 100%;
+}

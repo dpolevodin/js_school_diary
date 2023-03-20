@@ -13,3 +13,11 @@
 .spin {
   width: 100%;
 }
+
+.spin_fullHeight {
+  height: 100%;
+}
+
+.spinner {
+  max-height: none !important;
+}

@@ -1,6 +1,6 @@
 import { createEffect, sample } from "effector";
+import { User } from "../../pages/sign/signUp/lib/types";
 import { createSessionFx } from "../auth/session";
-import { User } from "../../pages/sign/signUp/model";
 
 type SignUpPayload = {
   id: string;
