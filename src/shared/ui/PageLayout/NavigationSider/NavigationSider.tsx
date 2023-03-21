@@ -1,7 +1,6 @@
 import {
   BankOutlined,
   BookOutlined,
-  DiffOutlined,
   FormOutlined,
   HomeOutlined,
   ScheduleOutlined,
@@ -65,13 +64,6 @@ const NAV_MAP: { [key: string]: ItemType } = {
       <ScheduleOutlined />
     ),
     getItem(
-      <Link to={routes.scheduleCreate}>
-        <u>Создание</u>
-      </Link>,
-      "scheduleCreate",
-      <DiffOutlined />
-    ),
-    getItem(
       <Link to={routes.scheduleEdit}>
         <u>Редактирование</u>
       </Link>,
@@ -122,7 +114,6 @@ const SELECTED_PAGE_MAP: { [key: string]: string } = {
   Дневник: "diary",
   Расписание: "schedule",
   "Создание расписания": "scheduleCreate",
-  "Редактирование расписания": "scheduleEdit",
   "Школа JS": "home",
   "Личный кабинет": "student",
   Настройки: "studentSettings",

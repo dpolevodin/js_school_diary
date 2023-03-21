@@ -6,7 +6,6 @@ export const routes = {
   diary: createRoute(),
   home: createRoute(),
   schedule: createRoute(),
-  scheduleCreate: createRoute(),
   scheduleEdit: createRoute(),
   signIn: createRoute(),
   signUp: createRoute(),

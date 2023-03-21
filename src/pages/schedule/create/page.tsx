@@ -18,7 +18,7 @@ import { $tutors } from "../../admin/model";
 import styles from "./page.module.css";
 
 const { Content } = Layout;
-export const ScheduleCreatePage = () => {
+export const ScheduleEditPage = () => {
   const [
     addScheduleRowFn,
     deleteScheduleFn,
@@ -270,7 +270,7 @@ export const ScheduleCreatePage = () => {
   const nav = ["admin", "schedule", "diary", "contests"];
 
   return (
-    <PageLayout title="Создание расписания" nav={nav}>
+    <PageLayout title="Редактирование расписания" nav={nav}>
       <Content>
         <Space direction="vertical" className={styles._} size="large">
           <ScheduleTable
