@@ -25,11 +25,10 @@ export const createSessionFx = createEffect(async (users: User[]) => {
 });
 
 export const getSessionFx = createEffect(async (users: User[]) => {
-  await wait(2000);
-
   const id = localStorage.getItem("authenticatedUser");
-  if (id !== "") {
+  if (id !== "" && id) {
     const user = users.find((userData) => userData.id === id);
+    await wait(2000);
     return user;
   }
   return null;
