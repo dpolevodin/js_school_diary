@@ -8,7 +8,8 @@ import {
 } from "effector";
 import { routes } from "../../shared/lib/atomic-router/route";
 import { wait } from "../../shared/lib/wait";
-import { $users, User } from "../../pages/sign/signUp/model";
+import { $adminIds, $users, updateUser } from "../../pages/sign/signUp/model";
+import { User, Settings } from "../../pages/sign/signUp/lib/types";
 
 export const $session = createStore<User | null>(null);
 
@@ -24,11 +25,10 @@ export const createSessionFx = createEffect(async (users: User[]) => {
 });
 
 export const getSessionFx = createEffect(async (users: User[]) => {
-  await wait(2000);
-
   const id = localStorage.getItem("authenticatedUser");
-  if (id !== "") {
+  if (id !== "" && id) {
     const user = users.find((userData) => userData.id === id);
+    await wait(2000);
     return user;
   }
   return null;
@@ -37,6 +37,8 @@ export const getSessionFx = createEffect(async (users: User[]) => {
 export const pageMounted = createEvent();
 
 export const signOut = createEvent();
+
+export const setUserSettings = createEvent<Settings>();
 
 $session
   .on(createSessionFx.doneData, (_, user: User | null | undefined) => user)
@@ -50,7 +52,10 @@ $session
   .on(signOut, () => {
     localStorage.removeItem("authenticatedUser");
     return null;
-  });
+  })
+  .on(setUserSettings, (state, payload) =>
+    state ? { ...state, settings: payload } : null
+  );
 
 split({
   source: createSessionFx.doneData,
@@ -64,8 +69,25 @@ split({
   } as const,
 });
 
+export const $isAdmin = sample({
+  clock: $session,
+  source: $adminIds,
+  fn: (adminIds, user) => (user ? adminIds.includes(user.id) : false),
+});
+
 sample({
-  source: $users,
   clock: pageMounted,
+  source: $users,
   target: getSessionFx,
+});
+
+sample({
+  clock: setUserSettings,
+  source: $session,
+  target: updateUser,
+});
+
+redirect({
+  clock: setUserSettings,
+  route: routes.student,
 });

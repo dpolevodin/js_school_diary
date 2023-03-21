@@ -1,0 +1,14 @@
+.icon {
+  font-size: 3rem;
+}
+
+.telegramIcon {
+  height: 1rem;
+  width: auto;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}

@@ -1,0 +1,24 @@
+._ {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  margin-top: 0;
+}
+
+.deadline {
+  border-radius: 0.5rem;
+}
+
+.pending {
+  background-color: yellow;
+}
+
+.approved {
+  background-color: green;
+}
+
+.rejected {
+  background-color: red;
+}
