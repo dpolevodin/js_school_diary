@@ -29,7 +29,7 @@ export type User = {
   surname: string;
   patronymic?: string;
   settings?: Settings;
-  homeworks?: Homeworks[];
+  homeworks?: Homeworks;
 };
 
 export type AdminIds = string[];

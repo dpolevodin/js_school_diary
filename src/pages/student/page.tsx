@@ -28,7 +28,7 @@ export const StudentPage = () => {
         <>
           <Title level={3}>Статус дз</Title>
           <Table
-            dataSource={user?.homeworks}
+            dataSource={user?.homeworks ? [user.homeworks] : []}
             columns={columns}
             pagination={false}
           />
