@@ -8,7 +8,7 @@ import {
 } from "effector";
 import { routes } from "../../shared/lib/atomic-router/route";
 import { wait } from "../../shared/lib/wait";
-import { $users, updateUser } from "../../pages/sign/signUp/model";
+import { $adminIds, $users, updateUser } from "../../pages/sign/signUp/model";
 import { User, Settings } from "../../pages/sign/signUp/lib/types";
 
 export const $session = createStore<User | null>(null);
@@ -70,9 +70,15 @@ split({
   } as const,
 });
 
+export const $isAdmin = sample({
+  clock: $session,
+  source: $adminIds,
+  fn: (adminIds, user) => (user ? adminIds.includes(user.id) : false),
+});
+
 sample({
-  source: $users,
   clock: pageMounted,
+  source: $users,
   target: getSessionFx,
 });
 

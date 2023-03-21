@@ -1,7 +1,11 @@
 import { Empty, Layout, Spin, Typography } from "antd";
-import classNames from "classnames";
 import { useUnit } from "effector-react";
-import { createSessionFx, getSessionFx } from "../../../entities/auth/session";
+import {
+  $isAdmin,
+  $session,
+  createSessionFx,
+  getSessionFx,
+} from "../../../entities/auth/session";
 import { NavigationSider } from "./NavigationSider/NavigationSider";
 import { PageHeader } from "./PageHeader/PageHeader";
 import styles from "./PageLayout.module.css";
@@ -14,7 +18,8 @@ type PageLayoutProps = {
   nav?: string[];
   className?: string;
   children?: React.ReactNode;
-  isSignedUp?: boolean;
+  isAdminPage?: boolean;
+  isAccessFree?: boolean;
 };
 
 export const PageLayout = ({
@@ -22,38 +27,47 @@ export const PageLayout = ({
   nav,
   className,
   children,
-  isSignedUp = true,
+  isAdminPage,
+  isAccessFree,
 }: PageLayoutProps) => {
-  const [isLoading, isLoadingSignIn] = useUnit([
+  const [isLoading, isLoadingSignIn, session, isAdmin] = useUnit([
     getSessionFx.pending,
     createSessionFx.pending,
+    $session,
+    $isAdmin,
   ]);
+
+  const isAccessAllowed = isAdminPage ? isAdmin : true;
+  const isContentShown = isAccessFree || session;
 
   return (
     <Layout>
       <PageHeader title={title} />
       <Layout hasSider>
         <NavigationSider title={title} nav={nav} />
-
-        <Content className={`${styles._} ${className}`}>
-          <Spin
-            size="large"
-            spinning={isLoading || isLoadingSignIn}
-            wrapperClassName={classNames(styles.spin, {
-              [styles.spin_fullHeight]: !isSignedUp,
-            })}
-            className={styles.spinner}
-          >
-            {isSignedUp ? (
+        <Spin
+          size="large"
+          spinning={isLoading || isLoadingSignIn}
+          wrapperClassName={styles.spin}
+          className={styles.spinner}
+        >
+          <Content className={`${styles._} ${className}`}>
+            {isContentShown && isAccessAllowed ? (
               children
             ) : (
               <Empty
-                description={<Text>Авторизуйтесь</Text>}
+                description={
+                  <Text>
+                    {isAccessAllowed
+                      ? "Авторизуйтесь"
+                      : "У вас нет прав для просмотра данной страницы"}
+                  </Text>
+                }
                 className={styles.empty}
               />
             )}
-          </Spin>
-        </Content>
+          </Content>
+        </Spin>
       </Layout>
     </Layout>
   );
@@ -63,5 +77,6 @@ PageLayout.defaultProps = {
   className: null,
   children: null,
   nav: [],
-  isSignedUp: true,
+  isAdminPage: false,
+  isAccessFree: false,
 };

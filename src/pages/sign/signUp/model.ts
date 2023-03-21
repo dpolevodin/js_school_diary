@@ -1,5 +1,4 @@
 import { createEvent, createStore } from "effector";
-import { homeworks } from "../../student/lib/mocks";
 import { User, AdminIds, HomeworksStatus } from "./lib/types";
 
 export const $users = createStore<User[]>([
@@ -54,7 +53,7 @@ export const addUser = createEvent<User>();
 export const updateUser = createEvent<User | null>();
 
 $users
-  .on(addUser, (state, payload) => [...state, { ...payload, homeworks }])
+  .on(addUser, (state, payload) => [...state, payload])
   .on(updateUser, (state, payload) => {
     if (payload) {
       const updatedUsers = state.map((user) =>

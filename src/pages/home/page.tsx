@@ -6,7 +6,7 @@ const { Title, Paragraph } = Typography;
 const nav = ["admin", "signIn", "signUp", "schedule", "diary", "contests"];
 
 export const HomePage = () => (
-  <PageLayout title="Школа JS" nav={nav}>
+  <PageLayout title="Школа JS" nav={nav} isAccessFree>
     <Typography>
       <Title className={styles.title}>Школа JavaScript поток – 2023.03</Title>
       <Title level={3}>Кратко</Title>

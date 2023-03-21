@@ -12,9 +12,8 @@ const { Title } = Typography;
 
 export const StudentPage = () => {
   const [user, repositories] = useUnit([$session, $repositories]);
-
   return (
-    <PageLayout title="Личный кабинет" nav={nav} isSignedUp={!!user}>
+    <PageLayout title="Личный кабинет" nav={nav}>
       <div className={styles._}>
         <Title className={styles.title}>
           Привет, {user?.name} {user?.surname} ({user?.nickName})

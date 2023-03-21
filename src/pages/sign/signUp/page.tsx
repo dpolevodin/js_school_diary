@@ -11,6 +11,7 @@ import {
 } from "../rules";
 import { signUpFx } from "../../../entities/signUp/model";
 import { PageLayout } from "../../../shared/ui";
+import { homeworks } from "../../student/lib/mocks";
 
 type User = {
   nickName: string;
@@ -21,25 +22,25 @@ type User = {
   confirm: never;
 };
 
-const deletePassword = (user: User) => {
+const updateUser = (user: User) => {
   const userData = { ...user, id: uuid() };
   delete userData.password;
   delete userData.confirm;
-  return userData;
+  return { ...userData, homeworks };
 };
 
 export const SignUpPage = () => {
   const [users, addUserFn, signUpFn] = useUnit([$users, addUser, signUpFx]);
 
   const handleFinish = (values: User) => {
-    const user = deletePassword(values);
-    const usersPayload = [...users, user];
+    const user = updateUser(values);
     addUserFn(user);
+    const usersPayload = [...users, user];
     signUpFn({ id: user.id, users: usersPayload });
   };
 
   return (
-    <PageLayout title="Регистрация" className={styles._}>
+    <PageLayout title="Регистрация" className={styles._} isAccessFree>
       <Form
         className={styles.form}
         wrapperCol={{ span: 6, offset: 9 }}
