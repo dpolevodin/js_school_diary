@@ -8,7 +8,8 @@ import {
 } from "effector";
 import { routes } from "../../shared/lib/atomic-router/route";
 import { wait } from "../../shared/lib/wait";
-import { $users, User } from "../../pages/sign/signUp/model";
+import { $users } from "../../pages/sign/signUp/model";
+import { User } from "../../pages/sign/signUp/lib/types";
 
 export const $session = createStore<User | null>(null);
 

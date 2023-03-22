@@ -6,6 +6,7 @@ import { $repositories } from "../../admin/model";
 
 import styles from "./page.module.css";
 
+const { Content } = Layout;
 const nav = ["schedule"];
 
 export const StudentSettingsPage = () => {

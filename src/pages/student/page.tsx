@@ -9,6 +9,7 @@ import { DiaryTable } from "../../features/diary-table/DiaryTable";
 
 import styles from "./page.module.css";
 
+const { Content } = Layout;
 const nav = ["schedule"];
 
 export const StudentPage = () => {
