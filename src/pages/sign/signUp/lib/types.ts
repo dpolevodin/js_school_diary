@@ -28,6 +28,9 @@ export type User = {
   name: string;
   surname: string;
   patronymic?: string;
+  points?: {
+    [key: string]: number;
+  };
   settings?: Settings;
   homeworks?: Homeworks;
 };
