@@ -208,16 +208,6 @@ export const DiaryPage = () => {
             >
               Редактировать
             </Typography.Link>
-            {/* <Typography.Link */}
-            {/*     disabled={editingDiaryKey !== ""} */}
-            {/*     onClick={() => */}
-            {/*         typeof store.id === "string" */}
-            {/*             ? deleteScheduleFn(store.key) */}
-            {/*             : null */}
-            {/*     } */}
-            {/* > */}
-            {/*     Удалить */}
-            {/* </Typography.Link> */}
           </Space>
         );
       },

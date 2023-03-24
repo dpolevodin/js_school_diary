@@ -1,40 +1,24 @@
 ._ {
-  padding: 3rem;
+  display: flex;
+  justify-content: space-between;
 }
+
 .title {
   margin-top: 0;
 }
 
-.icon {
-  font-size: 3rem;
+.deadline {
+  border-radius: 0.5rem;
 }
 
-.cardBody {
-  width: 50rem;
+.pending {
+  background-color: yellow;
 }
 
-.gridStyle {
-  height: 3rem;
-  display: flex;
-  flex: 1 1 5rem;
-  align-items: center;
-  justify-content: center;
+.approved {
+  background-color: green;
 }
 
-.links {
-  width: 10rem;
-}
-
-.button {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.green {
-  background: green;
-}
-
-.yellow {
-  background: yellow;
+.rejected {
+  background-color: red;
 }

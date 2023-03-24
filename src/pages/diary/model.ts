@@ -3,10 +3,11 @@ import { $users } from "../sign/signUp/model";
 
 export const $studentDiary = $users.map((state) =>
   state.map((user) => {
-    const userHomeworks = user.homeworks
+    const userHomeworks = Array.isArray(user.homeworks)
       ? user.homeworks.reduce(
           (accum, item: string | { [key: string]: string } | any) => ({
             ...accum,
+            key: item.id,
             [item.key]: { item },
           })
         )
@@ -19,10 +20,6 @@ export const $studentDiary = $users.map((state) =>
     };
   })
 );
-
-// const userHomeworks = user.homeworks?
-// user.homeworks.reduce((accum, item, index, array) => (
-//     { ...accum, {array[index]}},  ) ) : {};
 
 export const setEditingDiaryKey = createEvent<string>();
 export const $editingDiaryKey = createStore<string>("").on(

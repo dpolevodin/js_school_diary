@@ -1,48 +1,40 @@
-import { Layout, Row, Space } from "antd";
 import { useUnit } from "effector-react";
+import { Table, Typography } from "antd";
 import { PageLayout } from "../../shared/ui";
+import { $session } from "../../entities/auth/session";
+import { columns } from "./lib/mocks";
 import { StudentLinks } from "../../features/student-links/StudentLinks";
-import { $user } from "./model";
 import { $repositories } from "../admin/model";
-import { homeworkCards } from "./settings/mocks";
-import { DiaryTable } from "../../features/diary-table/DiaryTable";
 
 import styles from "./page.module.css";
 
-const { Content } = Layout;
 const nav = ["schedule"];
+const { Title } = Typography;
 
 export const StudentPage = () => {
-  const [user, repositories] = useUnit([$user, $repositories]);
-
+  const [user, repositories] = useUnit([$session, $repositories]);
   return (
     <PageLayout title="Личный кабинет" nav={nav}>
-      <Content className={styles._}>
-        <Row>
-          <Space size={100}>
-            <DiaryTable
-              studentName={user.name}
-              studentSurname={user.surname}
-              studentNickName={user.nickName}
-              homeworkCards={homeworkCards}
-            />
-
-            <StudentLinks
-              tgNickName={
-                user.settings?.tgNickName
-                  ? `tg: ${user.settings.tgNickName}`
-                  : "Ваш telegram"
-              }
-              githubNickName={
-                user.settings?.githubNickName
-                  ? `github: ${user.settings.githubNickName}`
-                  : "Ваш github никнейм"
-              }
-              repositories={repositories}
-            />
-          </Space>
-        </Row>
-      </Content>
+      <div className={styles._}>
+        <Title className={styles.title}>
+          Привет, {user?.name} {user?.surname} ({user?.nickName})
+        </Title>
+        <StudentLinks
+          tgNickName={user?.settings?.tgNickName}
+          githubNickName={user?.settings?.githubNickName}
+          repositories={repositories}
+        />
+      </div>
+      {user && (
+        <>
+          <Title level={3}>Статус дз</Title>
+          <Table
+            dataSource={user?.homeworks ? [user.homeworks] : []}
+            columns={columns}
+            pagination={false}
+          />
+        </>
+      )}
     </PageLayout>
   );
 };

@@ -9,6 +9,7 @@ export const $users = createStore<User[]>([
     surname: "Махнаткин",
     homeworks: [
       {
+        key: "homeworks",
         homework1: {
           id: 1,
           title: "ДЗ 1",
