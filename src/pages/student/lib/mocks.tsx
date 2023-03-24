@@ -37,7 +37,7 @@ export const homeworks: Homeworks = {
   },
 };
 
-export const columns: ColumnsType<Homeworks[]> = [
+export const columns: ColumnsType<Homeworks> = [
   {
     title: "ДЗ 1",
     dataIndex: "homework1",
