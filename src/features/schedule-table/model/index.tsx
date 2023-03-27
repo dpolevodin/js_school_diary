@@ -32,7 +32,10 @@ const sortColumns = (
     return +a[key] - +b[key];
   }
   if (key === "date" || key === "homeworkDate") {
-    return new Date(a.date).getTime() - new Date(b.date).getTime();
+    return (
+      new Date(a.date as string).getTime() -
+      new Date(b.date as string).getTime()
+    );
   }
   return a[key] > b[key] ? 1 : -1;
 };
@@ -76,9 +79,9 @@ export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
     dataIndex: "themeSlots",
     render: (_, { themeSlots }) => (
       <Space direction="vertical" size="small">
-        {themeSlots.map((slot: string) => (
-          <div key={slot}>{slot}</div>
-        ))}
+        {Array.isArray(themeSlots)
+          ? themeSlots.map((slot: string) => <div key={slot}>{slot}</div>)
+          : themeSlots}
       </Space>
     ),
   },

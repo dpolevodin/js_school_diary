@@ -1,11 +1,13 @@
+import { Dayjs } from "dayjs";
+
 export type ScheduleDataType = {
-  date: string;
+  date: string | Dayjs;
   block: string;
   theme: string;
-  themeSlots: string[];
+  themeSlots: string[] | string;
   teacher: string;
   homework: string;
-  homeworkDate: string;
+  homeworkDate: string | Dayjs;
 };
 
 export type ExtendedScheduleDataType = ScheduleDataType & {
