@@ -28,17 +28,18 @@ const sortColumns = (
   b: ExtendedScheduleDataType,
   key: keyof ExtendedScheduleDataType
 ) => {
-  if (typeof a[key] === "number") {
+  const first = a[key];
+  const second = b[key];
+  if (typeof first === "number") {
     return Number(a[key]) - Number(b[key]);
   }
   if (key === "date" || key === "homeworkDate") {
     return (
-      new Date(a[key] as string).getTime() -
-      new Date(b[key] as string).getTime()
+      new Date(first as string).getTime() - new Date(second as string).getTime()
     );
   }
-  if (a[key] && b[key]) {
-    return a[key]! > b[key]! ? 1 : -1;
+  if (first && second) {
+    return first > second ? 1 : -1;
   }
   return 0;
 };
