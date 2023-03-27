@@ -29,15 +29,18 @@ const sortColumns = (
   key: keyof ExtendedScheduleDataType
 ) => {
   if (typeof a[key] === "number") {
-    return +a[key] - +b[key];
+    return Number(a[key]) - Number(b[key]);
   }
   if (key === "date" || key === "homeworkDate") {
     return (
-      new Date(a.date as string).getTime() -
-      new Date(b.date as string).getTime()
+      new Date(a[key] as string).getTime() -
+      new Date(b[key] as string).getTime()
     );
   }
-  return a[key] > b[key] ? 1 : -1;
+  if (a[key] && b[key]) {
+    return a[key]! > b[key]! ? 1 : -1;
+  }
+  return 0;
 };
 
 export const $schedule = createStore<ExtendedScheduleDataType[]>([]);

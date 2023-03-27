@@ -1,4 +1,4 @@
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { Popconfirm } from "antd";
 import { createEvent } from "effector";
 import { ExtendedScheduleDataType } from "../schedule-table/api/types";
@@ -54,15 +54,32 @@ export const $editableColumns = $defaultEditableColumns.map((columns) =>
     if (!("editable" in col) || !("dataIndex" in col)) {
       return col;
     }
-    return {
-      ...col,
-      onCell: (record: ExtendedScheduleDataType) => ({
-        record,
-        editable: col.editable,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        handleSave,
-      }),
-    };
+    return col.dataIndex === "homework" || col.dataIndex === "homeworkDate"
+      ? {
+          ...col,
+          onCell: (record: ExtendedScheduleDataType) => ({
+            record,
+            editable: col.editable,
+            dataIndex: col.dataIndex,
+            title: col.title,
+            handleSave,
+          }),
+          render: (value: string) =>
+            value ? (
+              <div>{value}</div>
+            ) : (
+              <PlusSquareOutlined style={{ marginLeft: "auto" }} />
+            ),
+        }
+      : {
+          ...col,
+          onCell: (record: ExtendedScheduleDataType) => ({
+            record,
+            editable: col.editable,
+            dataIndex: col.dataIndex,
+            title: col.title,
+            handleSave,
+          }),
+        };
   })
 );

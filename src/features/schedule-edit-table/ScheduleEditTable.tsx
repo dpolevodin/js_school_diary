@@ -21,8 +21,6 @@ export const SchedualeEditTable = () => {
       theme: "Тема 1",
       themeSlots: ["Тема слота 1", "Тема слота 2", "Тема слота 3"],
       teacher: "Преподаватель",
-      homework: "ДЗ",
-      homeworkDate: "02.01.2022",
     });
 
   type EditableTableProps = Parameters<typeof Table>[0];

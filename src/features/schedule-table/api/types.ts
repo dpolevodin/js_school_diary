@@ -6,8 +6,8 @@ export type ScheduleDataType = {
   theme: string;
   themeSlots: string[] | string;
   teacher: string;
-  homework: string;
-  homeworkDate: string | Dayjs;
+  homework?: string;
+  homeworkDate?: string | Dayjs;
 };
 
 export type ExtendedScheduleDataType = ScheduleDataType & {

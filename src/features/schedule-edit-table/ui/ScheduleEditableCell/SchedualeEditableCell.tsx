@@ -84,7 +84,9 @@ export const SchedualeEditableCell = ({
     form?.setFieldsValue({
       ...record,
       date: dayjs(record.date, "DD.MM.YYYY"),
-      homeworkDate: dayjs(record.homeworkDate, "DD.MM.YYYY"),
+      homeworkDate: record.homeworkDate
+        ? dayjs(record.homeworkDate, "DD.MM.YYYY")
+        : "",
     });
   };
 
@@ -212,7 +214,7 @@ export const SchedualeEditableCell = ({
       name={dataIndex}
       rules={[
         {
-          required: true,
+          required: false,
           message: `${title} is required.`,
         },
       ]}
@@ -233,7 +235,7 @@ export const SchedualeEditableCell = ({
       name={dataIndex}
       rules={[
         {
-          required: true,
+          required: dataIndex !== "homework",
           message: `${title} is required.`,
         },
       ]}
