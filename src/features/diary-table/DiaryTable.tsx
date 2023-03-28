@@ -1,21 +1,17 @@
 import { Form, FormInstance, Table } from "antd";
-import { DiaryEditableCell } from "../diary-editable-cell/DiaryEditableCell";
+import { EditableCell } from "./ui/EditableCell/EditableCell";
 
 type Props = {
   columns: object[];
   form: FormInstance;
   data: object[] | undefined;
 };
-export const DataTable = ({ form, data, columns }: Props) => (
-  <Form
-    form={form}
-    // initialValues={data}
-    component={false}
-  >
+export const DiaryTable = ({ form, data, columns }: Props) => (
+  <Form form={form} component={false}>
     <Table
       components={{
         body: {
-          cell: DiaryEditableCell,
+          cell: EditableCell,
         },
       }}
       dataSource={data}
@@ -23,6 +19,7 @@ export const DataTable = ({ form, data, columns }: Props) => (
       rowClassName="editable-row"
       pagination={false}
       size="small"
+      rowKey="id"
     />
   </Form>
 );

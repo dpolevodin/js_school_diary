@@ -1,21 +1,23 @@
 import { Form, Select, Space, Typography } from "antd";
 import { useUnit } from "effector-react";
 import { PageLayout } from "../../shared/ui";
-import { DataTable } from "../../features/data-table/DataTable";
+import { DiaryTable } from "../../features/diary-table/DiaryTable";
 import { $studentDiary, $editingDiaryKey, setEditingDiaryKey } from "./model";
-import { $users, saveHomework } from "../sign/signUp/model";
+import { $users, saveHomework, updateUser } from "../sign/signUp/model";
 import { Homeworks, User } from "../sign/signUp/lib/types";
 
 const nav = ["admin", "schedule", "diary", "contests"];
 
 export const DiaryPage = () => {
   const [
+    updateUserFn,
     users,
     saveHomeworkFn,
     studentDiary,
     editingDiaryKey,
     setEditingDiaryKeyFn,
   ] = useUnit([
+    updateUser,
     $users,
     saveHomework,
     $studentDiary,
@@ -29,13 +31,11 @@ export const DiaryPage = () => {
   const editDiary = (store: Partial<User> & { key?: string }) => {
     form.setFieldsValue({
       homeworks: [
-        {
-          homework1: { status: "" },
-          homework2: { status: "" },
-          homework3: { status: "" },
-          homework4: { status: "" },
-          homework5: { status: "" },
-        },
+        { status: "" },
+        { status: "" },
+        { status: "" },
+        { status: "" },
+        { status: "" },
       ],
       ...store,
     });
@@ -48,7 +48,9 @@ export const DiaryPage = () => {
 
   const saveDiary = async (key: React.Key) => {
     try {
-      const row = (await form.validateFields()) as Homeworks;
+      const row = (await form
+        .validateFields()
+        .then((values: Homeworks) => values)) as Homeworks;
 
       const newData = [...users];
       const index = newData.findIndex((item) => key === item.id);
@@ -56,9 +58,12 @@ export const DiaryPage = () => {
         const editingUser = newData[index];
         newData.splice(index, 1, {
           ...editingUser,
-          homeworks: [row],
+          homeworks: editingUser.homeworks?.map((item, i) => ({
+            ...item,
+            status: Object.values(row)[i].status,
+          })),
         });
-        saveHomeworkFn(newData);
+        updateUserFn(newData[index]);
         setEditingDiaryKeyFn("");
       } else {
         // newData.push(row);
@@ -74,21 +79,19 @@ export const DiaryPage = () => {
     {
       title: "Студент",
       dataIndex: "fullName",
-      key: "fullName",
+      // key: "fullName",
       editable: false,
       width: "15%",
     },
     {
       title: "ДЗ 1",
       dataIndex: ["homework1"],
-      key: ["homework1"],
       editable: true,
       width: "15%",
       render: (homework1: Homeworks) => (
         <Select
           disabled
           defaultValue={homework1.status}
-          // value={homework1.status}
           style={{ width: 150 }}
           options={[
             { value: "approved", label: "Зачет" },
@@ -102,7 +105,6 @@ export const DiaryPage = () => {
     {
       title: "ДЗ 2",
       dataIndex: ["homework2"],
-      key: ["homework2"],
       editable: true,
       width: "15%",
       render: (homework2: Homeworks) => (
@@ -123,7 +125,6 @@ export const DiaryPage = () => {
     {
       title: "ДЗ 3",
       dataIndex: ["homework3"],
-      key: ["homework3"],
       editable: true,
       width: "15%",
       render: (homework3: Homeworks) => (
@@ -144,7 +145,6 @@ export const DiaryPage = () => {
     {
       title: "ДЗ 4",
       dataIndex: ["homework4"],
-      key: ["homework4"],
       editable: true,
       width: "15%",
       render: (homework4: Homeworks) => (
@@ -166,16 +166,13 @@ export const DiaryPage = () => {
     {
       title: "ДЗ 5",
       dataIndex: ["homework5"],
-      key: ["homework5"],
       editable: true,
       width: "15%",
       render: (homework5: Homeworks) => (
         <Select
           disabled
-          defaultValue={homework5.status}
           value={homework5.status}
           style={{ width: 150 }}
-          // onChange={handleChange}
           options={[
             { value: "approved", label: "Зачет" },
             { value: "pending", label: "Выполняется" },
@@ -224,14 +221,18 @@ export const DiaryPage = () => {
         store,
         dataIndex: col.dataIndex,
         title: col.title,
-        editing: isDiaryEditing(store),
+        editable: isDiaryEditing(store),
       }),
     };
   });
 
   return (
     <PageLayout title="Дневник" nav={nav}>
-      <DataTable columns={mergedColumnsDiary} form={form} data={studentDiary} />
+      <DiaryTable
+        columns={mergedColumnsDiary}
+        form={form}
+        data={studentDiary}
+      />
     </PageLayout>
   );
 };

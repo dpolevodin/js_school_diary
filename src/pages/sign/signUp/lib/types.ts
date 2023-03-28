@@ -14,7 +14,7 @@ export enum HomeworksStatus {
 export type Homeworks = {
   [key: string]:
     | {
-        id?: number;
+        id?: string;
         title: string;
         deadline?: string;
         status?: HomeworksStatus;

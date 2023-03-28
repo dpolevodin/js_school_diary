@@ -1,15 +1,16 @@
 import { createEvent, createStore } from "effector";
 import { $users } from "../sign/signUp/model";
+import { Homeworks } from "../sign/signUp/lib/types";
 
 export const $studentDiary = $users.map((state) =>
   state.map((user) => {
     const userHomeworks = Array.isArray(user.homeworks)
       ? user.homeworks.reduce(
-          (accum, item: string | { [key: string]: string } | any) => ({
+          (accum, item: Homeworks) => ({
             ...accum,
-            key: item.id,
-            [item.key]: { item },
-          })
+            [item.id]: { ...item },
+          }),
+          {}
         )
       : {};
 
@@ -17,6 +18,7 @@ export const $studentDiary = $users.map((state) =>
       id: user.id,
       fullName: `${user.name} ${user.surname}`,
       ...userHomeworks,
+      // homeworks: user.homeworks
     };
   })
 );

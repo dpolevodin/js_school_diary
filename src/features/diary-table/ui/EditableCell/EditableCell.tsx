@@ -3,17 +3,17 @@ import { Select } from "antd";
 import FormItem from "antd/es/form/FormItem";
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
-  editing: boolean;
+  editable: boolean;
   dataIndex: string;
   children: React.ReactNode;
 }
-export const DiaryEditableCell: React.FC<EditableCellProps> = ({
-  editing,
+export const EditableCell: React.FC<EditableCellProps> = ({
+  editable,
   dataIndex,
   children,
 }) => (
   <td>
-    {editing ? (
+    {editable ? (
       <FormItem noStyle name={[dataIndex, "status"]}>
         <Select
           key={dataIndex}
