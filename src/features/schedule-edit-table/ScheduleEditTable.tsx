@@ -1,8 +1,8 @@
 import { Button, Space, Table } from "antd";
 import { useUnit } from "effector-react";
 import uuid from "react-uuid";
-import { $schedule } from "../schedule-table/model/index";
-import { $editableColumns, addScheduleRow } from "./model";
+import { $schedule, addScheduleRow } from "../schedule-table/model/index";
+import { $editableColumns } from "./model";
 import { SchedualeEditableRow, SchedualeEditableCell } from "./ui";
 import styles from "./ScheduleEditTable.module.css";
 

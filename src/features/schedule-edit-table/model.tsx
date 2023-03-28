@@ -1,22 +1,11 @@
 import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { Popconfirm } from "antd";
-import { createEvent } from "effector";
 import { ExtendedScheduleDataType } from "../schedule-table/api/types";
-import { $columns, $schedule } from "../schedule-table/model";
-
-export const editScheduleRow = createEvent<ExtendedScheduleDataType>();
-export const deleteScheduleRow = createEvent<string>();
-export const addScheduleRow = createEvent<ExtendedScheduleDataType>();
-
-$schedule
-  .on(editScheduleRow, (state, payload) =>
-    state.map((lesson) => (lesson.id === payload.id ? payload : lesson))
-  )
-  .on(deleteScheduleRow, (state, payload) => {
-    const filteredState = state.filter((lesson) => lesson.id !== payload);
-    return filteredState.map((row, index) => ({ ...row, key: index + 1 }));
-  })
-  .on(addScheduleRow, (state, payload) => [...state, payload]);
+import {
+  $columns,
+  deleteScheduleRow,
+  editScheduleRow,
+} from "../schedule-table/model";
 
 export const $defaultEditableColumns = $columns.map((columns) =>
   columns.map((column) => ({

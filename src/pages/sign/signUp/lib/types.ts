@@ -1,3 +1,5 @@
+import { Dayjs } from "dayjs";
+
 export type Settings = {
   tgNickName?: string;
   githubNickName?: string;
@@ -10,18 +12,14 @@ export enum HomeworksStatus {
   PENDING = "pending",
   REJECTED = "rejected",
 }
-
-export type Homeworks = {
-  [key: string]:
-    | {
-        id?: number;
-        title: string;
-        deadline?: string;
-        status?: HomeworksStatus;
-      }
-    | string;
+export type Homework = {
+  id?: string;
+  title: string;
+  deadline?: string | Dayjs;
+  status?: HomeworksStatus;
 };
 
+export type Homeworks = Homework[];
 export type User = {
   id: string;
   nickName: string;

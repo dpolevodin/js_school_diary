@@ -1,5 +1,8 @@
-import { createEvent, createStore } from "effector";
-import { User, AdminIds, HomeworksStatus } from "./lib/types";
+import { createEvent, createStore, sample, Store } from "effector";
+import isEqual from "lodash.isequal";
+import { $schedule } from "../../../features/schedule-table/model";
+import { compareHomeworks } from "./lib/compareHomeworks";
+import { User, AdminIds, HomeworksStatus, Homeworks } from "./lib/types";
 
 export const $users = createStore<User[]>([
   {
@@ -7,39 +10,6 @@ export const $users = createStore<User[]>([
     nickName: "admin",
     name: "Сергей",
     surname: "Махнаткин",
-    homeworks: {
-      key: "homeworks",
-      homework1: {
-        id: 1,
-        title: "ДЗ 1",
-        deadline: "01.01.2023",
-        status: HomeworksStatus.APPROVED,
-      },
-      homework2: {
-        id: 2,
-        title: "ДЗ 2",
-        deadline: "02.01.2023",
-        status: HomeworksStatus.APPROVED,
-      },
-      homework3: {
-        id: 3,
-        title: "ДЗ 3",
-        deadline: "01.02.2023",
-        status: HomeworksStatus.PENDING,
-      },
-      homework4: {
-        id: 4,
-        title: "ДЗ 4",
-        deadline: "02.02.2023",
-        status: HomeworksStatus.REJECTED,
-      },
-      homework5: {
-        id: 5,
-        title: "ДЗ 5",
-        deadline: "01.03.2023",
-        status: HomeworksStatus.DEFAULT,
-      },
-    },
   },
 ]);
 
@@ -49,6 +19,7 @@ export const $adminIds = createStore<AdminIds>([
 
 export const addUser = createEvent<User>();
 export const updateUser = createEvent<User | null>();
+export const updateUsersHomeworks = createEvent<Homeworks | undefined>();
 
 $users
   .on(addUser, (state, payload) => [...state, payload])
@@ -60,4 +31,32 @@ $users
       return updatedUsers;
     }
     return state;
-  });
+  })
+  .on(updateUsersHomeworks, (state, payload) =>
+    state.map((user) => {
+      if (!user.homeworks) return { ...user, homeworks: payload };
+      return { ...user, homeworks: compareHomeworks(user.homeworks, payload) };
+    })
+  );
+
+export const $homeworks: Store<Homeworks | undefined> = $schedule.map(
+  (schedule, homeworks) => {
+    const newHomeworks = schedule.reduce((acc: Homeworks, lesson) => {
+      const homework = lesson.homework
+        ? {
+            id: lesson.homeworkId,
+            title: lesson.homework,
+            deadline: lesson.homeworkDate,
+            status: HomeworksStatus.DEFAULT,
+          }
+        : null;
+      return homework ? [...acc, homework] : acc;
+    }, []);
+    return isEqual(homeworks, newHomeworks) ? homeworks : newHomeworks;
+  }
+);
+
+sample({
+  source: $homeworks,
+  target: updateUsersHomeworks,
+});

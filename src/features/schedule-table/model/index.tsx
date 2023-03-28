@@ -46,6 +46,30 @@ const sortColumns = (
 
 export const $schedule = createStore<ExtendedScheduleDataType[]>([]);
 
+export const editScheduleRow = createEvent<ExtendedScheduleDataType>();
+export const deleteScheduleRow = createEvent<string>();
+export const addScheduleRow = createEvent<ExtendedScheduleDataType>();
+
+$schedule
+  .on(editScheduleRow, (state, payload) =>
+    state.map((lesson) => {
+      if (lesson.id === payload.id) {
+        if (payload.homework) {
+          return lesson.homeworkId
+            ? { ...payload, homeworkId: lesson.homeworkId }
+            : { ...payload, homeworkId: uuid() };
+        }
+        return payload;
+      }
+      return lesson;
+    })
+  )
+  .on(deleteScheduleRow, (state, payload) => {
+    const filteredState = state.filter((lesson) => lesson.id !== payload);
+    return filteredState.map((row, index) => ({ ...row, key: index + 1 }));
+  })
+  .on(addScheduleRow, (state, payload) => [...state, payload]);
+
 export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
   {
     title: "Номер",

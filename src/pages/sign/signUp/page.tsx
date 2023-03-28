@@ -1,7 +1,7 @@
 import { Form, Input, Button } from "antd";
 import uuid from "react-uuid";
 import { useUnit } from "effector-react";
-import { $users, addUser } from "./model";
+import { $homeworks, $users, addUser } from "./model";
 import styles from "./page.module.css";
 import {
   nameRules,
@@ -11,9 +11,8 @@ import {
 } from "../rules";
 import { signUpFx } from "../../../entities/signUp/model";
 import { PageLayout } from "../../../shared/ui";
-import { homeworks } from "../../student/lib/mocks";
 
-type User = {
+type UserFormData = {
   nickName: string;
   name: string;
   surname: string;
@@ -22,20 +21,25 @@ type User = {
   confirm: never;
 };
 
-const updateUser = (user: User) => {
+const updateUser = (user: UserFormData) => {
   const userData = { ...user, id: uuid() };
   delete userData.password;
   delete userData.confirm;
-  return { ...userData, homeworks };
+  return userData;
 };
 
 export const SignUpPage = () => {
-  const [users, addUserFn, signUpFn] = useUnit([$users, addUser, signUpFx]);
+  const [users, addUserFn, signUpFn, homeworks] = useUnit([
+    $users,
+    addUser,
+    signUpFx,
+    $homeworks,
+  ]);
 
-  const handleFinish = (values: User) => {
+  const handleFinish = (values: UserFormData) => {
     const user = updateUser(values);
-    addUserFn(user);
-    const usersPayload = [...users, user];
+    addUserFn({ ...user, homeworks });
+    const usersPayload = [...users, { ...user, homeworks }];
     signUpFn({ id: user.id, users: usersPayload });
   };
 

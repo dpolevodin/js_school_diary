@@ -60,7 +60,9 @@ export const StudentSettingsPage = () => {
         >
           <Input placeholder="ник в телеграме" allowClear />
         </Form.Item>
-        <Form.Item label="Репозитории" labelCol={{ offset: 3 }} />
+        {repositories.length > 0 && (
+          <Form.Item label="Репозитории" labelCol={{ offset: 3 }} />
+        )}
         {repositories.map((repository) => (
           <Form.Item name={repository.name} label={repository.description}>
             <Input
@@ -80,7 +82,6 @@ export const StudentSettingsPage = () => {
           </Button>
         </Form.Item>
       </Form>
-      )
     </PageLayout>
   );
 };

@@ -7,6 +7,7 @@ export type ScheduleDataType = {
   themeSlots: string[] | string;
   teacher: string;
   homework?: string;
+  homeworkId?: string;
   homeworkDate?: string | Dayjs;
 };
 
