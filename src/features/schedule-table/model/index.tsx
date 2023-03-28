@@ -131,7 +131,7 @@ export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
     sortDirections: ["descend", "ascend"],
   },
   {
-    title: "ДЗ дата",
+    title: "ДЗ дедлайн",
     dataIndex: "homeworkDate",
     onFilter(value, record) {
       return filterColumns(value, record, "homeworkDate");
