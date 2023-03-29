@@ -159,19 +159,19 @@ export const AdminPage = () => {
         >
           <Row>
             <Col span={24}>
-              <Checkbox value={2}>Понедельник</Checkbox>
+              <Checkbox value={1}>Понедельник</Checkbox>
             </Col>
             <Col span={24}>
-              <Checkbox value={3}>Вторник</Checkbox>
+              <Checkbox value={2}>Вторник</Checkbox>
             </Col>
             <Col span={24}>
-              <Checkbox value={4}>Среда</Checkbox>
+              <Checkbox value={3}>Среда</Checkbox>
             </Col>
             <Col span={24}>
-              <Checkbox value={5}>Четверг</Checkbox>
+              <Checkbox value={4}>Четверг</Checkbox>
             </Col>
             <Col span={24}>
-              <Checkbox value={6}>Пятница</Checkbox>
+              <Checkbox value={5}>Пятница</Checkbox>
             </Col>
           </Row>
         </Checkbox.Group>

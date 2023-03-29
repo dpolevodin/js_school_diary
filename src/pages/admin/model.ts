@@ -47,7 +47,7 @@ $repositories
     state.filter((repository: Repository) => repository.name !== payload)
   );
 
-export const $availableDays = createStore<CheckboxValueType[]>([2, 5]);
+export const $availableDays = createStore<CheckboxValueType[]>([1, 4]);
 
 export const setAvailableDays = createEvent<CheckboxValueType[]>();
 

@@ -1,10 +1,12 @@
-import { Space } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import { Badge, Popover, Space } from "antd";
 import { ColumnsType, ColumnType } from "antd/es/table";
 import { createEffect, createEvent, createStore, sample } from "effector";
 import uuid from "react-uuid";
 import { wait } from "../../../shared/lib/wait";
 import { scheduleData as scheduleMock } from "../api/mock";
 import { MapData, ExtendedScheduleDataType } from "../api/types";
+import styles from "../ui/ScheduleTable.module.css";
 
 const filterColumns = (
   value: string | number | boolean,
@@ -28,13 +30,20 @@ const sortColumns = (
   b: ExtendedScheduleDataType,
   key: keyof ExtendedScheduleDataType
 ) => {
-  if (typeof a[key] === "number") {
-    return +a[key] - +b[key];
+  const first = a[key];
+  const second = b[key];
+  if (typeof first === "number") {
+    return Number(a[key]) - Number(b[key]);
   }
   if (key === "date" || key === "homeworkDate") {
-    return new Date(a.date).getTime() - new Date(b.date).getTime();
+    return (
+      new Date(first as string).getTime() - new Date(second as string).getTime()
+    );
   }
-  return a[key] > b[key] ? 1 : -1;
+  if (first && second) {
+    return first > second ? 1 : -1;
+  }
+  return 0;
 };
 
 export const $schedule = createStore<ExtendedScheduleDataType[]>([]);
@@ -76,9 +85,9 @@ export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
     dataIndex: "themeSlots",
     render: (_, { themeSlots }) => (
       <Space direction="vertical" size="small">
-        {themeSlots.map((slot: string) => (
-          <div key={slot}>{slot}</div>
-        ))}
+        {Array.isArray(themeSlots)
+          ? themeSlots.map((slot: string) => <div key={slot}>{slot}</div>)
+          : themeSlots}
       </Space>
     ),
   },
@@ -98,6 +107,23 @@ export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
     },
     sorter: (a, b) => sortColumns(a, b, "homework"),
     sortDirections: ["descend", "ascend"],
+    render: (value, record) =>
+      value && record.homeworkDescription ? (
+        <Popover
+          overlayClassName={styles.popover}
+          placement="bottom"
+          content={<div>{record.homeworkDescription}</div>}
+        >
+          <Badge
+            count={<EyeOutlined className={styles.badgeIcon} />}
+            offset={[5, -5]}
+          >
+            {value}
+          </Badge>
+        </Popover>
+      ) : (
+        <div>{value}</div>
+      ),
   },
   {
     title: "ДЗ дата",
