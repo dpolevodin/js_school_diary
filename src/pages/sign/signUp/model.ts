@@ -1,6 +1,6 @@
 import { createEvent, createStore, sample } from "effector";
 import defaults from "lodash.defaults";
-import { $schedule } from "../../../features/schedule-list/model";
+import { $schedule } from "../../../features/schedule-table/model";
 import { User, AdminIds, HomeworksStatus } from "./lib/types";
 
 export const $users = createStore<User[]>([
@@ -113,8 +113,11 @@ $users
 sample({
   source: $schedule,
   fn: (schedule) =>
-    schedule.reduce((points, lesson) => ({ ...points, [lesson.date]: 0 }), {
-      total: 0,
-    } as Pick<User, "points">),
+    schedule.reduce(
+      (points, lesson) => ({ ...points, [lesson.date as string]: 0 }),
+      {
+        total: 0,
+      } as Pick<User, "points">
+    ),
   target: updateUsersPoints,
 });

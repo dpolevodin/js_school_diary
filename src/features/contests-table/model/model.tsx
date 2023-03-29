@@ -1,7 +1,8 @@
 import type { ColumnsType } from "antd/es/table";
-import { $schedule } from "../../schedule-list/model";
+
 import { User } from "../../../pages/sign/signUp/lib/types";
 import { updateUser } from "../../../pages/sign/signUp/model";
+import { $schedule } from "../../schedule-table/model";
 
 const $defaultPointColumns = $schedule.map<
   ColumnsType<User> &
@@ -20,7 +21,7 @@ const $defaultPointColumns = $schedule.map<
   },
   ...schedule.map((lesson) => ({
     title: lesson.theme,
-    dataIndex: ["points", lesson.date],
+    dataIndex: ["points", lesson.date as string],
     editable: true,
   })),
   { title: "Итого", dataIndex: ["points", "total"] },
