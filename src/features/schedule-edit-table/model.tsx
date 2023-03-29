@@ -37,6 +37,7 @@ const handleDelete = (id: string) => {
 export const $editableColumns = $defaultEditableColumns.map((columns) =>
   [
     ...columns,
+    { title: "Описание ДЗ", dataIndex: "homeworkDescription", editable: true },
     {
       title: "Удалить",
       dataIndex: "delete",
@@ -54,7 +55,9 @@ export const $editableColumns = $defaultEditableColumns.map((columns) =>
     if (!("editable" in col) || !("dataIndex" in col)) {
       return col;
     }
-    return col.dataIndex === "homework" || col.dataIndex === "homeworkDate"
+    return col.dataIndex === "homework" ||
+      col.dataIndex === "homeworkDate" ||
+      col.dataIndex === "homeworkDescription"
       ? {
           ...col,
           onCell: (record: ExtendedScheduleDataType) => ({

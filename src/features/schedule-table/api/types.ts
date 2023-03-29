@@ -8,6 +8,7 @@ export type ScheduleDataType = {
   teacher: string;
   homework?: string;
   homeworkDate?: string | Dayjs;
+  homeworkDescription?: string;
 };
 
 export type ExtendedScheduleDataType = ScheduleDataType & {

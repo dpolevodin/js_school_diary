@@ -18,6 +18,8 @@ import {
 } from "../../../../pages/admin/model";
 import { ExtendedScheduleDataType } from "../../../schedule-table/api/types";
 
+const { TextArea } = Input;
+
 interface EditableCellProps {
   title: React.ReactNode;
   editable: boolean;
@@ -235,19 +237,23 @@ export const SchedualeEditableCell = ({
       name={dataIndex}
       rules={[
         {
-          required: dataIndex !== "homework",
+          required:
+            dataIndex !== "homework" && dataIndex !== "homeworkDescription",
           message: `${title} is required.`,
         },
       ]}
     >
-      <Input
-        ref={inputRef}
-        onPressEnter={dataIndex === "themeSlots" ? saveSlots : save}
-        onBlur={dataIndex === "themeSlots" ? saveSlots : save}
-      />
+      {dataIndex === "homeworkDescription" ? (
+        <TextArea rows={5} ref={inputRef} onPressEnter={save} onBlur={save} />
+      ) : (
+        <Input
+          ref={inputRef}
+          onPressEnter={dataIndex === "themeSlots" ? saveSlots : save}
+          onBlur={dataIndex === "themeSlots" ? saveSlots : save}
+        />
+      )}
     </Form.Item>
   );
-
   if (editable) {
     childNode = editing ? (
       (() => {
@@ -271,13 +277,16 @@ export const SchedualeEditableCell = ({
     ) : (
       <div
         className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
         onClick={toggleEdit}
         onKeyUp={toggleEdit}
         tabIndex={0}
         role="button"
       >
-        {children}
+        {children &&
+        dataIndex === "homeworkDescription" &&
+        record.homeworkDescription
+          ? record?.homeworkDescription?.slice(0, 10)
+          : children}
       </div>
     );
   }

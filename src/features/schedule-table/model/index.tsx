@@ -1,10 +1,12 @@
-import { Space } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import { Badge, Popover, Space } from "antd";
 import { ColumnsType, ColumnType } from "antd/es/table";
 import { createEffect, createEvent, createStore, sample } from "effector";
 import uuid from "react-uuid";
 import { wait } from "../../../shared/lib/wait";
 import { scheduleData as scheduleMock } from "../api/mock";
 import { MapData, ExtendedScheduleDataType } from "../api/types";
+import styles from "../ui/ScheduleTable.module.css";
 
 const filterColumns = (
   value: string | number | boolean,
@@ -105,6 +107,23 @@ export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
     },
     sorter: (a, b) => sortColumns(a, b, "homework"),
     sortDirections: ["descend", "ascend"],
+    render: (value, record) =>
+      value && record.homeworkDescription ? (
+        <Popover
+          overlayClassName={styles.popover}
+          placement="bottom"
+          content={<div>{record.homeworkDescription}</div>}
+        >
+          <Badge
+            count={<EyeOutlined className={styles.badgeIcon} />}
+            offset={[5, -5]}
+          >
+            {value}
+          </Badge>
+        </Popover>
+      ) : (
+        <div>{value}</div>
+      ),
   },
   {
     title: "ДЗ дата",
