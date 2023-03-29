@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { InputRef, Form, Input, DatePicker, Select } from "antd";
+import { InputRef, Form, Input, DatePicker, Select, message } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useUnit } from "effector-react";
@@ -58,6 +58,7 @@ export const SchedualeEditableCell = ({
     value: fullName,
     label: fullName,
   }));
+  const [messageApi, contextHolder] = message.useMessage();
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<InputRef>(null);
   const datePickerRef = useRef<
@@ -92,13 +93,21 @@ export const SchedualeEditableCell = ({
     });
   };
 
+  const showError = (error: unknown) => {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    messageApi.open({
+      type: "error",
+      content: `Save failed: ${errorMessage}`,
+    });
+  };
+
   const save = async () => {
     try {
       const value = await form?.validateFields();
       toggleEdit();
       handleSave({ ...record, ...value });
     } catch (errInfo) {
-      console.log("Save failed:", errInfo);
+      showError(errInfo);
     }
   };
 
@@ -115,7 +124,7 @@ export const SchedualeEditableCell = ({
       toggleEdit();
       handleSave({ ...record, ...parsedValue });
     } catch (errInfo) {
-      console.log("Save failed:", errInfo);
+      showError(errInfo);
     }
   };
 
@@ -132,7 +141,7 @@ export const SchedualeEditableCell = ({
       toggleEdit();
       handleSave({ ...record, ...parsedValue });
     } catch (errInfo) {
-      console.log("Save failed:", errInfo);
+      showError(errInfo);
     }
   };
 
@@ -291,5 +300,10 @@ export const SchedualeEditableCell = ({
     );
   }
 
-  return <td {...restProps}>{childNode}</td>;
+  return (
+    <>
+      {contextHolder}
+      <td {...restProps}>{childNode}</td>
+    </>
+  );
 };
