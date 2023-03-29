@@ -27,10 +27,6 @@ const $defaultPointColumns = $schedule.map<
   { title: "Итого", dataIndex: ["points", "total"] },
 ]);
 
-const handleSave = (row: User) => {
-  updateUser(row);
-};
-
 export const $pointsColumns = $defaultPointColumns.map((columns) =>
   columns.map((col) => {
     if (!("editable" in col) || !("dataIndex" in col)) {
@@ -43,7 +39,7 @@ export const $pointsColumns = $defaultPointColumns.map((columns) =>
         editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
-        handleSave,
+        handleSave: updateUser,
       }),
     };
   })
