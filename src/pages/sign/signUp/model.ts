@@ -1,8 +1,15 @@
 import { createEvent, createStore, sample, Store } from "effector";
 import isEqual from "lodash.isequal";
+import defaults from "lodash.defaults";
 import { $schedule } from "../../../features/schedule-table/model";
 import { compareHomeworks } from "./lib/compareHomeworks";
-import { User, AdminIds, HomeworksStatus, Homeworks } from "./lib/types";
+import {
+  User,
+  AdminIds,
+  HomeworksStatus,
+  Homeworks,
+  Points,
+} from "./lib/types";
 
 export const $users = createStore<User[]>([
   {
@@ -20,6 +27,7 @@ export const $adminIds = createStore<AdminIds>([
 export const addUser = createEvent<User>();
 export const updateUser = createEvent<User | null>();
 export const updateUsersHomeworks = createEvent<Homeworks | undefined>();
+export const updateUsersPoints = createEvent<Points | undefined>();
 
 $users
   .on(addUser, (state, payload) => [...state, payload])
@@ -37,6 +45,12 @@ $users
       if (!user.homeworks) return { ...user, homeworks: payload };
       return { ...user, homeworks: compareHomeworks(user.homeworks, payload) };
     })
+  )
+  .on(updateUsersPoints, (state, payload) =>
+    state.map((user) => ({
+      ...user,
+      points: defaults(user.points, payload),
+    }))
   );
 
 export const $homeworks: Store<Homeworks | undefined> = $schedule.map(
@@ -56,7 +70,24 @@ export const $homeworks: Store<Homeworks | undefined> = $schedule.map(
   }
 );
 
+export const $points: Store<Points | undefined> = $schedule.map(
+  (schedule, points) => {
+    const newPoints = schedule.reduce(
+      (pointsAcc, lesson) => ({ ...pointsAcc, [lesson.date as string]: 0 }),
+      {
+        total: 0,
+      } as Points
+    );
+    return isEqual(points, newPoints) ? points : newPoints;
+  }
+);
+
 sample({
   source: $homeworks,
   target: updateUsersHomeworks,
+});
+
+sample({
+  source: $points,
+  target: updateUsersPoints,
 });

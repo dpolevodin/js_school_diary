@@ -9,6 +9,7 @@ export type ScheduleDataType = {
   homework?: string;
   homeworkId?: string;
   homeworkDate?: string | Dayjs;
+  homeworkDescription?: string;
 };
 
 export type ExtendedScheduleDataType = ScheduleDataType & {

@@ -1,10 +1,12 @@
-import { Space } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import { Badge, Popover, Space } from "antd";
 import { ColumnsType, ColumnType } from "antd/es/table";
 import { createEffect, createEvent, createStore, sample } from "effector";
 import uuid from "react-uuid";
 import { wait } from "../../../shared/lib/wait";
 import { scheduleData as scheduleMock } from "../api/mock";
 import { MapData, ExtendedScheduleDataType } from "../api/types";
+import styles from "../ui/ScheduleTable.module.css";
 
 const filterColumns = (
   value: string | number | boolean,
@@ -45,30 +47,6 @@ const sortColumns = (
 };
 
 export const $schedule = createStore<ExtendedScheduleDataType[]>([]);
-
-export const editScheduleRow = createEvent<ExtendedScheduleDataType>();
-export const deleteScheduleRow = createEvent<string>();
-export const addScheduleRow = createEvent<ExtendedScheduleDataType>();
-
-$schedule
-  .on(editScheduleRow, (state, payload) =>
-    state.map((lesson) => {
-      if (lesson.id === payload.id) {
-        if (payload.homework) {
-          return lesson.homeworkId
-            ? { ...payload, homeworkId: lesson.homeworkId }
-            : { ...payload, homeworkId: uuid() };
-        }
-        return payload;
-      }
-      return lesson;
-    })
-  )
-  .on(deleteScheduleRow, (state, payload) => {
-    const filteredState = state.filter((lesson) => lesson.id !== payload);
-    return filteredState.map((row, index) => ({ ...row, key: index + 1 }));
-  })
-  .on(addScheduleRow, (state, payload) => [...state, payload]);
 
 export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
   {
@@ -129,6 +107,23 @@ export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
     },
     sorter: (a, b) => sortColumns(a, b, "homework"),
     sortDirections: ["descend", "ascend"],
+    render: (value, record) =>
+      value && record.homeworkDescription ? (
+        <Popover
+          overlayClassName={styles.popover}
+          placement="bottom"
+          content={<div>{record.homeworkDescription}</div>}
+        >
+          <Badge
+            count={<EyeOutlined className={styles.badgeIcon} />}
+            offset={[5, -5]}
+          >
+            {value}
+          </Badge>
+        </Popover>
+      ) : (
+        <div>{value}</div>
+      ),
   },
   {
     title: "ДЗ дедлайн",

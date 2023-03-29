@@ -19,6 +19,10 @@ export type Homework = {
   status?: HomeworksStatus;
 };
 
+export type Points = {
+  [key: string]: number;
+};
+
 export type Homeworks = Homework[];
 export type User = {
   id: string;
@@ -26,6 +30,7 @@ export type User = {
   name: string;
   surname: string;
   patronymic?: string;
+  points?: Points;
   settings?: Settings;
   homeworks?: Homeworks;
 };

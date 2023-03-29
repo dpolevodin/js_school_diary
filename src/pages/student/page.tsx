@@ -42,6 +42,7 @@ export const StudentPage = () => {
         ),
       ]
     : undefined;
+
   return (
     <PageLayout title="Личный кабинет" nav={nav}>
       <div className={styles._}>

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { InputRef, Form, Input, DatePicker, Select } from "antd";
+import { InputRef, Form, Input, DatePicker, Select, message } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { useUnit } from "effector-react";
@@ -17,6 +17,8 @@ import {
   $tutors,
 } from "../../../../pages/admin/model";
 import { ExtendedScheduleDataType } from "../../../schedule-table/api/types";
+
+const { TextArea } = Input;
 
 interface EditableCellProps {
   title: React.ReactNode;
@@ -56,6 +58,7 @@ export const SchedualeEditableCell = ({
     value: fullName,
     label: fullName,
   }));
+  const [messageApi, contextHolder] = message.useMessage();
   const [editing, setEditing] = useState(false);
   const inputRef = useRef<InputRef>(null);
   const datePickerRef = useRef<
@@ -90,13 +93,21 @@ export const SchedualeEditableCell = ({
     });
   };
 
+  const showError = (error: unknown) => {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    messageApi.open({
+      type: "error",
+      content: `Save failed: ${errorMessage}`,
+    });
+  };
+
   const save = async () => {
     try {
       const value = await form?.validateFields();
       toggleEdit();
       handleSave({ ...record, ...value });
     } catch (errInfo) {
-      console.log("Save failed:", errInfo);
+      showError(errInfo);
     }
   };
 
@@ -113,7 +124,7 @@ export const SchedualeEditableCell = ({
       toggleEdit();
       handleSave({ ...record, ...parsedValue });
     } catch (errInfo) {
-      console.log("Save failed:", errInfo);
+      showError(errInfo);
     }
   };
 
@@ -130,7 +141,7 @@ export const SchedualeEditableCell = ({
       toggleEdit();
       handleSave({ ...record, ...parsedValue });
     } catch (errInfo) {
-      console.log("Save failed:", errInfo);
+      showError(errInfo);
     }
   };
 
@@ -235,19 +246,23 @@ export const SchedualeEditableCell = ({
       name={dataIndex}
       rules={[
         {
-          required: dataIndex !== "homework",
+          required:
+            dataIndex !== "homework" && dataIndex !== "homeworkDescription",
           message: `${title} is required.`,
         },
       ]}
     >
-      <Input
-        ref={inputRef}
-        onPressEnter={dataIndex === "themeSlots" ? saveSlots : save}
-        onBlur={dataIndex === "themeSlots" ? saveSlots : save}
-      />
+      {dataIndex === "homeworkDescription" ? (
+        <TextArea rows={5} ref={inputRef} onPressEnter={save} onBlur={save} />
+      ) : (
+        <Input
+          ref={inputRef}
+          onPressEnter={dataIndex === "themeSlots" ? saveSlots : save}
+          onBlur={dataIndex === "themeSlots" ? saveSlots : save}
+        />
+      )}
     </Form.Item>
   );
-
   if (editable) {
     childNode = editing ? (
       (() => {
@@ -271,16 +286,24 @@ export const SchedualeEditableCell = ({
     ) : (
       <div
         className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
         onClick={toggleEdit}
         onKeyUp={toggleEdit}
         tabIndex={0}
         role="button"
       >
-        {children}
+        {children &&
+        dataIndex === "homeworkDescription" &&
+        record.homeworkDescription
+          ? record?.homeworkDescription?.slice(0, 10)
+          : children}
       </div>
     );
   }
 
-  return <td {...restProps}>{childNode}</td>;
+  return (
+    <>
+      {contextHolder}
+      <td {...restProps}>{childNode}</td>
+    </>
+  );
 };

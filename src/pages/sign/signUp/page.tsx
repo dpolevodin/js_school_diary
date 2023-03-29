@@ -1,7 +1,7 @@
 import { Form, Input, Button } from "antd";
 import uuid from "react-uuid";
 import { useUnit } from "effector-react";
-import { $homeworks, $users, addUser } from "./model";
+import { $homeworks, $points, $users, addUser } from "./model";
 import styles from "./page.module.css";
 import {
   nameRules,
@@ -29,17 +29,18 @@ const updateUser = (user: UserFormData) => {
 };
 
 export const SignUpPage = () => {
-  const [users, addUserFn, signUpFn, homeworks] = useUnit([
+  const [users, addUserFn, signUpFn, homeworks, points] = useUnit([
     $users,
     addUser,
     signUpFx,
     $homeworks,
+    $points,
   ]);
 
   const handleFinish = (values: UserFormData) => {
     const user = updateUser(values);
-    addUserFn({ ...user, homeworks });
-    const usersPayload = [...users, { ...user, homeworks }];
+    addUserFn({ ...user, homeworks, points });
+    const usersPayload = [...users, { ...user, homeworks, points }];
     signUpFn({ id: user.id, users: usersPayload });
   };
 

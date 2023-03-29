@@ -1,8 +1,9 @@
 import { Button, Space, Table } from "antd";
 import { useUnit } from "effector-react";
 import uuid from "react-uuid";
-import { $schedule, addScheduleRow } from "../schedule-table/model/index";
-import { $editableColumns } from "./model";
+import dayjs from "dayjs";
+import { $schedule } from "../schedule-table/model/index";
+import { $editableColumns, addScheduleRow } from "./model";
 import { SchedualeEditableRow, SchedualeEditableCell } from "./ui";
 import styles from "./ScheduleEditTable.module.css";
 
@@ -16,7 +17,7 @@ export const SchedualeEditTable = () => {
     addScheduleRowFn({
       key: schedule.length + 1,
       id: uuid(),
-      date: "01.01.2023",
+      date: dayjs().format("DD.MM.YYYY"),
       block: "DOM 1",
       theme: "Тема 1",
       themeSlots: ["Тема слота 1", "Тема слота 2", "Тема слота 3"],
