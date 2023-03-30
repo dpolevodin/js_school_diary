@@ -7,13 +7,13 @@ import { StudentLinks } from "../../features/student-links/StudentLinks";
 import { $repositories } from "../admin/model";
 import styles from "./page.module.css";
 import { $homeworksColumns } from "./model";
-import { Homework } from "../sign/signUp/lib/types";
+import { UserHomeworkType } from "../sign/signUp/lib/types";
 
 const nav = ["schedule"];
 const { Title } = Typography;
 
 type HomeworkData = {
-  [key: string]: Homework | string;
+  [key: string]: UserHomeworkType | string;
 };
 
 export const StudentPage = () => {

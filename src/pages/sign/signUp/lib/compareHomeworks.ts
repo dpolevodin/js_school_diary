@@ -1,10 +1,10 @@
-import { Homeworks } from "./types";
+import { UserHomeworksType } from "./types";
 
 export const compareHomeworks = (
-  arr1: Homeworks,
-  arr2?: Homeworks
-): Homeworks => {
-  const result: Homeworks = [];
+  arr1: UserHomeworksType,
+  arr2?: UserHomeworksType
+): UserHomeworksType => {
+  const result: UserHomeworksType = [];
   if (!arr2) return arr1;
 
   arr2.forEach((homework2) => {
