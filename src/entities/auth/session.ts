@@ -9,7 +9,7 @@ import {
 import { routes } from "../../shared/lib/atomic-router/route";
 import { wait } from "../../shared/lib/wait";
 import { $adminIds, $users, updateUser } from "../../pages/sign/signUp/model";
-import { User, Settings } from "../../pages/sign/signUp/lib/types";
+import { User, UserSettingsType } from "../../pages/sign/signUp/lib/types";
 
 export const $session = createStore<User | null>(null);
 
@@ -38,7 +38,7 @@ export const pageMounted = createEvent();
 
 export const signOut = createEvent();
 
-export const setUserSettings = createEvent<Settings>();
+export const setUserSettings = createEvent<UserSettingsType>();
 
 $session
   .on(createSessionFx.doneData, (_, user: User | null | undefined) => user)

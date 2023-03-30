@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { $schedule } from "../../features/schedule-table/model";
-import { Homeworks } from "../sign/signUp/lib/types";
+import { UserHomeworksType } from "../sign/signUp/lib/types";
 import styles from "./page.module.css";
 
 type RenderArgs = {
@@ -10,7 +10,7 @@ type RenderArgs = {
 
 export const $homeworksColumns = $schedule.map((schedule) => {
   const newColumns = schedule.reduce(
-    (columns: Homeworks, lesson) =>
+    (columns: UserHomeworksType, lesson) =>
       lesson.homework
         ? [
             ...columns,

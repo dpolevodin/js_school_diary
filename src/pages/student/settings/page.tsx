@@ -3,7 +3,7 @@ import { useUnit } from "effector-react";
 import { PageLayout } from "../../../shared/ui";
 import { $repositories } from "../../admin/model";
 import { $session, setUserSettings } from "../../../entities/auth/session";
-import { Settings } from "../../sign/signUp/lib/types";
+import { UserSettingsType } from "../../sign/signUp/lib/types";
 
 const nav = ["schedule"];
 
@@ -13,7 +13,7 @@ export const StudentSettingsPage = () => {
     setUserSettings,
     $repositories,
   ]);
-  const handleFinish = (value: Settings) => setUserSettingsFn(value);
+  const handleFinish = (value: UserSettingsType) => setUserSettingsFn(value);
 
   return (
     <PageLayout title="Настройки" nav={nav}>
