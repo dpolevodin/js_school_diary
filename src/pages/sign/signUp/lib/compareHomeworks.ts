@@ -2,7 +2,7 @@ import { Homeworks } from "./types";
 
 export const compareHomeworks = (
   arr1: Homeworks,
-  arr2: Homeworks | undefined
+  arr2?: Homeworks
 ): Homeworks => {
   const result: Homeworks = [];
   if (!arr2) return arr1;
