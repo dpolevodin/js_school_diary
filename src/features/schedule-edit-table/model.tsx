@@ -1,8 +1,4 @@
-import {
-  DeleteOutlined,
-  PlusSquareOutlined,
-  MenuOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
 import { Popconfirm } from "antd";
 import { DragEndEvent } from "@dnd-kit/core";
 import { createEvent } from "effector";
@@ -10,7 +6,6 @@ import uuid from "react-uuid";
 import { arrayMove } from "@dnd-kit/sortable";
 import { ExtendedScheduleDataType } from "../schedule-table/api/types";
 import { $columns, $schedule } from "../schedule-table/model";
-import styles from "./ScheduleEditTable.module.css";
 
 export const editScheduleRow = createEvent<ExtendedScheduleDataType>();
 export const deleteScheduleRow = createEvent<string>();
@@ -65,8 +60,6 @@ export const $defaultEditableColumns = $columns.map((columns) => {
   }));
   const dragColumn = {
     dataIndex: "sort",
-    width: 60,
-    render: () => <MenuOutlined className={styles.dragIcon} />,
     align: "center",
   };
   const additionalColumns = [

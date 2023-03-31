@@ -2,71 +2,70 @@
 import { Form, FormInstance } from "antd";
 import { Children, cloneElement, createContext } from "react";
 import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import classNames from "classnames";
 import isEmpty from "lodash.isempty";
 import { useUnit } from "effector-react";
+import { MenuOutlined } from "@ant-design/icons";
 import { $schedule } from "../../../schedule-table/model";
 import { ExtendedScheduleDataType } from "../../../schedule-table/api/types";
-import styles from "../../ScheduleEditTable.module.css";
-// import "../../styles.css"
+import classes from "../../ScheduleEditTable.module.css";
 
-type EditableRowProps = {
+interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   "data-row-key": string;
-};
+}
 
 export const SchedualeEditableContext =
   createContext<FormInstance<ExtendedScheduleDataType> | null>(null);
 
-export const SchedualeEditableRow = ({
-  "data-row-key": id,
-  style,
-  className,
-  children,
-  ...rest
-}: EditableRowProps & React.HTMLAttributes<HTMLTableRowElement>) => {
+export const SchedualeEditableRow = ({ children, ...props }: RowProps) => {
   const [form] = Form.useForm();
   const schedule = useUnit($schedule);
   const {
     attributes,
     listeners,
     setNodeRef,
+    setActivatorNodeRef,
     transform,
     transition,
     isDragging,
   } = useSortable({
-    id,
+    id: props["data-row-key"],
   });
 
-  const dragStyle = {
+  const style: React.CSSProperties = {
+    ...props.style,
+    transform: CSS.Transform.toString(
+      transform && { ...transform, scaleY: 1, scaleX: isDragging ? 1.02 : 1 }
+    )?.replace(/translate3d\(([^,]+),/, "translate3d(0,"),
     transition,
-    "--translate-x": `${transform?.x ?? 0}px`,
-    "--translate-y": `${transform?.y ?? 0}px`,
+    ...(isDragging ? { position: "relative", zIndex: 9999 } : {}),
   };
-
-  const cls = classNames(className, styles.dragItem, {
-    [styles.dragOverlay]: isDragging && !isEmpty(schedule),
-  });
 
   return (
     <Form form={form} component={false}>
       <SchedualeEditableContext.Provider value={form}>
         <tr
-          id={id}
+          {...props}
           ref={setNodeRef}
+          style={style}
           {...attributes}
-          className={cls}
-          style={{ ...style, ...dragStyle }}
-          {...rest}
+          className={classNames({
+            [classes.dragOverlay]: isDragging && !isEmpty(schedule),
+          })}
         >
           {Children.map(children, (child) => {
-            if (child && (child as React.ReactElement).key === "sort") {
+            if ((child as React.ReactElement).key === "sort") {
               return cloneElement(child as React.ReactElement, {
-                additionalProps: {
-                  ...listeners,
-                },
+                children: (
+                  <MenuOutlined
+                    ref={setActivatorNodeRef}
+                    className={classes.dragIcon}
+                    {...listeners}
+                  />
+                ),
               });
             }
-
             return child;
           })}
         </tr>
