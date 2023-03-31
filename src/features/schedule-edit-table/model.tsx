@@ -1,13 +1,21 @@
-import { DeleteOutlined, PlusSquareOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  PlusSquareOutlined,
+  MenuOutlined,
+} from "@ant-design/icons";
 import { Popconfirm } from "antd";
+import { DragEndEvent } from "@dnd-kit/core";
 import { createEvent } from "effector";
 import uuid from "react-uuid";
+import { arrayMove } from "@dnd-kit/sortable";
 import { ExtendedScheduleDataType } from "../schedule-table/api/types";
 import { $columns, $schedule } from "../schedule-table/model";
+import styles from "./ScheduleEditTable.module.css";
 
 export const editScheduleRow = createEvent<ExtendedScheduleDataType>();
 export const deleteScheduleRow = createEvent<string>();
 export const addScheduleRow = createEvent<ExtendedScheduleDataType>();
+export const sortScheduleByDrag = createEvent<DragEndEvent>();
 
 const handleDelete = (id: string) => {
   deleteScheduleRow(id);
@@ -31,7 +39,22 @@ $schedule
     const filteredState = state.filter((lesson) => lesson.id !== payload);
     return filteredState.map((row, index) => ({ ...row, key: index + 1 }));
   })
-  .on(addScheduleRow, (state, payload) => [...state, payload]);
+  .on(addScheduleRow, (state, payload) => [...state, payload])
+  .on(sortScheduleByDrag, (state, payload) => {
+    const { active, over } = payload;
+    if (active.id !== over?.id) {
+      const oldIndex = state.findIndex((item) => item.id === active.id);
+      const newIndex = state.findIndex((item) => item.id === over?.id);
+
+      const sortedState = arrayMove(state, oldIndex, newIndex);
+      const keyChangedState = sortedState.map((lesson, index) => ({
+        ...lesson,
+        key: index + 1,
+      }));
+      return keyChangedState;
+    }
+    return state;
+  });
 
 export const $defaultEditableColumns = $columns.map((columns) => {
   const defaultEditableColumns = columns.map((column) => ({
@@ -40,6 +63,12 @@ export const $defaultEditableColumns = $columns.map((columns) => {
     render: column.render,
     editable: "dataIndex" in column ? column.dataIndex !== "key" : false,
   }));
+  const dragColumn = {
+    dataIndex: "sort",
+    width: 60,
+    render: () => <MenuOutlined className={styles.dragIcon} />,
+    align: "center",
+  };
   const additionalColumns = [
     { title: "Описание ДЗ", dataIndex: "homeworkDescription", editable: true },
     {
@@ -56,7 +85,7 @@ export const $defaultEditableColumns = $columns.map((columns) => {
       ),
     },
   ];
-  return [...defaultEditableColumns, ...additionalColumns];
+  return [dragColumn, ...defaultEditableColumns, ...additionalColumns];
 });
 
 export const $editableColumns = $defaultEditableColumns.map((columns) =>

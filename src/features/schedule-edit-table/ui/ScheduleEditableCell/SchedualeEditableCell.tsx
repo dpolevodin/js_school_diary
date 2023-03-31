@@ -17,6 +17,7 @@ import {
   $tutors,
 } from "../../../../pages/admin/model";
 import { ExtendedScheduleDataType } from "../../../schedule-table/api/types";
+import styles from "../../ScheduleEditTable.module.css";
 
 const { TextArea } = Input;
 
@@ -285,7 +286,7 @@ export const SchedualeEditableCell = ({
       })()
     ) : (
       <div
-        className="editable-cell-value-wrap"
+        className={styles.editableCell}
         onClick={toggleEdit}
         onKeyUp={toggleEdit}
         tabIndex={0}

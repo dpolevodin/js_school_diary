@@ -1,17 +1,24 @@
 import { Button, Space, Table } from "antd";
+import { DndContext } from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useUnit } from "effector-react";
 import uuid from "react-uuid";
 import dayjs from "dayjs";
 import { $schedule } from "../schedule-table/model/index";
-import { $editableColumns, addScheduleRow } from "./model";
+import { $editableColumns, addScheduleRow, sortScheduleByDrag } from "./model";
 import { SchedualeEditableRow, SchedualeEditableCell } from "./ui";
 import styles from "./ScheduleEditTable.module.css";
 
 export const SchedualeEditTable = () => {
-  const [schedule, editableColumns, addScheduleRowFn] = useUnit([
+  const [schedule, editableColumns, addScheduleRowFn, handleDragEnd] = useUnit([
     $schedule,
     $editableColumns,
     addScheduleRow,
+    sortScheduleByDrag,
   ]);
   const hadleClickAddRow = () =>
     addScheduleRowFn({
@@ -39,15 +46,24 @@ export const SchedualeEditTable = () => {
       <Button onClick={hadleClickAddRow} type="primary">
         Добавить занятие
       </Button>
-      <Table
-        components={components}
-        rowClassName={() => "editable-row"}
-        bordered
-        dataSource={schedule}
-        columns={editableColumns as ColumnTypes}
-        pagination={false}
-        rowKey="id"
-      />
+      <DndContext
+        modifiers={[restrictToVerticalAxis]}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={schedule.map((c) => c.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <Table
+            components={components}
+            bordered
+            dataSource={schedule}
+            columns={editableColumns as ColumnTypes}
+            pagination={false}
+            rowKey="id"
+          />
+        </SortableContext>
+      </DndContext>
     </Space>
   );
 };

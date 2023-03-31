@@ -3,6 +3,7 @@ import { Badge, Popover, Space } from "antd";
 import { ColumnsType, ColumnType } from "antd/es/table";
 import { createEffect, createEvent, createStore, sample } from "effector";
 import uuid from "react-uuid";
+import dayjs from "dayjs";
 import { wait } from "../../../shared/lib/wait";
 import { scheduleData as scheduleMock } from "../api/mock";
 import { MapData, ExtendedScheduleDataType } from "../api/types";
@@ -36,9 +37,9 @@ const sortColumns = (
     return Number(a[key]) - Number(b[key]);
   }
   if (key === "date" || key === "homeworkDate") {
-    return (
-      new Date(first as string).getTime() - new Date(second as string).getTime()
-    );
+    const dateA = dayjs(first as string, "DD.MM.YYYY");
+    const dateB = dayjs(second as string, "DD.MM.YYYY");
+    return dateA.diff(dateB);
   }
   if (first && second) {
     return first > second ? 1 : -1;
@@ -62,7 +63,6 @@ export const $columns = createStore<ColumnsType<ExtendedScheduleDataType>>([
       return filterColumns(value, record, "date");
     },
     sorter: (a, b) => sortColumns(a, b, "date"),
-    defaultSortOrder: "ascend",
   },
   {
     title: "Блок",
