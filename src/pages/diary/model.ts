@@ -1,4 +1,3 @@
-import { createEvent, createStore } from "effector";
 import { $users } from "../sign/signUp/model";
 import { Homeworks } from "../sign/signUp/lib/types";
 
@@ -18,13 +17,6 @@ export const $studentDiary = $users.map((state) =>
       id: user.id,
       fullName: `${user.name} ${user.surname}`,
       ...userHomeworks,
-      // homeworks: user.homeworks
     };
   })
-);
-
-export const setEditingDiaryKey = createEvent<string>();
-export const $editingDiaryKey = createStore<string>("").on(
-  setEditingDiaryKey,
-  (_, payload) => payload
 );

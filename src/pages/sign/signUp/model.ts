@@ -48,7 +48,7 @@ export const $adminIds = createStore<AdminIds>([
 
 export const addUser = createEvent<User>();
 export const updateUser = createEvent<User | null>();
-export const saveHomework = createEvent<User[]>();
+
 
 $users
   .on(addUser, (state, payload) => [...state, payload])
@@ -60,5 +60,4 @@ $users
       return updatedUsers;
     }
     return state;
-  })
-  .on(saveHomework, (_, payload) => payload);
+  });
