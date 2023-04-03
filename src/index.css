@@ -16,6 +16,9 @@
 
   --primary-header-text-color: #ffffff;
   --primary-themeswitcher-color: #d9d9d9;
+  --box-shadow-picked-up: 0 0 0 calc(1px / var(--scale-x, 1))
+      rgba(63, 63, 68, 0.05),
+    -1px 0 15px 0 rgba(34, 33, 81, 0.01), 0px 15px 15px 0 rgba(34, 33, 81, 0.25);
 }
 
 body {

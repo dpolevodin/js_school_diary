@@ -1,11 +1,11 @@
 import { $users } from "../sign/signUp/model";
-import { Homeworks } from "../sign/signUp/lib/types";
+import { UserHomeworkType } from "../sign/signUp/lib/types";
 
 export const $studentDiary = $users.map((state) =>
   state.map((user) => {
     const userHomeworks = Array.isArray(user.homeworks)
       ? user.homeworks.reduce(
-          (accum, item: Homeworks) => ({
+          (accum, item: UserHomeworkType) => ({
             ...accum,
             [item.id]: { ...item },
           }),

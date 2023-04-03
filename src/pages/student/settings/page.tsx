@@ -3,7 +3,7 @@ import { useUnit } from "effector-react";
 import { PageLayout } from "../../../shared/ui";
 import { $repositories } from "../../admin/model";
 import { $session, setUserSettings } from "../../../entities/auth/session";
-import { Settings } from "../../sign/signUp/lib/types";
+import { UserSettingsType } from "../../sign/signUp/lib/types";
 
 const nav = ["schedule"];
 
@@ -13,7 +13,7 @@ export const StudentSettingsPage = () => {
     setUserSettings,
     $repositories,
   ]);
-  const handleFinish = (value: Settings) => setUserSettingsFn(value);
+  const handleFinish = (value: UserSettingsType) => setUserSettingsFn(value);
 
   return (
     <PageLayout title="Настройки" nav={nav}>
@@ -60,7 +60,9 @@ export const StudentSettingsPage = () => {
         >
           <Input placeholder="ник в телеграме" allowClear />
         </Form.Item>
-        <Form.Item label="Репозитории" labelCol={{ offset: 3 }} />
+        {repositories.length > 0 && (
+          <Form.Item label="Репозитории" labelCol={{ offset: 3 }} />
+        )}
         {repositories.map((repository) => (
           <Form.Item name={repository.name} label={repository.description}>
             <Input
@@ -80,7 +82,6 @@ export const StudentSettingsPage = () => {
           </Button>
         </Form.Item>
       </Form>
-      )
     </PageLayout>
   );
 };
