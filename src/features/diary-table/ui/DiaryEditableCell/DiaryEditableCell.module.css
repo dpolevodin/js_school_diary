@@ -1,0 +1,11 @@
+.editableCell {
+  width: fit-content;
+  padding: 0.25rem 0.75rem;
+  border: 0.125rem solid transparent;
+  border-radius: 10%;
+  cursor: pointer;
+}
+
+.editableCell:hover {
+  border: 0.125rem solid #d9d9d9;
+}

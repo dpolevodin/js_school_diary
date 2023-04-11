@@ -18,6 +18,7 @@ export type UserHomeworkType = {
   deadline?: string | Dayjs;
   status?: HomeworksStatus;
 };
+
 export type UserPointsType = {
   [key: string]: number;
 };
@@ -35,3 +36,9 @@ export type User = {
 };
 
 export type AdminIdsType = string[];
+
+export type UserHomeworksPayloadType = {
+  id: string;
+  fullName: string;
+  [key: string]: UserHomeworkType | string;
+};

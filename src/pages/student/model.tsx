@@ -1,11 +1,11 @@
 import classNames from "classnames";
 import { $schedule } from "../../features/schedule-table/model";
-import { UserHomeworksType } from "../sign/signUp/lib/types";
+import { HomeworksStatus, UserHomeworksType } from "../sign/signUp/lib/types";
 import styles from "./page.module.css";
 
 type RenderArgs = {
   deadline: string;
-  status: string;
+  status: HomeworksStatus;
 };
 
 export const $homeworksColumns = $schedule.map((schedule) => {

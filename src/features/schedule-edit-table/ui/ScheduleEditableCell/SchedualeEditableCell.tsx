@@ -154,7 +154,6 @@ export const SchedualeEditableCell = ({
 
   const DatePickerComp = (
     <Form.Item
-      style={{ margin: 0 }}
       name={dataIndex}
       rules={[
         {
@@ -180,7 +179,6 @@ export const SchedualeEditableCell = ({
 
   const BlocksSelect = (
     <Form.Item
-      style={{ margin: 0 }}
       name={dataIndex}
       rules={[
         {
