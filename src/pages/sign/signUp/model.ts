@@ -35,7 +35,9 @@ export const updateUsersHomeworks = createEvent<
 export const updateUsersPoints = createEvent<UserPointsType | undefined>();
 
 $users
-  .on(addUser, (state, payload) => [...state, payload])
+  .on(addUser, (state, payload) =>
+    [...state, payload].sort((a, b) => (a.surname > b.surname ? 1 : -1))
+  )
   .on(updateUser, (state, payload) => {
     if (payload) {
       const updatedUsers = state.map((user) =>
