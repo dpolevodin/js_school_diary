@@ -7,7 +7,7 @@ export const $studentDiary = $users.map((state) =>
       ? user.homeworks.reduce(
           (accum, item: UserHomeworkType) => ({
             ...accum,
-            [item.id]: { ...item },
+            [item.id as string]: { ...item },
           }),
           {}
         )
@@ -15,7 +15,7 @@ export const $studentDiary = $users.map((state) =>
 
     return {
       id: user.id,
-      fullName: `${user.name} ${user.surname}`,
+      fullName: `${user.surname} ${user.name}`,
       ...userHomeworks,
     };
   })
