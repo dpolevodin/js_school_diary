@@ -71,7 +71,7 @@ export const DiaryEditableCell = ({
     }
   };
 
-  const cansel = () => setEditing(!editing);
+  const canсel = () => setEditing(!editing);
 
   let childNode = children;
 
@@ -95,7 +95,7 @@ export const DiaryEditableCell = ({
           ]}
           ref={selectRef}
           onChange={save}
-          onBlur={cansel}
+          onBlur={canсel}
         />
       </Form.Item>
     ) : (
