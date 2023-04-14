@@ -90,7 +90,7 @@ export const AdminPage = () => {
 
   const handleClickAddTutor = (value: Tutor) => addTutorFn(value);
   const handleClickDeleteTutor = (value: Tutor) =>
-    deleteTutorFn(value.telegramNickName);
+    deleteTutorFn(value.fullName);
 
   const handleClickAddRepository = (value: Repository) =>
     addRepositoryFn(value);
@@ -137,6 +137,8 @@ export const AdminPage = () => {
           handleClickAdd={handleClickAddTutor}
           inputMap={TUTORS_MAP}
           title="Преподаватели"
+          store={tutors}
+          validateField="fullName"
         />
         <StoreDisplayForms
           handleClickDelete={handleClickDeleteTutor}
@@ -146,6 +148,8 @@ export const AdminPage = () => {
           handleClickAdd={handleClickAddRepository}
           inputMap={REPOSITORIES_MAP}
           title="Имена репозиториев"
+          store={repositories}
+          validateField="name"
         />
         <StoreDisplayForms
           handleClickDelete={handleClickDeleteRepository}
@@ -196,6 +200,8 @@ export const AdminPage = () => {
           handleClickAdd={handleClickAddBlock}
           inputMap={BLOCKS_MAP}
           title="Блоки"
+          store={blocks}
+          validateField="name"
         />
         <StoreDisplayForms
           handleClickDelete={handleClickDeleteBlock}

@@ -8,9 +8,17 @@ type Props<T> = {
   handleClickAdd: (data: T) => void;
   inputMap: { [key: string]: string };
   title: string;
+  store?: { [key: string]: string }[];
+  validateField?: string;
 };
 
-export const AddForm = <T,>({ handleClickAdd, inputMap, title }: Props<T>) => (
+export const AddForm = <T,>({
+  handleClickAdd,
+  inputMap,
+  title,
+  store,
+  validateField,
+}: Props<T>) => (
   <>
     <Title level={3} className={styles.title}>
       {title}
@@ -20,6 +28,7 @@ export const AddForm = <T,>({ handleClickAdd, inputMap, title }: Props<T>) => (
       wrapperCol={{ span: 24 }}
       initialValues={{ remember: true }}
       onFinish={handleClickAdd}
+      validateTrigger="onSubmit"
       autoComplete="off"
       layout="inline"
     >
@@ -27,7 +36,24 @@ export const AddForm = <T,>({ handleClickAdd, inputMap, title }: Props<T>) => (
         <Form.Item
           key={key}
           name={key}
-          rules={[{ required: true, message: `Введите ${inputMap[key]}` }]}
+          rules={[
+            { required: true, message: `Введите ${inputMap[key]}` },
+            () =>
+              store && validateField && key === validateField
+                ? {
+                    validator(_, value) {
+                      if (store.some((item) => item[validateField] === value)) {
+                        return Promise.reject(new Error("Дубликат записи"));
+                      }
+                      return Promise.resolve();
+                    },
+                  }
+                : {
+                    validator() {
+                      return Promise.resolve();
+                    },
+                  },
+          ]}
         >
           <Input placeholder={inputMap[key]} />
         </Form.Item>
@@ -44,3 +70,8 @@ export const AddForm = <T,>({ handleClickAdd, inputMap, title }: Props<T>) => (
     </Form>
   </>
 );
+
+AddForm.defaultProps = {
+  store: null,
+  validateField: null,
+};

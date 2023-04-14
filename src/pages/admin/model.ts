@@ -32,7 +32,7 @@ export const deleteTutor = createEvent<string>();
 $tutors
   .on(addTutor, (state, payload) => [...state, payload])
   .on(deleteTutor, (state, payload) =>
-    state.filter((tutor) => tutor.telegramNickName !== payload)
+    state.filter((tutor) => tutor.fullName !== payload)
   );
 
 export const $repositories = createStore<Repository[]>([]);
@@ -60,7 +60,9 @@ export const setForbiddenDates = createEvent<string>();
 export const deleteForbiddenDate = createEvent<string>();
 
 $forbiddenDates
-  .on(setForbiddenDates, (state, payload: string) => [...state, payload])
+  .on(setForbiddenDates, (state, payload: string) =>
+    state.includes(payload) ? state : [...state, payload]
+  )
   .on(deleteForbiddenDate, (state, payload: string) =>
     state.filter((date) => date !== payload)
   );
@@ -72,7 +74,9 @@ export const setAdditionalDates = createEvent<string>();
 export const deleteAdditionalDate = createEvent<string>();
 
 $additionalDates
-  .on(setAdditionalDates, (state, payload) => [...state, payload])
+  .on(setAdditionalDates, (state, payload) =>
+    state.includes(payload) ? state : [...state, payload]
+  )
   .on(deleteAdditionalDate, (state, payload) =>
     state.filter((date) => date !== payload)
   );
