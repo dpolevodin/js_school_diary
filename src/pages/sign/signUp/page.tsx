@@ -44,79 +44,7 @@ export const SignUpPage = () => {
   };
 
   return (
-    <Form
-      className={styles.form}
-      wrapperCol={{ span: 6, offset: 9 }}
-      name="register"
-      onFinish={handleFinish}
-      scrollToFirstError
-    >
-      <Form.Item
-        name="nickName"
-        rules={[
-          {
-            required: true,
-            message: "Введите ник!",
-            whitespace: true,
-          },
-          () => ({
-            validator(_, value) {
-              if (users.every((user) => user.nickName !== value)) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error("Такой ник занят!"));
-            },
-          }),
-        ]}
-      >
-        <Input placeholder="ник" allowClear />
-      </Form.Item>
-      <Form.Item name="surname" rules={surnameRules}>
-        <Input placeholder="фамилия" allowClear />
-      </Form.Item>
-      <Form.Item name="name" rules={nameRules}>
-        <Input placeholder="имя" allowClear />
-      </Form.Item>
-      <Form.Item name="patronymic" rules={patronymicRules}>
-        <Input placeholder="отчество" allowClear />
-      </Form.Item>
-
-      <Form.Item name="password" rules={passwordRules} hasFeedback>
-        <Input.Password placeholder="пароль" allowClear />
-      </Form.Item>
-
-      <Form.Item
-        name="confirm"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: "Подтвердите пароль!",
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(new Error("Пароли не совпадают!"));
-            },
-          }),
-        ]}
-      >
-        <Input.Password placeholder="повторите пароль" allowClear />
-      </Form.Item>
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Создать
-        </Button>
-      </Form.Item>
-    </Form>
-  );
-};
-
-/*  <PageLayout title="Регистрация" nav={nav} className={styles._}>
+    <div className={styles._}>
       <Form
         className={styles.form}
         wrapperCol={{ span: 6, offset: 9 }}
@@ -186,7 +114,6 @@ export const SignUpPage = () => {
           </Button>
         </Form.Item>
       </Form>
-    </PageLayout>
+    </div>
   );
 };
- */

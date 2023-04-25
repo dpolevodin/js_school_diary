@@ -23,7 +23,7 @@ export const App = () => {
             : theme.defaultAlgorithm,
       }}
     >
-      <PageLayout isAccessFree>
+      <PageLayout>
         <Pages />
       </PageLayout>
     </ConfigProvider>
