@@ -91,3 +91,8 @@ redirect({
   clock: setUserSettings,
   route: routes.student,
 });
+
+redirect({
+  clock: signOut,
+  route: routes.home,
+});

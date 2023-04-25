@@ -2,6 +2,12 @@ import { Space, Typography, Checkbox, Col, Row, DatePickerProps } from "antd";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { useUnit } from "effector-react";
 import {
+  AddForm,
+  StoreDisplayForms,
+  AddDate,
+  StoreDisplayDates,
+} from "../../features";
+import {
   $additionalDates,
   $availableDays,
   $blocks,
@@ -23,11 +29,6 @@ import {
   setForbiddenDates,
   Tutor,
 } from "./model";
-import { AddForm } from "../../features/add-form/AddForm";
-import { StoreDisplayForms } from "../../features/store-display-forms/StoreDisplayForms";
-import { AddDate } from "../../features/add-date/AddDate";
-import { StoreDisplayDates } from "../../features/store-display-dates/StoreDisplayDates";
-import { PageLayout } from "../../shared/ui";
 
 const { Title } = Typography;
 
@@ -46,8 +47,6 @@ const BLOCKS_MAP = {
   name: "имя блока",
   description: "описание",
 };
-
-const nav = ["admin", "schedule", "diary", "contests"];
 
 export const AdminPage = () => {
   const [
@@ -131,83 +130,81 @@ export const AdminPage = () => {
   };
 
   return (
-    <PageLayout title="Настройки курса" nav={nav}>
-      <Space direction="vertical">
-        <AddForm
-          handleClickAdd={handleClickAddTutor}
-          inputMap={TUTORS_MAP}
-          title="Преподаватели"
-          store={tutors}
-          validateField="fullName"
-        />
-        <StoreDisplayForms
-          handleClickDelete={handleClickDeleteTutor}
-          store={tutors}
-        />
-        <AddForm
-          handleClickAdd={handleClickAddRepository}
-          inputMap={REPOSITORIES_MAP}
-          title="Имена репозиториев"
-          store={repositories}
-          validateField="name"
-        />
-        <StoreDisplayForms
-          handleClickDelete={handleClickDeleteRepository}
-          store={repositories}
-        />
+    <Space direction="vertical">
+      <AddForm
+        handleClickAdd={handleClickAddTutor}
+        inputMap={TUTORS_MAP}
+        title="Преподаватели"
+        store={tutors}
+        validateField="fullName"
+      />
+      <StoreDisplayForms
+        handleClickDelete={handleClickDeleteTutor}
+        store={tutors}
+      />
+      <AddForm
+        handleClickAdd={handleClickAddRepository}
+        inputMap={REPOSITORIES_MAP}
+        title="Имена репозиториев"
+        store={repositories}
+        validateField="name"
+      />
+      <StoreDisplayForms
+        handleClickDelete={handleClickDeleteRepository}
+        store={repositories}
+      />
 
-        <Title level={3}>Календарь</Title>
-        <Checkbox.Group
-          defaultValue={availableDays}
-          onChange={handleChangeAvailableDays}
-        >
-          <Row>
-            <Col span={24}>
-              <Checkbox value={1}>Понедельник</Checkbox>
-            </Col>
-            <Col span={24}>
-              <Checkbox value={2}>Вторник</Checkbox>
-            </Col>
-            <Col span={24}>
-              <Checkbox value={3}>Среда</Checkbox>
-            </Col>
-            <Col span={24}>
-              <Checkbox value={4}>Четверг</Checkbox>
-            </Col>
-            <Col span={24}>
-              <Checkbox value={5}>Пятница</Checkbox>
-            </Col>
-          </Row>
-        </Checkbox.Group>
-        <AddDate
-          handleChangeAddDate={hadleChangeForbiddenDays}
-          title="Красные дни календаря"
-        />
-        <StoreDisplayDates
-          handleClickDeleteDate={handleClickDeleteForbiddenDate}
-          store={forbiddenDates}
-        />
-        <AddDate
-          handleChangeAddDate={hadleChangeAdditionalDays}
-          title="Зеленые даты"
-        />
-        <StoreDisplayDates
-          handleClickDeleteDate={handleClickDeleteAdditionalDate}
-          store={additionalDates}
-        />
+      <Title level={3}>Календарь</Title>
+      <Checkbox.Group
+        defaultValue={availableDays}
+        onChange={handleChangeAvailableDays}
+      >
+        <Row>
+          <Col span={24}>
+            <Checkbox value={1}>Понедельник</Checkbox>
+          </Col>
+          <Col span={24}>
+            <Checkbox value={2}>Вторник</Checkbox>
+          </Col>
+          <Col span={24}>
+            <Checkbox value={3}>Среда</Checkbox>
+          </Col>
+          <Col span={24}>
+            <Checkbox value={4}>Четверг</Checkbox>
+          </Col>
+          <Col span={24}>
+            <Checkbox value={5}>Пятница</Checkbox>
+          </Col>
+        </Row>
+      </Checkbox.Group>
+      <AddDate
+        handleChangeAddDate={hadleChangeForbiddenDays}
+        title="Красные дни календаря"
+      />
+      <StoreDisplayDates
+        handleClickDeleteDate={handleClickDeleteForbiddenDate}
+        store={forbiddenDates}
+      />
+      <AddDate
+        handleChangeAddDate={hadleChangeAdditionalDays}
+        title="Зеленые даты"
+      />
+      <StoreDisplayDates
+        handleClickDeleteDate={handleClickDeleteAdditionalDate}
+        store={additionalDates}
+      />
 
-        <AddForm
-          handleClickAdd={handleClickAddBlock}
-          inputMap={BLOCKS_MAP}
-          title="Блоки"
-          store={blocks}
-          validateField="name"
-        />
-        <StoreDisplayForms
-          handleClickDelete={handleClickDeleteBlock}
-          store={blocks}
-        />
-      </Space>
-    </PageLayout>
+      <AddForm
+        handleClickAdd={handleClickAddBlock}
+        inputMap={BLOCKS_MAP}
+        title="Блоки"
+        store={blocks}
+        validateField="name"
+      />
+      <StoreDisplayForms
+        handleClickDelete={handleClickDeleteBlock}
+        store={blocks}
+      />
+    </Space>
   );
 };

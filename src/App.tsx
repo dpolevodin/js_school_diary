@@ -5,6 +5,7 @@ import { $theme, Themes } from "./features/theme-switcher";
 import "./App.css";
 import { Pages } from "./pages";
 import { $session, pageMounted } from "./entities/auth/session";
+import { PageLayout } from "./features";
 
 export const App = () => {
   const themeValue = useUnit($theme);
@@ -22,7 +23,9 @@ export const App = () => {
             : theme.defaultAlgorithm,
       }}
     >
-      <Pages />
+      <PageLayout isAccessFree>
+        <Pages />
+      </PageLayout>
     </ConfigProvider>
   );
 };

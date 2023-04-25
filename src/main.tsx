@@ -3,14 +3,15 @@ import ReactDOM from "react-dom/client";
 import { createHistoryRouter } from "atomic-router";
 import { RouterProvider } from "atomic-router-react";
 import { createBrowserHistory } from "history";
-
-import { routesMap } from "./pages";
-import {App} from "./App";
+import { routesMap, updatePageSettings } from "./pages";
+import { App } from "./App";
 import "./index.css";
 
-const router = createHistoryRouter({
+export const router = createHistoryRouter({
   routes: routesMap,
 });
+
+router.$path.watch(updatePageSettings);
 
 const history = createBrowserHistory();
 

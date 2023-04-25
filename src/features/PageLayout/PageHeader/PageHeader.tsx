@@ -8,15 +8,11 @@ import {
 import { Layout, Menu, MenuProps } from "antd";
 import { Link } from "atomic-router-react";
 import { useUnit } from "effector-react";
-import { $session, signOut } from "../../../../entities/auth/session";
-import { routes } from "../../../lib/atomic-router/route";
 import styles from "./PageHeader.module.css";
+import { $session, signOut } from "../../../entities/auth/session";
+import { routes } from "../../../shared/lib/atomic-router/route";
 
 const { Header } = Layout;
-
-type Props = {
-  title: string;
-};
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -53,7 +49,11 @@ const items = [
   ]),
 ];
 
-export const PageHeader = ({ title }: Props) => {
+type PageHeaderProps = {
+  title: string;
+};
+
+export const PageHeader = ({ title }: PageHeaderProps) => {
   const [session, signOutFn] = useUnit([$session, signOut]);
   const itemsSigned = [
     getItem("Личный кабинет", "studentTop", <UserOutlined />, [

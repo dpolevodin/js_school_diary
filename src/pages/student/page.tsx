@@ -1,16 +1,13 @@
 import { useUnit } from "effector-react";
 import { Table, Typography } from "antd";
 import { ColumnsType } from "antd/es/table";
-import { PageLayout } from "../../shared/ui";
 import { $session } from "../../entities/auth/session";
-import { StudentLinks } from "../../features/student-links/StudentLinks";
 import { $repositories } from "../admin/model";
-
-import styles from "./page.module.css";
 import { $homeworksColumns } from "./model";
 import { UserHomeworkType } from "../sign/signUp/lib/types";
+import styles from "./page.module.css";
+import { StudentLinks } from "../../features";
 
-const nav = ["schedule"];
 const { Title } = Typography;
 
 type HomeworkData = {
@@ -45,7 +42,7 @@ export const StudentPage = () => {
     : undefined;
 
   return (
-    <PageLayout title="Личный кабинет" nav={nav}>
+    <>
       <div className={styles._}>
         <Title className={styles.title}>
           Привет, {user?.name} {user?.surname} ({user?.nickName})
@@ -68,6 +65,6 @@ export const StudentPage = () => {
           />
         </>
       )}
-    </PageLayout>
+    </>
   );
 };

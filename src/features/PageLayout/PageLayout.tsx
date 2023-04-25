@@ -1,57 +1,47 @@
 import { Empty, Layout, Spin, Typography } from "antd";
 import { useUnit } from "effector-react";
-import {
-  $isAdmin,
-  $session,
-  createSessionFx,
-  getSessionFx,
-} from "../../../entities/auth/session";
 import { NavigationSider } from "./NavigationSider/NavigationSider";
 import { PageHeader } from "./PageHeader/PageHeader";
 import styles from "./PageLayout.module.css";
+import {
+  getSessionFx,
+  createSessionFx,
+  $session,
+  $isAdmin,
+} from "../../entities/auth/session";
+import { $pageSettings } from "../../pages";
 
 const { Content } = Layout;
 const { Text } = Typography;
 
 type PageLayoutProps = {
-  title: string;
-  nav?: string[];
-  className?: string;
   children?: React.ReactNode;
-  isAdminPage?: boolean;
-  isAccessFree?: boolean;
 };
 
-export const PageLayout = ({
-  title,
-  nav,
-  className,
-  children,
-  isAdminPage,
-  isAccessFree,
-}: PageLayoutProps) => {
-  const [isLoading, isLoadingSignIn, session, isAdmin] = useUnit([
+export const PageLayout = ({ children }: PageLayoutProps) => {
+  const [isLoading, isLoadingSignIn, session, isAdmin, pageSettings] = useUnit([
     getSessionFx.pending,
     createSessionFx.pending,
     $session,
     $isAdmin,
+    $pageSettings,
   ]);
 
-  const isAccessAllowed = isAdminPage ? isAdmin : true;
-  const isContentShown = isAccessFree || session;
+  const isAccessAllowed = pageSettings.isAdminPage ? isAdmin : true;
+  const isContentShown = pageSettings.isAccessFree || session;
 
   return (
     <Layout>
-      <PageHeader title={title} />
+      <PageHeader title={pageSettings.title} />
       <Layout hasSider>
-        <NavigationSider title={title} nav={nav} />
+        <NavigationSider title={pageSettings.title} />
         <Spin
           size="large"
           spinning={isLoading || isLoadingSignIn}
           wrapperClassName={styles.spin}
           className={styles.spinner}
         >
-          <Content className={`${styles._} ${className}`}>
+          <Content className={styles._}>
             {isContentShown && isAccessAllowed ? (
               children
             ) : (
@@ -74,9 +64,5 @@ export const PageLayout = ({
 };
 
 PageLayout.defaultProps = {
-  className: null,
   children: null,
-  nav: [],
-  isAdminPage: false,
-  isAccessFree: false,
 };

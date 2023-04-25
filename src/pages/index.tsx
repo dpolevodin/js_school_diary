@@ -1,5 +1,5 @@
 import { Route } from "atomic-router-react";
-
+import { createStore, createEvent } from "effector";
 import { routes } from "../shared/lib/atomic-router/route";
 import { AdminPage } from "./admin";
 import { ContestsPage } from "./constests";
@@ -36,3 +36,55 @@ export const routesMap = [
   { path: "/student", route: routes.student },
   { path: "/student/settings", route: routes.studentSettings },
 ];
+
+type PageSettingsType = {
+  title: string;
+  isAccessFree: boolean;
+  isAdminPage: boolean;
+};
+
+export const $pageSettings = createStore<PageSettingsType>({
+  title: "Школа JS",
+  isAccessFree: true,
+  isAdminPage: false,
+});
+
+export const updatePageSettings = createEvent<string>();
+
+const PAGES_MAP: { [key: string]: PageSettingsType } = {
+  "/": { title: "Школа JS", isAccessFree: true, isAdminPage: false },
+  "/admin": {
+    title: "Настройки курса",
+    isAccessFree: false,
+    isAdminPage: true,
+  },
+  "/contests": { title: "Конкурсы", isAccessFree: false, isAdminPage: true },
+  "/diary": { title: "Дневник", isAccessFree: false, isAdminPage: true },
+  "/schedule": {
+    title: "Расписание занятий",
+    isAccessFree: false,
+    isAdminPage: false,
+  },
+  "/schedule/create/": {
+    title: "Редактирование расписания",
+    isAccessFree: false,
+    isAdminPage: true,
+  },
+  "/sign-up": { title: "Регистрация", isAccessFree: true, isAdminPage: false },
+  "/sign-in": { title: "Вход", isAccessFree: true, isAdminPage: false },
+  "/student": {
+    title: "Личный кабинет",
+    isAccessFree: false,
+    isAdminPage: false,
+  },
+  "/student/settings": {
+    title: "Настройки",
+    isAccessFree: false,
+    isAdminPage: false,
+  },
+};
+
+$pageSettings.on(
+  updatePageSettings,
+  (_, payload) => PAGES_MAP[payload as keyof typeof PAGES_MAP]
+);

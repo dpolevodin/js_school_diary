@@ -12,21 +12,19 @@ import { ItemType } from "antd/es/menu/hooks/useItems";
 import { Link } from "atomic-router-react";
 import { useUnit } from "effector-react";
 import { useState } from "react";
-import { $session } from "../../../../entities/auth/session";
+import styles from "./NavigationSider.module.css";
+import { $isAdmin, $session } from "../../../entities/auth/session";
+import { routes } from "../../../shared/lib/atomic-router/route";
+import { IconMoon, IconSun } from "../../../shared/ui/Icons";
 import {
   $theme,
   themeChanged,
   Themes,
   ThemeSwitcher,
-} from "../../../../features/theme-switcher";
-import { $adminIds } from "../../../../pages/sign/signUp/model";
-import { routes } from "../../../lib/atomic-router/route";
-import { IconMoon, IconSun } from "../../Icons";
-import styles from "./NavigationSider.module.css";
+} from "../../theme-switcher";
 
 type NavigationProps = {
   title: string;
-  nav?: string[];
 };
 
 const { Sider } = Layout;
@@ -99,13 +97,6 @@ const NAV_MAP: { [key: string]: ItemType } = {
     "admin",
     <ToolOutlined />
   ),
-  sberUniversity: getItem(
-    <Link to="https://sberuniversity.online/">
-      <u>Сберуниверситет</u>
-    </Link>,
-    "sberUniversity",
-    <BankOutlined />
-  ),
 };
 
 const SELECTED_PAGE_MAP: { [key: string]: string } = {
@@ -119,35 +110,33 @@ const SELECTED_PAGE_MAP: { [key: string]: string } = {
   Настройки: "studentSettings",
 };
 
-export const NavigationSider = ({ title, nav = [] }: NavigationProps) => {
-  const [theme, themeChangedFn, session, adminIds] = useUnit([
+export const NavigationSider = ({ title }: NavigationProps) => {
+  const [theme, themeChangedFn, session, isAdmin] = useUnit([
     $theme,
     themeChanged,
     $session,
-    $adminIds,
+    $isAdmin,
   ]);
 
   const handleClickSetDarkTheme = () => themeChangedFn(Themes.DARK);
   const handleClickSetDefaultTheme = () => themeChangedFn(Themes.DEFAULT);
 
   const [collapsed, setCollapsed] = useState(true);
-  const expandedNav = ["home", ...nav];
-  const items: (MenuItem | null)[] = expandedNav.map((item) => {
-    if (item === "home" || item === "sberUniversity") {
-      return NAV_MAP[item];
-    }
+
+  const navItems: MenuItem[] = Object.keys(NAV_MAP).map((navItem) => {
+    if (navItem === "home") return NAV_MAP[navItem];
     if (session) {
-      if (adminIds.includes(session?.id)) {
-        return NAV_MAP[item];
+      if (isAdmin) {
+        return navItem === "scheduleUser" ? null : NAV_MAP[navItem];
       }
-      return item === "schedule" ? NAV_MAP.scheduleUser : null;
+      return navItem === "scheduleUser" ? NAV_MAP[navItem] : null;
     }
     return null;
   });
 
-  const ThemeItems = [
+  const themeItems = [
     getItem(
-      <Link to="https://sberuniversity.online/">
+      <Link to="https://sberuniversity.online/" target="_blank">
         <u>Сберуниверситет</u>
       </Link>,
       "sberUniversity",
@@ -187,20 +176,16 @@ export const NavigationSider = ({ title, nav = [] }: NavigationProps) => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[SELECTED_PAGE_MAP[title]]}
-          items={items}
+          items={navItems}
         />
 
         <Menu
           selectable={false}
           theme="dark"
           mode="inline"
-          items={ThemeItems}
+          items={themeItems}
         />
       </div>
     </Sider>
   );
-};
-
-NavigationSider.defaultProps = {
-  nav: [],
 };
