@@ -5,8 +5,9 @@
 ```
 git clone git@github.com:dpolevodin/js_school_diary.git
 cd js_school_diary
-npm install
-npm run dev
+npm run install:all
+npm run build:all
+npm run preview:all
 ```
 
 ## Technology Stack:

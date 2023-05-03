@@ -1,0 +1,15 @@
+.deadline {
+    border-radius: 0.5rem;
+  }
+  
+  .pending {
+    background-color: yellow;
+  }
+  
+  .approved {
+    background-color: green;
+  }
+  
+  .rejected {
+    background-color: red;
+  }

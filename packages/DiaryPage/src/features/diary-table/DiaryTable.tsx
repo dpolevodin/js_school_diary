@@ -1,0 +1,39 @@
+/* eslint-disable */
+import { Table } from "antd";
+import { useUnit } from "effector-react";
+import { $studentDiary } from "../../pages/diary/lib/model";
+import { DiaryEditableRow } from "./ui/DiaryEditableRow/DiaryEditableRow";
+import { DiaryEditableCell } from "./ui/DiaryEditableCell/DiaryEditableCell";
+import { $diaryEditableColumns } from "./model";
+
+type EditableTableProps = Parameters<typeof Table>[0];
+
+type ColumnTypes = Exclude<EditableTableProps["columns"], undefined>;
+
+export const DiaryTable = () => {
+  const [studentDiary, diaryEditableColumns] = useUnit([
+    $studentDiary,
+    $diaryEditableColumns,
+  ]);
+
+  const components = {
+    body: {
+      row: DiaryEditableRow,
+      cell: DiaryEditableCell,
+    },
+  };
+
+  return (
+    <div>
+      <Table
+        components={components}
+        rowClassName={() => "editable-row"}
+        rowKey="id"
+        bordered
+        dataSource={studentDiary}
+        columns={diaryEditableColumns as ColumnTypes}
+        pagination={false}
+      />
+    </div>
+  );
+};
